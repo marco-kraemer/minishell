@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/01 11:56:09 by maraurel         ###   ########.fr       */
+/*   Created: 2021/02/09 02:37:02 by maraurel          #+#    #+#             */
+/*   Updated: 2021/02/12 19:40:59 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL
-# define MINISHELL
-# include <stdio.h>
+#include "libft.h"
 
-# define	TRUE	1
-# define	FALSE	0
+void	ft_lstclear(t_list **lst, void (*del)(void *))
+{
+	t_list	*new;
+	t_list	*tmp;
 
-#endif
+	new = *lst;
+	while (new)
+	{
+		tmp = new;
+		new = tmp->next;
+		ft_lstdelone(tmp, del);
+	}
+	*lst = NULL;
+}

@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/01 11:56:09 by maraurel         ###   ########.fr       */
+/*   Created: 2021/02/06 16:48:06 by maraurel          #+#    #+#             */
+/*   Updated: 2021/02/06 19:14:28 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL
-# define MINISHELL
-# include <stdio.h>
+#include "libft.h"
 
-# define	TRUE	1
-# define	FALSE	0
+void	ft_bzero(void *s, size_t n)
+{
+	unsigned char	*p;
+	size_t			a;
 
-#endif
+	a = 0;
+	p = s;
+	while (a < n)
+	{
+		p[a] = '\0';
+		a++;
+	}
+}

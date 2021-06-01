@@ -1,20 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/01 11:56:09 by maraurel         ###   ########.fr       */
+/*   Created: 2021/02/07 22:15:25 by maraurel          #+#    #+#             */
+/*   Updated: 2021/02/12 19:36:37 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL
-# define MINISHELL
-# include <stdio.h>
+#include "libft.h"
 
-# define	TRUE	1
-# define	FALSE	0
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+{
+	char	*p;
+	int		i;
 
-#endif
+	i = 0;
+	if (!s)
+		return (NULL);
+	if (!(p = (char *)malloc(ft_strlen(s) + 1)))
+		return (NULL);
+	while (s[i] != '\0')
+	{
+		p[i] = f(i, s[i]);
+		i++;
+	}
+	p[i] = '\0';
+	return (p);
+}

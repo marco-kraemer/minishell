@@ -6,8 +6,16 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/01 11:21:52 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/01 12:00:02 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../includes/minishell.h"
 
+int	main(int argc, char **argv)
+{
+	while (TRUE)
+	{
+		
+	}
+}
