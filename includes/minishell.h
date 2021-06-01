@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/01 14:55:36 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/01 15:38:04 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@
 
 # define	TRUE	1
 # define	FALSE	0
+# define	BUFF_SIZE	1024
 
 #endif

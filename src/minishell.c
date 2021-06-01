@@ -6,80 +6,54 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/01 14:59:31 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/01 16:26:35 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char *read_cmd(void)
+char	*read_line(void)
 {
-    char buf[1024];
-    char *ptr = NULL;
-    char ptrlen = 0;
+	int		bufsize;
+	int		position;
+	int		c;
+	char	buf[1];
+	char	*buffer;
 
-    while(fgets(buf, 1024, stdin))
-    {
-        int buflen = ft_strlen(buf);
-
-        if(!ptr)
-        {
-            ptr = malloc(buflen+1);
-        }
-        else
-        {
-            char *ptr2 = realloc(ptr, ptrlen+buflen+1);
-
-            if(ptr2)
-            {
-                ptr = ptr2;
-            }
-            else
-            {
-                free(ptr);
-                ptr = NULL;
-            }
-        }
-
-        if(!ptr)
-        {
-            fprintf(stderr, "error: failed to alloc buffer: %s\n", strerror(errno));
-            return NULL;
-        }
-
-        strcpy(ptr+ptrlen, buf);
-
-        if(buf[buflen-1] == '\n')
-        {
-            if(buflen == 1 || buf[buflen-2] != '\\')
-            {
-                return ptr;
-            }
-
-            ptr[ptrlen+buflen-2] = '\0';
-            buflen -= 2;
-        	fprintf(stderr, "$ ");
-        }
-
-        ptrlen += buflen;
-    }
-
-    return ptr;
+	bufsize = BUFF_SIZE;
+	position = 0;
+	buffer = malloc(sizeof(char) * bufsize);
+	if (!buffer)
+	{
+		printf("Allocation error\n");
+		exit(EXIT_FAILURE);
+	}
+	while (TRUE)
+	{
+		c = read(0, buf, 1);
+	//	printf("%c\n", buf[0]);
+		if (buf[0] == '\n')
+		{
+			buffer[position] = '\0';
+			return (buffer);
+		}
+		buffer[position] = buf[0];
+		position++;
+	}
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
-	char	*cmd;
+	char	*line;
+	char	**args;
+	int		status;
 
 	while (TRUE)
 	{
-		fprintf(stderr, "$ ");
-		cmd = read_cmd();
-		if (ft_strcmp(cmd, "exit\n") == 0)
-		{
-			free(cmd);
-			break;
-		}
+		write(1, "$ ", 2);
+		line = read_line();
+	//	args = lsh_split_line(line);
+	//	status = lsh_execute(args);
 	}
-	exit (1);
+	exit (EXIT_SUCCESS);
 }
