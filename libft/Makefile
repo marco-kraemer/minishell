@@ -6,7 +6,7 @@
 #    By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/09 15:34:23 by maraurel          #+#    #+#              #
-#    Updated: 2021/02/20 10:04:50 by maraurel         ###   ########.fr        #
+#    Updated: 2021/06/01 14:57:40 by maraurel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRC = ft_atoi.c \
 		ft_tolower.c \
 		ft_toupper.c \
 		ft_strncmp.c \
+		ft_strcmp.c
 
 SRC_BONUS = ft_lstnew.c \
 		ft_lstclear.c \
@@ -67,19 +68,19 @@ all: $(NAME)
 HEADER = libft.h
 
 $(NAME):
-	gcc -Wall -Wextra -Werror -c $(SRC)
+	@gcc -Wall -Wextra -Werror -c $(SRC)
 	@ar rc $(NAME) $(OBJS)
 	@ranlib $(NAME)
 
 bonus:
-	gcc -Wall -Wextra -Werror -c $(SRC_BONUS)
+	@gcc -Wall -Wextra -Werror -c $(SRC_BONUS)
 	@ar rc $(NAME) $(OBJS_BONUS)
 	@ranlib $(NAME)
 
 clean:
-	$(RM) $(OBJS) $(OBJS_BONUS)
+	@$(RM) $(OBJS) $(OBJS_BONUS)
 
 fclean: clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 re: fclean all

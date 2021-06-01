@@ -6,7 +6,7 @@
 #    By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/01 11:22:06 by maraurel          #+#    #+#              #
-#    Updated: 2021/06/01 11:22:10 by maraurel         ###   ########.fr        #
+#    Updated: 2021/06/01 14:59:13 by maraurel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,18 +21,22 @@ OBJ = $(addprefix $(OBJ_PATH)/, $(SRC:.c=.o))
 
 CC = clang
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = #-Wall -Wextra -Werror
 
 all: $(NAME) $(OBJ)
 
-$(NAME): $(OBJ)
-	@$(CC) $(FLAGS) $(OBJ) -o $(NAME)
+$(NAME): lib $(OBJ)
+	@$(CC) $(FLAGS) $(OBJ) ./libft/libft.a -o $(NAME)
+
+lib:
+	@$(MAKE) -C libft
 
 $(OBJ_PATH)/%.o:	$(SRC_PATH)/%.c
 	@$(CC) -g $(FLAGS) -c $< -o $@
 
 fclean: clean
 	@$(RM) $(NAME)
+	@$(MAKE) fclean -C libft
 
 clean:
 	@$(RM) $(OBJ_PATH)/*.o
