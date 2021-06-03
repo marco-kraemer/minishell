@@ -42,6 +42,36 @@ char	*read_line(void)
 	}
 }
 
+int	launch_program(char **args, char  **envp)
+{
+	int	pid;
+	int	wpid;
+	int	status;
+
+	pid = fork(); // Creating child and parent process
+	//Treat child, replacing it with a new process 
+	if (pid == 0)
+	{
+		if (execve(args[0], args, envp) == -1) 
+			perror("shell");
+		exit(EXIT_FAILURE);
+	} 
+	// Check error (fork < 0)
+	else if (pid < 0)
+		perror("shell");
+	// Treat parent
+	else
+	{
+		while (TRUE)
+		{
+			wpid = waitpid(pid, &status, WUNTRACED); // WUNTRACED = child processes specified by pid that are stopped
+			if (!WIFEXITED(status) && !WIFSIGNALED(status))
+				break ;
+		}
+	}
+	return (1);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
