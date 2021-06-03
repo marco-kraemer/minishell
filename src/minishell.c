@@ -50,17 +50,17 @@ int	launch_program(char **args, char  **envp)
 
 	pid = fork(); // Creating child and parent process
 	//Treat child, replacing it with a new process 
-	if (pid == 0)
-	{
-		if (execve(args[0], args, envp) == -1) 
-			perror("shell");
-		exit(EXIT_FAILURE);
-	} 
+//	if (pid == 0)
+//	{
+//		if (execve(args[0], args, envp) == -1) 
+//			perror("shell");
+//		exit(EXIT_SUCCESS);
+//	} 
 	// Check error (fork < 0)
-	else if (pid < 0)
+	if (pid < 0)
 		perror("shell");
 	// Treat parent
-	else
+	else if (pid != 0)
 	{
 		while (TRUE)
 		{
@@ -72,8 +72,32 @@ int	launch_program(char **args, char  **envp)
 	return (1);
 }
 
+int	change_directory(char **args)
+{
+	if (args[1] == NULL)
+		chdir("");
+	else
+	{
+		if (chdir(args[1]) != 0)
+			perror("shell");
+	}
+	return (1);
+}
+
+int	execute(char **args, char **envp)
+{
+	int		i;
+
+	if (args[0] == NULL)
+		return (1);
+	if (ft_strcmp(args[0], "cd") == 0)
+		return (change_directory(args));
+	return (launch_program(args, envp));
+}
+
 int	main(int argc, char **argv, char **envp)
 {
+	char	cwd[FILENAME_MAX];
 	char	*line;
 	char	**args;
 	int		status;
@@ -81,10 +105,13 @@ int	main(int argc, char **argv, char **envp)
 
 	while (TRUE)
 	{
-		write(1, "$ ", 2);
+		if (getcwd(cwd, sizeof(cwd)) == NULL)
+			perror("getcwd() error");
+		else
+			printf("current working directory is: %s\n", cwd);
 		line = read_line();
 		args = ft_split(line, ' ');
-	//	status = lsh_execute(args);
+		status = execute(args, envp);
 		if (ft_strcmp(args[0], "exit") == 0)
 		{
 			i = 0;
