@@ -47,13 +47,28 @@ int	main(int argc, char **argv, char **envp)
 	char	*line;
 	char	**args;
 	int		status;
+	int		i;
 
 	while (TRUE)
 	{
 		write(1, "$ ", 2);
 		line = read_line();
-	//	args = lsh_split_line(line);
+		args = ft_split(line, ' ');
 	//	status = lsh_execute(args);
+		if (ft_strcmp(args[0], "exit") == 0)
+		{
+			i = 0;
+			while (args[i])
+				free(args[i++]);
+			free(line);
+			free(args);
+			exit(EXIT_SUCCESS);
+		}
+		i = 0;
+		while (args[i])
+			free(args[i++]);
+		free(line);
+		free(args);
 	}
 	exit (EXIT_SUCCESS);
 }
