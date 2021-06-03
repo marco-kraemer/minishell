@@ -107,8 +107,10 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (getcwd(cwd, sizeof(cwd)) == NULL)
 			perror("getcwd() error");
-		else
-			printf("current working directory is: %s\n", cwd);
+		i = 0;
+		while (cwd[i])
+			write (1, &cwd[i++], 1);
+		write(1, "$ ", 2);
 		line = read_line();
 		args = ft_split(line, ' ');
 		status = execute(args, envp);
