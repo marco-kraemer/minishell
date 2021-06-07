@@ -145,13 +145,27 @@ int	export(char **args, char **env)
 				j++;
 			}
 			name[j] = '\0';
-			if (ft_strcmp(name, args[1]) == 0)
+			if (ft_strcmp(name, args[1]) == 0) // CHANGE VARIALBE VALUE
 				break ;
 			i++;
 		}
 		// CHANGE VARIABLE VALUE
-		value = getenv(name);
-		printf("%s\n", value);
+		i = 0;
+		while (env[i])
+		{
+			if (ft_strncmp(name, env[i], ft_strlen(name)) == 0)
+			{
+				int k = 0;
+				j = 0;
+				while (env[i][j] != '=')
+					j++;
+				while (name[k])
+					env[i][j++] = name[k++];
+				break ;
+			}
+			printf("a\n");
+			i++;
+		}
 	}
 	return (1);
 }
