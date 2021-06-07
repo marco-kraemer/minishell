@@ -84,6 +84,24 @@ int	change_directory(char **args)
 	return (1);
 }
 
+int	echo(char **args)
+{
+	int	i;
+
+	i = 1;
+	if (ft_strcmp(args[1], "-n") == 0)
+		i++;
+	while (args[i])
+	{
+		ft_putstr_fd(args[i++], 1);
+		if (args[i])
+			write (1, " ", 1);
+	}
+	if (ft_strcmp(args[1], "-n") != 0)
+		printf("\n");
+	return (1);
+}
+
 int	execute(char **args, char **envp)
 {
 	int		i;
@@ -92,6 +110,10 @@ int	execute(char **args, char **envp)
 		return (1);
 	if (ft_strcmp(args[0], "cd") == 0)
 		return (change_directory(args));
+	if (ft_strcmp(args[0], "echo") == 0)
+		return (echo(args));
+	else
+		printf("%s: command not found\n", args[0]);
 	return (launch_program(args, envp));
 }
 
