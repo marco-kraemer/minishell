@@ -102,6 +102,60 @@ int	echo(char **args)
 	return (1);
 }
 
+int	pwd(char **args)
+{
+	char	cwd[FILENAME_MAX];
+	int	i;
+
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+		perror("getcwd() error");
+	i = 0;
+	while (cwd[i])
+		write (1, &cwd[i++], 1);
+	write (1, "\n", 1);
+	return (1);
+}
+
+int	export(char **args, char **env)
+{
+	int		i;
+	int		j;
+	char	name[FILENAME_MAX];
+	char	*value;
+
+	i = 0;
+	while (args[i])
+		i++;
+	if (i == 1)
+	{	
+		i = 0;
+		while (env[i])
+			printf("declare -x %s\n", env[i++]);
+	}
+	else // ADICIONAR / ALTERAR VARIAVEIS
+	{
+		i = 0;
+		// GET VARIABLE NAME
+		while (env[i])
+		{
+			j = 0;
+			while (env[i][j] != '=')
+			{
+				name[j] = env[i][j];
+				j++;
+			}
+			name[j] = '\0';
+			if (ft_strcmp(name, args[1]) == 0)
+				break ;
+			i++;
+		}
+		// CHANGE VARIABLE VALUE
+		value = getenv(name);
+		printf("%s\n", value);
+	}
+	return (1);
+}
+
 int	execute(char **args, char **envp)
 {
 	int		i;
@@ -110,11 +164,19 @@ int	execute(char **args, char **envp)
 		return (1);
 	if (ft_strcmp(args[0], "cd") == 0)
 		return (change_directory(args));
-	if (ft_strcmp(args[0], "echo") == 0)
+	else if (ft_strcmp(args[0], "echo") == 0)
 		return (echo(args));
+	else if (ft_strcmp(args[0], "pwd") == 0)
+		return (pwd(args));
+	else if (ft_strcmp(args[0], "export") == 0)
+		return (export(args, envp));
 	else
 		printf("%s: command not found\n", args[0]);
 	return (launch_program(args, envp));
+}
+
+void red () {
+  printf("\033[1;31m");
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -130,8 +192,12 @@ int	main(int argc, char **argv, char **envp)
 		if (getcwd(cwd, sizeof(cwd)) == NULL)
 			perror("getcwd() error");
 		i = 0;
+		write(1, "\033[0;36m", ft_strlen("\033[0;36m")); // CYAN
 		while (cwd[i])
+		{
 			write (1, &cwd[i++], 1);
+		}
+		write(1, "\033[0m", ft_strlen("\033[0m"));
 		write(1, "$ ", 2);
 		line = read_line();
 		args = ft_split(line, ' ');
