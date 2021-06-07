@@ -199,23 +199,25 @@ void	sort_env_variables(char **envp)
 	tmp = envp;
 	i = 0;
 	j = 0;
-	old = 2147483647;
-	while (envp[j])
+	old = -2147483648;
+	while (tmp[j])
 	{
-		variable = envp[j];
+		variable = tmp[j];
 		i = 0;
-		k = -2147483648;
+		k = 2147483647;
 		while (tmp[i])
 		{
-			if (strcmp(variable, tmp[i]) > k && k < old)
+			//if ((int)tmp[i][0] < k && (int)tmp[i][0] > old)
+			if ((ft_strcmp(tmp[i], variable) < k) && (ft_strcmp(tmp[i], variable) > old))
 			{
-				k = strcmp(variable, tmp[i]);	
+				printf("%i\n", strcmp(tmp[i], variable));
+				k = strcmp(tmp[i], variable);
 				variable = tmp[i];
+			//	variable[0] = tmp[i][0];
 			}
 			i++;
 		}
 		old = k;
-		envp[j] = variable;
 		printf("%s\n", variable);
 		j++;
 	}
