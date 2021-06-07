@@ -42,7 +42,7 @@ char	*read_line(void)
 	}
 }
 
-int	launch_program(char **args, char  **envp)
+int	launch_program()
 {
 	int	pid;
 	int	wpid;
@@ -102,7 +102,7 @@ int	echo(char **args)
 	return (1);
 }
 
-int	pwd(char **args)
+int	pwd()
 {
 	char	cwd[FILENAME_MAX];
 	int	i;
@@ -121,34 +121,33 @@ int	export(char **args, char **env)
 	int		i;
 	int		j;
 	char	name[FILENAME_MAX];
-	char	*value;
+	char	value[FILENAME_MAX];
 
 	i = 0;
 	while (args[i])
 		i++;
-	if (i == 1)
+	if (i == 1) // LIST VARIABLES
 	{	
 		i = 0;
 		while (env[i])
 			printf("declare -x %s\n", env[i++]);
 	}
-	else // ADICIONAR / ALTERAR VARIAVEIS
+	else // ADD / CHANGE VARIABLES
 	{
 		i = 0;
-		// GET VARIABLE NAME
-		while (env[i])
-		{
-			j = 0;
-			while (env[i][j] != '=')
-			{
-				name[j] = env[i][j];
-				j++;
-			}
-			name[j] = '\0';
-			if (ft_strcmp(name, args[1]) == 0) // CHANGE VARIALBE VALUE
-				break ;
+		// GET VARIABLE VALUE
+		while (args[1][i] != '=')
 			i++;
-		}
+		i++;
+		j = 0;
+		while (args[1][i])
+			value[j++] = args[1][i++];
+		value[j++] = '\0';
+		// GET VARIABLE NAME
+		i = 0;
+		j = 0;
+		while (args[1][i] != '=')
+			name[j++] = args[1][i++];
 		// CHANGE VARIABLE VALUE
 		i = 0;
 		while (env[i])
@@ -159,11 +158,12 @@ int	export(char **args, char **env)
 				j = 0;
 				while (env[i][j] != '=')
 					j++;
-				while (name[k])
-					env[i][j++] = name[k++];
-				break ;
+				j++;
+				while (value[k])
+					env[i][j++] = value[k++];
+				env[i][j++] = '\0';
+				return (1);
 			}
-			printf("a\n");
 			i++;
 		}
 	}
@@ -172,8 +172,6 @@ int	export(char **args, char **env)
 
 int	execute(char **args, char **envp)
 {
-	int		i;
-
 	if (args[0] == NULL)
 		return (1);
 	if (ft_strcmp(args[0], "cd") == 0)
@@ -181,16 +179,46 @@ int	execute(char **args, char **envp)
 	else if (ft_strcmp(args[0], "echo") == 0)
 		return (echo(args));
 	else if (ft_strcmp(args[0], "pwd") == 0)
-		return (pwd(args));
+		return (pwd());
 	else if (ft_strcmp(args[0], "export") == 0)
 		return (export(args, envp));
 	else
 		printf("%s: command not found\n", args[0]);
-	return (launch_program(args, envp));
+	return (launch_program());
 }
 
-void red () {
-  printf("\033[1;31m");
+void	sort_env_variables(char **envp)
+{
+	char	**tmp;
+	int		i;
+	int		j;
+	int		k;
+	char	*variable;
+	int		old;
+
+	tmp = envp;
+	i = 0;
+	j = 0;
+	old = 2147483647;
+	while (envp[j])
+	{
+		variable = envp[j];
+		i = 0;
+		k = -2147483648;
+		while (tmp[i])
+		{
+			if (strcmp(variable, tmp[i]) > k && k < old)
+			{
+				k = strcmp(variable, tmp[i]);	
+				variable = tmp[i];
+			}
+			i++;
+		}
+		old = k;
+		envp[j] = variable;
+		printf("%s\n", variable);
+		j++;
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -201,6 +229,7 @@ int	main(int argc, char **argv, char **envp)
 	int		status;
 	int		i;
 
+	sort_env_variables(envp);
 	while (TRUE)
 	{
 		if (getcwd(cwd, sizeof(cwd)) == NULL)
