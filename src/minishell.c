@@ -172,6 +172,27 @@ int	export(char **args, char **env)
 	return (1);
 }
 
+char	**delete_line(char **env, int line)
+{
+	int		i;
+	int		j;
+	char	**new;
+
+	i = 0;
+	j = 0;
+	while (env[i + j])
+	{
+		if (i == line)
+			j = 1;
+		new[i] = env[i + j];
+		i++;
+	}
+	i = 0;
+	while (new[i])
+		printf("%s\n", new[i++]);
+	return (new);
+}
+
 int	unset(char **args, char **env)
 {
 	int		i;
@@ -207,24 +228,22 @@ int	unset(char **args, char **env)
 	// DELETE VARIABLE
 	i = 0;
 	k = 0;
+	variable = malloc(sizeof(char) * ft_strlen(args[1]));
 	while (env[i])
 	{
 		j = 0;
-		while (env[i][j] != '=')
+		while (env[i][j] != '=' && env[i][j])
 		{
 			variable[j] = env[i][j];
 			j++;
 		}
 		variable[j] = '\0';
 		if (ft_strcmp(name, variable) == 0)
-			memmove(&env[i], &env[i + 1], FILENAME_MAX);
+			env = delete_line(env, i);
 		i++;
 	}
-	j = 0;
-	while (env[i][j])
-		j++;
-	env[i][j] = '\0';
 	free(name);
+	free(variable);
 	return (1);
 }
 
