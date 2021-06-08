@@ -180,6 +180,7 @@ char	**delete_line(char **env, int line)
 
 	i = 0;
 	j = 0;
+	new = env;
 	while (env[i + j])
 	{
 		if (i == line)
@@ -225,8 +226,6 @@ int	unset(char **args, char **env)
 		return (0);
 	}
 	// DELETE VARIABLE
-	char	**tmp;
-
 	i = 0;
 	k = 0;
 	variable = malloc(sizeof(char) * ft_strlen(args[1]));
@@ -242,7 +241,6 @@ int	unset(char **args, char **env)
 		if (ft_strcmp(name, variable) == 0)
 		{
 			env = delete_line(env, i);
-			break ;
 		}
 		i++;
 	}
