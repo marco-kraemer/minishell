@@ -116,6 +116,36 @@ int	pwd()
 	return (1);
 }
 
+char	**add_line(char **env, char *name, char *value)
+{
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0;
+	while (env[i + 1])
+		i++;
+	env[i] = malloc(sizeof(char) * (ft_strlen(name) + ft_strlen(value) + 2));
+	j = 0;
+	while (name[j])
+	{
+		env[i][j] = name[j];
+		j++;
+	}
+	env[i][j++] = '=';
+	k = 0;
+	while (value[k])
+	{
+		env[i][j] = value[k];
+		j++;
+		k++;
+	}
+	i++;
+	env[i] = malloc(sizeof(char) * 1);
+	env[i][0] = '\0';
+	return (env);
+}
+
 int	export(char **args, char **env)
 {
 	int		i;
@@ -130,7 +160,7 @@ int	export(char **args, char **env)
 	{	
 		i = 0;
 		while (env[i + 1])
-			printf("declare -x %s\n", env[i++]);
+			printf("%s\n", env[i++]);
 	}
 	else // ADD / CHANGE VARIABLES
 	{
@@ -148,11 +178,15 @@ int	export(char **args, char **env)
 		j = 0;
 		while (args[1][i] != '=')
 			name[j++] = args[1][i++];
+		name[i] = '\0';
 		// CHANGE VARIABLE VALUE
 		i = 0;
 		while (env[i])
 		{
-			if (ft_strncmp(name, env[i], ft_strlen(name)) == 0)
+			j = 0;
+			while (env[i][j] != '=' && env[i][j])
+				j++;
+			if (ft_strncmp(name, env[i], ft_strlen(name)) == 0 && j == (int)ft_strlen(name))
 			{
 				int k = 0;
 				j = 0;
@@ -167,7 +201,8 @@ int	export(char **args, char **env)
 			i++;
 		}
 		// ADD VARIABLES
-		// TODO
+		i = 0;
+		env = add_line(env, name, value);
 	}
 	return (1);
 }
@@ -181,15 +216,18 @@ char	**delete_line(char **env, int line)
 	i = 0;
 	j = 0;
 	new = env;
-	while (env[i + j])
+	while (env[i])
 	{
 		if (i == line)
 			j = 1;
 		new[i] = env[i + j];
 		i++;
 	}
-	i = 0;
+	new[i - 2] = "\0";
 	env = new;
+	i = 0;
+//	while (new[i])
+//		printf ("%s\n", new[i++]);
 	return (env);
 }
 
@@ -218,13 +256,6 @@ int	unset(char **args, char **env)
 		}
 		i++;
 	}
-	// FIND VARIABLE IN ENV
-	variable = getenv(name);
-	if (variable == NULL)
-	{
-		printf("\n");
-		return (0);
-	}
 	// DELETE VARIABLE
 	i = 0;
 	k = 0;
@@ -241,11 +272,13 @@ int	unset(char **args, char **env)
 		if (ft_strcmp(name, variable) == 0)
 		{
 			env = delete_line(env, i);
+			free(variable);
+			return (1);
 		}
 		i++;
 	}
 	free(name);
-	free(variable);
+	printf("\n");
 	return (1);
 }
 
@@ -304,6 +337,8 @@ int	main(int argc, char **argv, char **envp)
 	int		i;
 
 	env = get_variable_list(envp);
+	if (argc == 54225 && argv)
+		printf("oi\n");
 	while (TRUE)
 	{
 		if (getcwd(cwd, sizeof(cwd)) == NULL)
