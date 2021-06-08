@@ -188,9 +188,8 @@ char	**delete_line(char **env, int line)
 		i++;
 	}
 	i = 0;
-	while (new[i])
-		printf("%s\n", new[i++]);
-	return (new);
+	env = new;
+	return (env);
 }
 
 int	unset(char **args, char **env)
@@ -226,6 +225,8 @@ int	unset(char **args, char **env)
 		return (0);
 	}
 	// DELETE VARIABLE
+	char	**tmp;
+
 	i = 0;
 	k = 0;
 	variable = malloc(sizeof(char) * ft_strlen(args[1]));
@@ -239,7 +240,10 @@ int	unset(char **args, char **env)
 		}
 		variable[j] = '\0';
 		if (ft_strcmp(name, variable) == 0)
+		{
 			env = delete_line(env, i);
+			break ;
+		}
 		i++;
 	}
 	free(name);
@@ -266,14 +270,41 @@ int	execute(char **args, char **envp)
 	return (launch_program());
 }
 
+char	**get_variable_list(char **env)
+{
+	int		i;
+	char	**new;
+
+	i = 0;
+	while (env[i])
+		i++;
+	new = (char **)malloc(sizeof(char *) * i);
+	i = 0;
+	while (env[i])
+	{
+		new[i] = malloc(sizeof(char) * ft_strlen(env[i]));
+		i++;
+	}
+	i = 0;
+	while (env[i])
+	{
+		new[i] = env[i];
+		i++;
+	}
+	i = 0;
+	return (env);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	cwd[FILENAME_MAX];
 	char	*line;
 	char	**args;
+	char	**env;
 	int		status;
 	int		i;
 
+	env = get_variable_list(envp);
 	while (TRUE)
 	{
 		if (getcwd(cwd, sizeof(cwd)) == NULL)
@@ -288,7 +319,7 @@ int	main(int argc, char **argv, char **envp)
 		write(1, "$ ", 2);
 		line = read_line();
 		args = ft_split(line, ' ');
-		status = execute(args, envp);
+		status = execute(args, env);
 		if (ft_strcmp(args[0], "exit") == 0)
 		{
 			i = 0;
