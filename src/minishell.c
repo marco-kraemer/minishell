@@ -129,7 +129,7 @@ int	export(char **args, char **env)
 	if (i == 1) // LIST VARIABLES
 	{	
 		i = 0;
-		while (env[i])
+		while (env[i + 1])
 			printf("declare -x %s\n", env[i++]);
 	}
 	else // ADD / CHANGE VARIABLES
@@ -285,14 +285,15 @@ char	**get_variable_list(char **env)
 		new[i] = malloc(sizeof(char) * ft_strlen(env[i]));
 		i++;
 	}
+	new[i] = malloc(1);
+	new[i] = "\0";
 	i = 0;
 	while (env[i])
 	{
 		new[i] = env[i];
 		i++;
 	}
-	i = 0;
-	return (env);
+	return (new);
 }
 
 int	main(int argc, char **argv, char **envp)
