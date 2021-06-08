@@ -166,7 +166,65 @@ int	export(char **args, char **env)
 			}
 			i++;
 		}
+		// ADD VARIABLES
+		// TODO
 	}
+	return (1);
+}
+
+int	unset(char **args, char **env)
+{
+	int		i;
+	int		j;
+	int		k;
+	char	*name;
+	char	*variable;
+
+	// GET VARIABLE NAME
+	i = 0;
+	j = 0;
+	name = malloc(sizeof(char) * ft_strlen(args[1]));
+	while (args[1][i] != '\0')
+		*(name + j++) = args[1][i++];
+	name[j + 1] = '\0';
+	i = 0;
+	while (name[i])
+	{
+		if (name[i] == '=')
+		{
+			printf("unset: %s: not a valid identifier\n", name);
+			return (0);
+		}
+		i++;
+	}
+	// FIND VARIABLE IN ENV
+	variable = getenv(name);
+	if (variable == NULL)
+	{
+		printf("\n");
+		return (0);
+	}
+	// DELETE VARIABLE
+	i = 0;
+	k = 0;
+	while (env[i])
+	{
+		j = 0;
+		while (env[i][j] != '=')
+		{
+			variable[j] = env[i][j];
+			j++;
+		}
+		variable[j] = '\0';
+		if (ft_strcmp(name, variable) == 0)
+			memmove(&env[i], &env[i + 1], FILENAME_MAX);
+		i++;
+	}
+	j = 0;
+	while (env[i][j])
+		j++;
+	env[i][j] = '\0';
+	free(name);
 	return (1);
 }
 
@@ -182,45 +240,11 @@ int	execute(char **args, char **envp)
 		return (pwd());
 	else if (ft_strcmp(args[0], "export") == 0)
 		return (export(args, envp));
+	else if (ft_strcmp(args[0], "unset") == 0)
+		return (unset(args, envp));
 	else
 		printf("%s: command not found\n", args[0]);
 	return (launch_program());
-}
-
-void	sort_env_variables(char **envp)
-{
-	char	**tmp;
-	int		i;
-	int		j;
-	int		k;
-	char	*variable;
-	int		old;
-
-	tmp = envp;
-	i = 0;
-	j = 0;
-	old = -2147483648;
-	while (tmp[j])
-	{
-		variable = tmp[j];
-		i = 0;
-		k = 2147483647;
-		while (tmp[i])
-		{
-			//if ((int)tmp[i][0] < k && (int)tmp[i][0] > old)
-			if ((ft_strcmp(tmp[i], variable) < k) && (ft_strcmp(tmp[i], variable) > old))
-			{
-				printf("%i\n", strcmp(tmp[i], variable));
-				k = strcmp(tmp[i], variable);
-				variable = tmp[i];
-			//	variable[0] = tmp[i][0];
-			}
-			i++;
-		}
-		old = k;
-		printf("%s\n", variable);
-		j++;
-	}
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -231,7 +255,6 @@ int	main(int argc, char **argv, char **envp)
 	int		status;
 	int		i;
 
-	sort_env_variables(envp);
 	while (TRUE)
 	{
 		if (getcwd(cwd, sizeof(cwd)) == NULL)
