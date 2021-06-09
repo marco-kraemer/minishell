@@ -42,7 +42,7 @@ char	*read_line(void)
 	}
 }
 
-int	launch_program()
+int	launch_program(char **args)
 {
 	int	pid;
 	int	wpid;
@@ -50,12 +50,12 @@ int	launch_program()
 
 	pid = fork(); // Creating child and parent process
 	//Treat child, replacing it with a new process 
-//	if (pid == 0)
-//	{
-//		if (execve(args[0], args, envp) == -1) 
-//			perror("shell");
-//		exit(EXIT_SUCCESS);
-//	} 
+	if (pid == 0)
+	{
+		if (execvp(args[0], args) == -1)
+			perror("shell");
+		exit(EXIT_SUCCESS);
+	} 
 	// Check error (fork < 0)
 	if (pid < 0)
 		perror("shell");
@@ -226,8 +226,6 @@ char	**delete_line(char **env, int line)
 	new[i - 2] = "\0";
 	env = new;
 	i = 0;
-//	while (new[i])
-//		printf ("%s\n", new[i++]);
 	return (env);
 }
 
@@ -282,7 +280,37 @@ int	unset(char **args, char **env)
 	return (1);
 }
 
-int	execute(char **args, char **envp)
+int	env(char **args, char **env)
+{
+	int		i;
+
+	i = 0;
+	while (args[i])
+		i++;
+	if (i == 1) // LIST VARIABLES
+	{	
+		i = 0;
+		while (env[i + 1])
+			printf("%s\n", env[i++]);
+	}
+	else
+		printf("env: invalid number of arguments");
+	return (1);
+}
+
+int	free_and_exit(char **args, char *line)
+{
+	int		i;
+
+	i = 0;
+	while (args[i])
+		free(args[i++]);
+	free(line);
+	free(args);
+	exit(EXIT_SUCCESS);
+}
+
+int	execute(char **args, char **envp, char *line)
 {
 	if (args[0] == NULL)
 		return (1);
@@ -296,9 +324,16 @@ int	execute(char **args, char **envp)
 		return (export(args, envp));
 	else if (ft_strcmp(args[0], "unset") == 0)
 		return (unset(args, envp));
+	else if (ft_strcmp(args[0], "env") == 0)
+		return (env(args, envp));
+	else if (ft_strcmp(args[0], "exit") == 0)
+		return (free_and_exit(args, line));
+	else if (ft_strcmp(args[0], "^C") == 0)
+		printf("OI\n");
 	else
 		printf("%s: command not found\n", args[0]);
-	return (launch_program());
+	return (1);
+	//return (launch_program(args));
 }
 
 char	**get_variable_list(char **env)
@@ -346,23 +381,12 @@ int	main(int argc, char **argv, char **envp)
 		i = 0;
 		write(1, "\033[0;36m", ft_strlen("\033[0;36m")); // CYAN
 		while (cwd[i])
-		{
 			write (1, &cwd[i++], 1);
-		}
 		write(1, "\033[0m", ft_strlen("\033[0m"));
 		write(1, "$ ", 2);
 		line = read_line();
 		args = ft_split(line, ' ');
-		status = execute(args, env);
-		if (ft_strcmp(args[0], "exit") == 0)
-		{
-			i = 0;
-			while (args[i])
-				free(args[i++]);
-			free(line);
-			free(args);
-			exit(EXIT_SUCCESS);
-		}
+		status = execute(args, env, line);
 		i = 0;
 		while (args[i])
 			free(args[i++]);
