@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/09 14:38:43 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/09 14:58:39 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	sigintHandler(int sig_num)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
+	char	**line;
 	char	**args;
 	char	**env;
 	int		status;
@@ -50,9 +50,14 @@ int	main(int argc, char **argv, char **envp)
 	{
 		signal(SIGINT, sigintHandler);
 		print_prompt();
-		line = read_line();
-		args = ft_split(line, ' ');
-		status = execute(args, env, line);
+		line = ft_split(read_line(), ';');
+		i = 0;
+		while (line[i])
+		{
+			args = ft_split(line[i], ' ');
+			status = execute(args, env, line[i]);
+			i++;
+		}
 		i = 0;
 		while (args[i])
 			free(args[i++]);
