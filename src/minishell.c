@@ -362,26 +362,31 @@ char	**get_variable_list(char **env)
 	return (new);
 }
 
+void	print_prompt()
+{
+	char	cwd[FILENAME_MAX];
+	int		i;
+
+	i = 0;
+	if (getcwd(cwd, sizeof(cwd)) == NULL)
+		perror("getcwd() error");
+	write(1, "\033[0;36m", ft_strlen("\033[0;36m")); // CYAN
+	while (cwd[i])
+		write (1, &cwd[i++], 1);
+	write(1, "\033[0m", ft_strlen("\033[0m"));
+	write(1, "$ ", 2);
+}
+
 void	sigintHandler(int sig_num)
 {
-	if (sig_num < 0)
-		printf("aaaaa: %i\n", sig_num);
-	int	pid;
-
-	pid = fork();
-	if (pid < 0)
-		exit (EXIT_FAILURE);
-	else if (pid == 0)
-		kill(-1, SIGKILL);
-	else
-		kill(0, SIGKILL);
+	if (!sig_num)
+		return;
 	printf("\n");
-	return ;
+	print_prompt();	
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	cwd[FILENAME_MAX];
 	char	*line;
 	char	**args;
 	char	**env;
@@ -394,14 +399,7 @@ int	main(int argc, char **argv, char **envp)
 	while (TRUE)
 	{
 		signal(SIGINT, sigintHandler);
-		if (getcwd(cwd, sizeof(cwd)) == NULL)
-			perror("getcwd() error");
-		i = 0;
-		write(1, "\033[0;36m", ft_strlen("\033[0;36m")); // CYAN
-		while (cwd[i])
-			write (1, &cwd[i++], 1);
-		write(1, "\033[0m", ft_strlen("\033[0m"));
-		write(1, "$ ", 2);
+		print_prompt();
 		line = read_line();
 		args = ft_split(line, ' ');
 		status = execute(args, env, line);
