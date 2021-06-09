@@ -362,6 +362,23 @@ char	**get_variable_list(char **env)
 	return (new);
 }
 
+void	sigintHandler(int sig_num)
+{
+	if (sig_num < 0)
+		printf("aaaaa: %i\n", sig_num);
+	int	pid;
+
+	pid = fork();
+	if (pid < 0)
+		exit (EXIT_FAILURE);
+	else if (pid == 0)
+		kill(-1, SIGKILL);
+	else
+		kill(0, SIGKILL);
+	printf("\n");
+	return ;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	cwd[FILENAME_MAX];
@@ -376,6 +393,7 @@ int	main(int argc, char **argv, char **envp)
 		printf("oi\n");
 	while (TRUE)
 	{
+		signal(SIGINT, sigintHandler);
 		if (getcwd(cwd, sizeof(cwd)) == NULL)
 			perror("getcwd() error");
 		i = 0;
