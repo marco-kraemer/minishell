@@ -6,7 +6,7 @@
 /*   By: user42 <maraurel@student.42sp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/14 07:58:34 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/14 14:25:54 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,26 @@ void	sigintHandler(int sig_num)
 	print_prompt();	
 }
 
+static char	term_buffer[2048];
+
+void	init_terminal_data(void)
+{
+	char	*termtype;
+	int		success;
+
+	termtype = getenv ("TERM");
+	success = tgetent (term_buffer, termtype);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	**line;
 	char	**args;
 	char	**env;
-	int		status;
 	int		i;
 
 	env = get_variable_list(envp);
+	init_terminal_data();
 	if (argc == 54225 && argv)
 		printf("oi\n");
 	while (TRUE)
@@ -55,7 +66,7 @@ int	main(int argc, char **argv, char **envp)
 		while (line[i])
 		{
 			args = ft_split(line[i], ' ');
-			status = execute(args, env, line[i]);
+			execute(args, env, line[i]);
 			i++;
 		}
 		i = 0;

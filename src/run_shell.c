@@ -6,7 +6,7 @@
 /*   By: user42 <maraurel@student.42sp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by user42            #+#    #+#             */
-/*   Updated: 2021/06/14 08:06:12 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/14 16:19:43 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	launch_program(char **args)
 	//Treat child, replacing it with a new process 
 	if (pid == 0)
 	{
-		if (execvp(args[0], args) == -1)
+		if (execvp(args[0], args) == -1) // CHANGE LATER (NOT ALLOWED FUNCTION)
 			printf("shell: No such file or directory\n");
 		exit(EXIT_FAILURE);
 	} 
@@ -72,6 +72,26 @@ int	launch_program(char **args)
 			wpid = waitpid(pid, &status, WUNTRACED); // WUNTRACED = child processes specified by pid that are stopped
 		}
 	}
+	return (1);
+}
+
+char *tgetstr ();
+
+char *cl_string, *cm_string;
+int height;
+int width;
+int auto_wrap;
+
+char PC;   /* For tputs.  */
+char *BC;  /* For tgoto.  */
+char *UP;
+
+int	interrogate_terminal(void)
+{
+	BC = tgetstr ("le", 0);
+	UP = tgetstr ("up", 0);
+	printf("oi\n");
+	tputs(tgetstr ("cl", 0), 5, putchar);
 	return (1);
 }
 
@@ -95,7 +115,7 @@ int	execute(char **args, char **envp, char *line)
 		return (free_and_exit(args, line));
 	else if (ft_strncmp(args[0], "./", 2) == 0)
 		return (launch_program(args));
-	else
-		printf("%s: command not found\n", args[0]);
+	interrogate_terminal();
+	printf("%s: command not found\n", args[0]);
 	return (1);
 }

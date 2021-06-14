@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+         #
+#    By: user42 <maraurel@student.42sp>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/01 11:22:06 by maraurel          #+#    #+#              #
-#    Updated: 2021/06/01 14:59:13 by maraurel         ###   ########.fr        #
+#    Updated: 2021/06/14 10:11:59 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ FLAGS = -Wall -Wextra -Werror
 all: $(NAME) $(OBJ)
 
 $(NAME): lib $(OBJ)
-	@$(CC) $(FLAGS) $(OBJ) ./libft/libft.a -o $(NAME)
+	@$(CC) $(FLAGS) $(OBJ) -ltermcap ./libft/libft.a -o $(NAME)
 
 lib:
 	@$(MAKE) -C libft
