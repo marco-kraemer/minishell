@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user42 <maraurel@student.42sp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:10 by user42            #+#    #+#             */
-/*   Updated: 2021/06/09 14:45:50 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/14 08:04:23 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	change_directory(char **args)
 	else
 	{
 		if (chdir(args[1]) != 0)
-			perror("shell");
+			printf("shell: No such file or directory\n");
 	}
 	return (1);
 }
@@ -48,7 +48,7 @@ int	pwd()
 	int	i;
 
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
-		perror("getcwd() error");
+		printf("getcwd() error\n");
 	i = 0;
 	while (cwd[i])
 		write (1, &cwd[i++], 1);

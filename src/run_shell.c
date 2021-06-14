@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_shell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user42 <maraurel@student.42sp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by user42            #+#    #+#             */
-/*   Updated: 2021/06/09 14:45:25 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/14 08:06:12 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,25 +48,28 @@ int	launch_program(char **args)
 	int	wpid;
 	int	status;
 
+	status = 0;
 	pid = fork(); // Creating child and parent process
 	//Treat child, replacing it with a new process 
 	if (pid == 0)
 	{
 		if (execvp(args[0], args) == -1)
-			perror("shell");
-		exit(EXIT_SUCCESS);
+			printf("shell: No such file or directory\n");
+		exit(EXIT_FAILURE);
 	} 
 	// Check error (fork < 0)
-	if (pid < 0)
-		perror("shell");
-	// Treat parent
-	else if (pid != 0)
+	else if (pid < 0)
 	{
-		while (TRUE)
+		printf("%s: command not found\n", args[0]);
+		strerror(3);
+	}
+	// Treat parent
+	else
+	{
+		wpid = 1;
+		while (wpid >= 0)
 		{
 			wpid = waitpid(pid, &status, WUNTRACED); // WUNTRACED = child processes specified by pid that are stopped
-			if (!WIFEXITED(status) && !WIFSIGNALED(status))
-				break ;
 		}
 	}
 	return (1);
@@ -90,10 +93,9 @@ int	execute(char **args, char **envp, char *line)
 		return (env(args, envp));
 	else if (ft_strcmp(args[0], "exit") == 0)
 		return (free_and_exit(args, line));
-	else if (ft_strcmp(args[0], "^C") == 0)
-		printf("OI\n");
+	else if (ft_strncmp(args[0], "./", 2) == 0)
+		return (launch_program(args));
 	else
 		printf("%s: command not found\n", args[0]);
 	return (1);
-	//return (launch_program(args));
 }

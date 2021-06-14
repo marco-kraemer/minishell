@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user42 <maraurel@student.42sp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/09 14:58:39 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/14 07:58:34 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_prompt()
 
 	i = 0;
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
-		perror("getcwd() error");
+		strerror(3);
 	write(1, "\033[0;36m", ft_strlen("\033[0;36m")); // CYAN
 	while (cwd[i])
 		write (1, &cwd[i++], 1);
