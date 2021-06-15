@@ -6,13 +6,13 @@
 /*   By: user42 <maraurel@student.42sp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:10 by user42            #+#    #+#             */
-/*   Updated: 2021/06/15 15:47:24 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/15 16:03:27 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*change_directory(char **args)
+int	change_directory(char **args)
 {
 	if (args[1] == NULL)
 		chdir("");
@@ -21,23 +21,40 @@ char	*change_directory(char **args)
 		if (chdir(args[1]) != 0)
 			printf("shell: No such file or directory\n");
 	}
-	return (NULL);
+	return (1);
 }
 
-char	*echo(char **args)
+int	echo(char **args)
 {
-	int	i;
+	int		i;
+	int		j;
+	int		k;
 	char	*ret;
 
 	i = 1;
 	if (ft_strcmp(args[1], "-n") == 0)
 		i++;
+	k = 0;
 	while (args[i])
 	{
-		ft_putstr_fd(args[i++], 1);
-		if (args[i])
-			write (1, " ", 1);
+		k += ft_strlen(args[i]);
+		i++;
 	}
+	ret = malloc((sizeof(char) * k) + i);
+	i = 1;
+	if (ft_strcmp(args[1], "-n") == 0)
+		i++;
+	k = 0;
+	while (args[i])
+	{
+		j = 0;
+		while (args[i][j])
+			ret[k++] = args[i][j++];
+		ret[k++] = ' ';
+		i++;
+	}
+	ret[k - 1] = '\0';
+	ft_putstr_fd(ret, 1);
 	if (ft_strcmp(args[1], "-n") != 0)
 		printf("\n");
 	return (1);

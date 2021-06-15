@@ -6,7 +6,7 @@
 /*   By: user42 <maraurel@student.42sp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by user42            #+#    #+#             */
-/*   Updated: 2021/06/15 15:44:51 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/15 15:57:35 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	launch_program(char **args)
 	return (1);
 }
 
-char	*execute(char **args, char **envp, char *line)
+int	execute(char **args, char **envp, char *line)
 {
 	if (args[0] == NULL)
 		return (1);
