@@ -6,13 +6,13 @@
 /*   By: user42 <maraurel@student.42sp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:10 by user42            #+#    #+#             */
-/*   Updated: 2021/06/14 08:04:23 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/15 15:47:24 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	change_directory(char **args)
+char	*change_directory(char **args)
 {
 	if (args[1] == NULL)
 		chdir("");
@@ -21,12 +21,13 @@ int	change_directory(char **args)
 		if (chdir(args[1]) != 0)
 			printf("shell: No such file or directory\n");
 	}
-	return (1);
+	return (NULL);
 }
 
-int	echo(char **args)
+char	*echo(char **args)
 {
 	int	i;
+	char	*ret;
 
 	i = 1;
 	if (ft_strcmp(args[1], "-n") == 0)

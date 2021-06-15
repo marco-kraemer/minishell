@@ -6,7 +6,7 @@
 #    By: user42 <maraurel@student.42sp>             +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/01 11:22:06 by maraurel          #+#    #+#              #
-#    Updated: 2021/06/14 10:11:59 by user42           ###   ########.fr        #
+#    Updated: 2021/06/15 14:24:18 by user42           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ FLAGS = -Wall -Wextra -Werror
 all: $(NAME) $(OBJ)
 
 $(NAME): lib $(OBJ)
-	@$(CC) $(FLAGS) $(OBJ) -ltermcap ./libft/libft.a -o $(NAME)
+	@$(CC) $(FLAGS) $(OBJ) -ltermcap -lreadline ./libft/libft.a -o $(NAME)
 
 lib:
 	@$(MAKE) -C libft

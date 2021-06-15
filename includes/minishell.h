@@ -6,7 +6,7 @@
 /*   By: user42 <maraurel@student.42sp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/14 10:11:19 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/15 15:00:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,13 @@
 # include <signal.h>
 # include <string.h>
 # include <termcap.h>
-#include <sys/wait.h>
-
+# include <sys/wait.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # define	TRUE	1
 # define	FALSE	0
 # define	BUFF_SIZE	1024
+
 
 char	*read_line(void);
 
