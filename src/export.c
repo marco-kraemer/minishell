@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user42 <maraurel@student.42sp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:05 by user42            #+#    #+#             */
-/*   Updated: 2021/06/09 14:45:28 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/16 12:01:21 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,22 @@ char	**add_line(char **env, char *name, char *value)
 		j++;
 		k++;
 	}
+	env[i][j++] = '\0';
 	i++;
 	env[i] = malloc(sizeof(char) * 1);
 	env[i][0] = '\0';
 	return (env);
 }
 
-int	export(char **args, char **env)
+char	*export(char **args, char **env)
 {
 	int		i;
 	int		j;
+	int		k;
+	int		size;
 	char	name[FILENAME_MAX];
 	char	value[FILENAME_MAX];
+	char	*ret;
 
 	i = 0;
 	while (args[i])
@@ -55,26 +59,43 @@ int	export(char **args, char **env)
 	if (i == 1) // LIST VARIABLES
 	{	
 		i = 0;
+		size = 0;
 		while (env[i + 1])
-			printf("%s\n", env[i++]);
+			size += ft_strlen(env[i++]);
+		ret = malloc(sizeof(char) * size);
+		i = 0;
+		j = 0;
+		while (env[i + 1])
+		{
+			k = 0;
+			while (env[i][k])
+				*(ret + j++) = env[i][k++];
+			*(ret + j++) = '\n';
+			i++;
+		}
+		*(ret + (j - 1)) = '\0';
+		printf("%s\n", ret);
+		return (ret);
 	}
 	else // ADD / CHANGE VARIABLES
 	{
-		i = 0;
-		// GET VARIABLE VALUE
-		while (args[1][i] != '=')
-			i++;
-		i++;
-		j = 0;
-		while (args[1][i])
-			value[j++] = args[1][i++];
-		value[j++] = '\0';
 		// GET VARIABLE NAME
 		i = 0;
 		j = 0;
-		while (args[1][i] != '=')
+		while (args[1][i] != '=' && args[1][i])
 			name[j++] = args[1][i++];
-		name[i] = '\0';
+		name[j] = '\0';
+		// GET VARIABLE VALUE
+		if (args[1][i] != '=')
+			value[0] = '\0';
+		else
+		{
+			i++;
+			j = 0;
+			while (args[1][i] && args[1][i])
+				value[j++] = args[1][i++];
+			value[j++] = '\0';
+		}
 		// CHANGE VARIABLE VALUE
 		i = 0;
 		while (env[i])
@@ -92,7 +113,7 @@ int	export(char **args, char **env)
 				while (value[k])
 					env[i][j++] = value[k++];
 				env[i][j++] = '\0';
-				return (1);
+				return (NULL);
 			}
 			i++;
 		}
@@ -100,5 +121,5 @@ int	export(char **args, char **env)
 		i = 0;
 		env = add_line(env, name, value);
 	}
-	return (1);
+	return (NULL);
 }

@@ -6,13 +6,13 @@
 /*   By: user42 <maraurel@student.42sp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:10 by user42            #+#    #+#             */
-/*   Updated: 2021/06/15 16:03:27 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/16 10:32:56 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	change_directory(char **args)
+char	*change_directory(char **args)
 {
 	if (args[1] == NULL)
 		chdir("");
@@ -21,10 +21,10 @@ int	change_directory(char **args)
 		if (chdir(args[1]) != 0)
 			printf("shell: No such file or directory\n");
 	}
-	return (1);
+	return (NULL);
 }
 
-int	echo(char **args)
+char	*echo(char **args)
 {
 	int		i;
 	int		j;
@@ -57,37 +57,56 @@ int	echo(char **args)
 	ft_putstr_fd(ret, 1);
 	if (ft_strcmp(args[1], "-n") != 0)
 		printf("\n");
-	return (1);
+	return (ret);
 }
 
-int	pwd()
+char	*pwd()
 {
 	char	cwd[FILENAME_MAX];
+	char	*ret;
 	int	i;
 
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		printf("getcwd() error\n");
+	ret = ft_strdup(cwd);	
 	i = 0;
-	while (cwd[i])
-		write (1, &cwd[i++], 1);
+	ft_putstr_fd(ret, 1);
 	write (1, "\n", 1);
-	return (1);
+	return (ret);
 }
 
-int	env(char **args, char **env)
+char	*env(char **args, char **env)
 {
 	int		i;
+	int		j;
+	int		k;
+	int		size;
+	char	*ret;
 
 	i = 0;
 	while (args[i])
 		i++;
-	if (i == 1) // LIST VARIABLES
-	{	
-		i = 0;
-		while (env[i + 1])
-			printf("%s\n", env[i++]);
+	if (i > 1)
+	{
+		printf("env: invalid number of arguments\n");
+		return (NULL);
 	}
-	else
-		printf("env: invalid number of arguments");
-	return (1);
+	i = 0;
+	size = 0;
+	while (env[i + 1])
+		size += ft_strlen(env[i++]);
+	ret = malloc(sizeof(char) * size);
+	i = 0;
+	j = 0;
+	while (env[i + 1])
+	{
+		k = 0;
+		while (env[i][k])
+			*(ret + j++) = env[i][k++];
+		*(ret + j++) = '\n';
+		i++;
+	}
+	*(ret + (j - 2)) = '\0';
+	printf("%s\n", ret);
+	return (ret);
 }

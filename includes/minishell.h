@@ -6,7 +6,7 @@
 /*   By: user42 <maraurel@student.42sp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/15 15:00:11 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/16 10:05:05 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,15 @@ char	**get_variable_list(char **env);
 char	**delete_line(char **env, int line);
 char	**add_line(char **env, char *name, char *value);
 
-int		unset(char **args, char **env);
-int		export(char **args, char **env);
-int		launch_program(char **args);
-int		execute(char **args, char **envp, char *line);
-int		env(char **args, char **env);
-int		pwd();
-int		echo(char **args);
-int		change_directory(char **args);
-int		free_and_exit(char **args, char *line);
+char		*unset(char **args, char **env);
+char		*export(char **args, char **env);
+char		*execute(char **args, char **envp, char *line);
+char		*env(char **args, char **env);
+char		*pwd();
+char		*echo(char **args);
+char		*change_directory(char **args);
+char		*launch_program(char **args);
+
+void		free_and_exit(char **args, char *line);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user42 <maraurel@student.42sp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:02 by user42            #+#    #+#             */
-/*   Updated: 2021/06/09 14:44:54 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/16 12:02:36 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**delete_line(char **env, int line)
 	return (env);
 }
 
-int	unset(char **args, char **env)
+char	*unset(char **args, char **env)
 {
 	int		i;
 	int		j;
@@ -42,6 +42,11 @@ int	unset(char **args, char **env)
 	char	*name;
 	char	*variable;
 
+	i = 0;
+	while (args[i])
+		i++;
+	if (i == 1)
+		return (NULL);
 	// GET VARIABLE NAME
 	i = 0;
 	j = 0;
@@ -76,11 +81,10 @@ int	unset(char **args, char **env)
 		{
 			env = delete_line(env, i);
 			free(variable);
-			return (1);
+			return (NULL);
 		}
 		i++;
 	}
 	free(name);
-	printf("\n");
-	return (1);
+	return (NULL);
 }

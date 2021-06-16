@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: user42 <maraurel@student.42sp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:35:21 by user42            #+#    #+#             */
-/*   Updated: 2021/06/09 14:38:03 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/16 10:05:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	**get_variable_list(char **env)
 	return (new);
 }
 
-int	free_and_exit(char **args, char *line)
+void	free_and_exit(char **args, char *line)
 {
 	int		i;
 

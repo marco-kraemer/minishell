@@ -6,7 +6,7 @@
 /*   By: user42 <maraurel@student.42sp>             +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by user42            #+#    #+#             */
-/*   Updated: 2021/06/15 15:57:35 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/16 10:04:40 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*read_line(void)
 	}
 }
 
-int	launch_program(char **args)
+char	*launch_program(char **args)
 {
 	int	pid;
 	int	wpid;
@@ -72,13 +72,13 @@ int	launch_program(char **args)
 			wpid = waitpid(pid, &status, WUNTRACED); // WUNTRACED = child processes specified by pid that are stopped
 		}
 	}
-	return (1);
+	return (NULL);
 }
 
-int	execute(char **args, char **envp, char *line)
+char	*execute(char **args, char **envp, char *line)
 {
 	if (args[0] == NULL)
-		return (1);
+		return (NULL);
 	if (ft_strcmp(args[0], "cd") == 0)
 		return (change_directory(args));
 	else if (ft_strcmp(args[0], "echo") == 0)
@@ -92,9 +92,9 @@ int	execute(char **args, char **envp, char *line)
 	else if (ft_strcmp(args[0], "env") == 0)
 		return (env(args, envp));
 	else if (ft_strcmp(args[0], "exit") == 0)
-		return (free_and_exit(args, line));
+		free_and_exit(args, line);
 	else if (ft_strncmp(args[0], "./", 2) == 0)
 		return (launch_program(args));
 	printf("%s: command not found\n", args[0]);
-	return (1);
+	return (NULL);
 }
