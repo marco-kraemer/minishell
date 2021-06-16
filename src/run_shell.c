@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_shell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <maraurel@student.42sp>             +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/09 14:34:07 by user42            #+#    #+#             */
-/*   Updated: 2021/06/16 10:04:40 by user42           ###   ########.fr       */
+/*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
+/*   Updated: 2021/06/16 15:21:57 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,15 @@ char	*launch_program(char **args)
 
 char	*execute(char **args, char **envp, char *line)
 {
+	char	*ret;
+
+	ret = NULL;
 	if (args[0] == NULL)
 		return (NULL);
 	if (ft_strcmp(args[0], "cd") == 0)
 		return (change_directory(args));
 	else if (ft_strcmp(args[0], "echo") == 0)
-		return (echo(args));
+		ret = (echo(args));
 	else if (ft_strcmp(args[0], "pwd") == 0)
 		return (pwd());
 	else if (ft_strcmp(args[0], "export") == 0)
@@ -95,6 +98,11 @@ char	*execute(char **args, char **envp, char *line)
 		free_and_exit(args, line);
 	else if (ft_strncmp(args[0], "./", 2) == 0)
 		return (launch_program(args));
-	printf("%s: command not found\n", args[0]);
-	return (NULL);
+	if (ret == NULL)
+	{
+		printf("%s: command not found\n", args[0]);
+		return (NULL);
+	}
+	check_redirection(args, ret);
+	return (ret);
 }

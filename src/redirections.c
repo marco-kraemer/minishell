@@ -1,51 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   help.c                                             :+:      :+:    :+:   */
+/*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/09 14:35:21 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/16 14:59:09 by maraurel         ###   ########.fr       */
+/*   Created: 2021/06/16 14:57:44 by maraurel          #+#    #+#             */
+/*   Updated: 2021/06/16 15:35:34 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	**get_variable_list(char **env)
-{
-	int		i;
-	char	**new;
 
-	i = 0;
-	while (env[i])
-		i++;
-	new = (char **)malloc(sizeof(char *) * i);
-	i = 0;
-	while (env[i])
-	{
-		new[i] = malloc(sizeof(char) * ft_strlen(env[i]));
-		i++;
-	}
-	new[i] = malloc(1);
-	new[i] = "\0";
-	i = 0;
-	while (env[i])
-	{
-		new[i] = env[i];
-		i++;
-	}
-	return (new);
+void	redirect_input(char **args, int count, char *value)
+{
+	int	fd;
+
+	fd = open(value, O_RDONLY, 0);
+	dup2(fd, STDIN_FILENO);
+	close(fd);
 }
 
-void	free_and_exit(char **args, char *line)
+void	check_redirection(char **args, char *value)
 {
 	int		i;
 
 	i = 0;
 	while (args[i])
-		free(args[i++]);
-	free(line);
-	free(args);
-	exit(EXIT_SUCCESS);
+	{
+		if (ft_strcmp(args[i], ">") == 0)
+			redirect_input(args, i + 1, value);
+		i++;
+	}
 }

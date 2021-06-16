@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <maraurel@student.42sp>             +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/16 14:07:32 by user42           ###   ########.fr       */
+/*   Updated: 2021/06/16 15:32:48 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL
 # include "../libft/libft.h"
 # include <stdio.h>
+# include <unistd.h>
 # include <errno.h>
 # include <stdlib.h>
 # include <signal.h>
@@ -22,6 +23,7 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+#include <fcntl.h>
 # define	TRUE	1
 # define	FALSE	0
 # define	BUFF_SIZE	1024
@@ -44,5 +46,5 @@ char		*change_directory(char **args);
 char		*launch_program(char **args);
 
 void		free_and_exit(char **args, char *line);
-
+void		check_redirection(char **args, char *value);
 #endif

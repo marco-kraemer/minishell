@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <maraurel@student.42sp>             +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/09 14:34:10 by user42            #+#    #+#             */
-/*   Updated: 2021/06/16 10:32:56 by user42           ###   ########.fr       */
+/*   Created: 2021/06/09 14:34:10 by maraurel          #+#    #+#             */
+/*   Updated: 2021/06/16 15:20:28 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,11 @@ char	*echo(char **args)
 	char	*ret;
 
 	i = 1;
+	//   CHECK IF -n
 	if (ft_strcmp(args[1], "-n") == 0)
 		i++;
 	k = 0;
+	// GET LINE LEN TO ALLOCATE MEMORY
 	while (args[i])
 	{
 		k += ft_strlen(args[i]);
@@ -42,12 +44,15 @@ char	*echo(char **args)
 	}
 	ret = malloc((sizeof(char) * k) + i);
 	i = 1;
+	// CHECK IF -n
 	if (ft_strcmp(args[1], "-n") == 0)
 		i++;
 	k = 0;
 	while (args[i])
 	{
 		j = 0;
+		if (ft_strcmp(args[i], ">") == 0 || ft_strcmp(args[i], "<") == 0)
+			break ;
 		while (args[i][j])
 			ret[k++] = args[i][j++];
 		ret[k++] = ' ';
