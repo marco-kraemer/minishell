@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:10 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/17 08:35:38 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/17 09:03:02 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,29 @@ char	*echo(char **args)
 	return (ret);
 }
 
-char	*pwd()
+char	*pwd(char **args)
 {
 	char	cwd[FILENAME_MAX];
 	char	*ret;
 	int	i;
+	int	rule;
 
+	i = 0;
+	rule = 0;
+	while (args[i])
+	{
+		if (ft_strcmp(args[i], ">") == 0)
+			rule = 1;		
+		i++;
+	}
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		printf("getcwd() error\n");
 	ret = ft_strdup(cwd);	
-	i = 0;
-	ft_putstr_fd(ret, 1);
-	write (1, "\n", 1);
+	if (rule == 0)
+	{	
+		ft_putstr_fd(ret, 1);
+		write (1, "\n", 1);
+	}
 	return (ret);
 }
 

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/16 15:21:57 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/17 08:57:31 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ char	*execute(char **args, char **envp, char *line)
 	else if (ft_strcmp(args[0], "echo") == 0)
 		ret = (echo(args));
 	else if (ft_strcmp(args[0], "pwd") == 0)
-		return (pwd());
+		ret = pwd(args);
 	else if (ft_strcmp(args[0], "export") == 0)
-		return (export(args, envp));
+		ret = export(args, envp);
 	else if (ft_strcmp(args[0], "unset") == 0)
 		return (unset(args, envp));
 	else if (ft_strcmp(args[0], "env") == 0)
@@ -98,7 +98,7 @@ char	*execute(char **args, char **envp, char *line)
 		free_and_exit(args, line);
 	else if (ft_strncmp(args[0], "./", 2) == 0)
 		return (launch_program(args));
-	if (ret == NULL)
+	else
 	{
 		printf("%s: command not found\n", args[0]);
 		return (NULL);

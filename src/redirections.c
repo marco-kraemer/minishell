@@ -6,14 +6,14 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 14:57:44 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/17 08:35:50 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/17 08:52:48 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 
-void	redirect_input(char **args, char *filename, char *data)
+void	redirect_input(char *filename, char *data)
 {
 	int	fd;
 
@@ -29,7 +29,7 @@ void	check_redirection(char **args, char *value)
 	while (args[i])
 	{
 		if (ft_strcmp(args[i], ">") == 0)
-			redirect_input(args, args[i + 1], value);
+			redirect_input(args[i + 1], value);
 		i++;
 	}
 }
