@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:10 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/16 15:20:28 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/17 08:35:38 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*echo(char **args)
 	{
 		j = 0;
 		if (ft_strcmp(args[i], ">") == 0 || ft_strcmp(args[i], "<") == 0)
-			break ;
+			return (ret) ;
 		while (args[i][j])
 			ret[k++] = args[i][j++];
 		ret[k++] = ' ';

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/16 14:58:52 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/17 08:30:08 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ int	main(int argc, char **argv, char **envp)
 	{
 		signal(SIGINT, sigintHandler);
 		print_prompt();
-		line = ft_split(readline(""), ';');
+		line = ft_split(read_line(), ';');
 		i = 0;
 		while (line[i])
 		{
 			args = ft_split(line[i], ' ');
 			ret_value = execute(args, env, line[i]);
-			printf("%s\n", ret_value);
+		//	printf("%s\n", ret_value);
 			i++;
 		}
 	}
