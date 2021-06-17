@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/17 08:58:19 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/17 09:21:12 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define	FALSE	0
 # define	BUFF_SIZE	1024
 
+int		check_redirection(char **args, char *value);
 
 char	*read_line(void);
 
@@ -40,11 +41,10 @@ char		*unset(char **args, char **env);
 char		*export(char **args, char **env);
 char		*execute(char **args, char **envp, char *line);
 char		*env(char **args, char **env);
-char		*pwd(char **args);
+char		*pwd();
 char		*echo(char **args);
 char		*change_directory(char **args);
 char		*launch_program(char **args);
 
 void		free_and_exit(char **args, char *line);
-void		check_redirection(char **args, char *value);
 #endif

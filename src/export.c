@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:05 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/17 08:51:02 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/17 09:23:59 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,6 @@ char	*export(char **args, char **env)
 		}
 		*(ret + (j - 1)) = '\0';
 		i = 0;
-		while (args[i])
-			i++;
-		if (i == 1)
-			printf("%s\n", ret);
 		return (ret);
 	}
 	else // ADD / CHANGE VARIABLES

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:10 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/17 09:03:02 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/17 09:23:03 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,42 +52,24 @@ char	*echo(char **args)
 	{
 		j = 0;
 		if (ft_strcmp(args[i], ">") == 0 || ft_strcmp(args[i], "<") == 0)
-			return (ret) ;
+			break ;
 		while (args[i][j])
 			ret[k++] = args[i][j++];
 		ret[k++] = ' ';
 		i++;
 	}
 	ret[k - 1] = '\0';
-	ft_putstr_fd(ret, 1);
-	if (ft_strcmp(args[1], "-n") != 0)
-		printf("\n");
 	return (ret);
 }
 
-char	*pwd(char **args)
+char	*pwd()
 {
 	char	cwd[FILENAME_MAX];
 	char	*ret;
-	int	i;
-	int	rule;
 
-	i = 0;
-	rule = 0;
-	while (args[i])
-	{
-		if (ft_strcmp(args[i], ">") == 0)
-			rule = 1;		
-		i++;
-	}
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		printf("getcwd() error\n");
 	ret = ft_strdup(cwd);	
-	if (rule == 0)
-	{	
-		ft_putstr_fd(ret, 1);
-		write (1, "\n", 1);
-	}
 	return (ret);
 }
 
@@ -101,7 +83,11 @@ char	*env(char **args, char **env)
 
 	i = 0;
 	while (args[i])
+	{
+		if (ft_strcmp(args[i], ">") == 0)
+			break ;
 		i++;
+	}
 	if (i > 1)
 	{
 		printf("env: invalid number of arguments\n");
@@ -123,6 +109,5 @@ char	*env(char **args, char **env)
 		i++;
 	}
 	*(ret + (j - 2)) = '\0';
-	printf("%s\n", ret);
 	return (ret);
 }

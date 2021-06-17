@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/17 08:57:31 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/17 09:26:26 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,13 @@ char	*execute(char **args, char **envp, char *line)
 	else if (ft_strcmp(args[0], "echo") == 0)
 		ret = (echo(args));
 	else if (ft_strcmp(args[0], "pwd") == 0)
-		ret = pwd(args);
+		ret = pwd();
 	else if (ft_strcmp(args[0], "export") == 0)
 		ret = export(args, envp);
 	else if (ft_strcmp(args[0], "unset") == 0)
 		return (unset(args, envp));
 	else if (ft_strcmp(args[0], "env") == 0)
-		return (env(args, envp));
+		ret  = env(args, envp);
 	else if (ft_strcmp(args[0], "exit") == 0)
 		free_and_exit(args, line);
 	else if (ft_strncmp(args[0], "./", 2) == 0)
@@ -103,6 +103,7 @@ char	*execute(char **args, char **envp, char *line)
 		printf("%s: command not found\n", args[0]);
 		return (NULL);
 	}
-	check_redirection(args, ret);
+	if (check_redirection(args, ret) == 1 && ret != NULL)
+		printf("%s\n", ret);
 	return (ret);
 }
