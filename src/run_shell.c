@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/17 09:26:26 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/18 12:00:20 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ char	*execute(char **args, char **envp, char *line)
 		printf("%s: command not found\n", args[0]);
 		return (NULL);
 	}
-	if (check_redirection(args, ret) == 1 && ret != NULL)
-		printf("%s\n", ret);
+	check_redirection(args, ret);
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/17 08:30:08 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/18 11:59:49 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,12 @@ void	sigintHandler(int sig_num)
 int	main(int argc, char **argv, char **envp)
 {
 	char	**line;
+	char	**commands;
 	char	**args;
 	char	**env;
-	char	*ret_value;
+	char	*value;
 	int		i;
+	int		j;
 
 	env = get_variable_list(envp);
 	if (argc == 54225 && argv)
@@ -53,9 +55,16 @@ int	main(int argc, char **argv, char **envp)
 		i = 0;
 		while (line[i])
 		{
-			args = ft_split(line[i], ' ');
-			ret_value = execute(args, env, line[i]);
-		//	printf("%s\n", ret_value);
+			j = 0;
+			commands = ft_split(line[i], '|');
+			while (commands[j])
+			{
+				args = ft_split(line[i], ' ');
+				value = execute(args, env, line[i]);
+				j++;
+			}
+			if (value != NULL)
+				printf("%s\n", value);
 			i++;
 		}
 	}
