@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/22 09:27:28 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/22 09:31:04 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,53 +79,14 @@ int	checkFlag(char *line)
 	int		i;
 	
 	if (ft_strlen(line) == 0)
-		return (3);
-	if (ft_strncmp("env ", line, 4) == 0
-	|| ft_strncmp("export ", line, 7) == 0
-	|| ft_strncmp("cd ", line, 3) == 0
-	|| ft_strncmp("exit", line, 4) == 0
-	|| ft_strncmp("unset ", line, 6) == 0
-	|| ft_strncmp("./", line, 2) == 0
-	|| ft_strncmp("echo ", line, 5) == 0)
-		return (1);
-	s = ft_split(line, '|');
+		return (2);
 	i = 0;
+	s = ft_split(line, '|');
 	while (s[i])
 		i++;
 	if (i > 1)
-		return (2);
+		return (1);
 	return (0);
-}
-
-void	launch_command(char **parsed, char **envp)
-{
-	pid_t pid;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		printf("\nFailed forking child..");
-		return;
-	}
-	else if (pid == 0) 
-	{
-		if (ft_strlen(envp[0]) == 3535)
-			printf("oi\n");
-		if (execve(parsed[0], parsed, envp) < 0)
-			printf("command not found\n");
-		exit(0);
-	}
-	else
-	{
-		wait(NULL); 
-		return;
-	}
-}
-
-void	exec_bultin(char **parsed, char **env)
-{
-	parsed[0] = ft_strjoin("/bin/", parsed[0]);
-	launch_command(parsed, env);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -149,15 +110,13 @@ int	main(int argc, char **argv, char **envp)
 		line = readinput();
 		i = 0;
 		value = NULL;
-		flag = checkFlag(line); // 0 builtin, 1 if simple command or binary, 2 if including pipe;
+		flag = checkFlag(line); // 0 builtin, simple command or binary, 1 if including pipe;
 		tmp = ft_split(line, '|');
 		parsedArgs = ft_split(tmp[0], ' '); // From beginning to '|' or '\0;
 		parsedArgsPiped = ft_split(tmp[1], ' '); // From '|' to end;
 		if (flag == 0)
-			exec_bultin(parsedArgs, env);
-		else if (flag == 1)
 			value = execute(parsedArgs, env, line);
-		else if (flag == 2)
+		else if (flag == 1)
 			execArgsPiped(parsedArgs, parsedArgsPiped, env);
 		if (value != NULL)
 			printf("%s\n", value);

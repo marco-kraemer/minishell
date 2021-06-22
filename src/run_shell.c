@@ -6,13 +6,13 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/22 09:28:34 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/22 09:37:13 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	launch(char **parsed, char **envp)
+void	launch(char **parsed, char **envp, char *file, char *msg)
 {
 	pid_t pid;
 
@@ -24,10 +24,8 @@ void	launch(char **parsed, char **envp)
 	}
 	else if (pid == 0) 
 	{
-		if (ft_strlen(envp[0]) == 3535)
-			printf("oi\n");
 		if (execve(parsed[0], parsed, envp) < 0)
-			printf("%s: No such file or directory\n", parsed[0]);
+			printf("%s: %s\n", file, msg);
 		exit(0);
 	}
 	else
@@ -60,12 +58,14 @@ char	*execute(char **args, char **envp, char *line)
 		free_and_exit(args, line);
 	else if (ft_strncmp(args[0], "./", 2) == 0)
 	{
-		launch(args, envp);
+		launch(args, envp, args[0], "No such file or directory");
 		return (NULL);
 	}
 	else
 	{
-		printf("%s: command not found\n", args[0]);
+		ret = args[0];
+		args[0] = ft_strjoin("/bin/", args[0]);
+		launch(args, envp, ret, "command not found");
 		return (NULL);
 	}
 	check_redirection(args, ret);
