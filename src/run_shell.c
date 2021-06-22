@@ -6,11 +6,36 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/21 22:20:45 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/22 09:28:34 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	launch(char **parsed, char **envp)
+{
+	pid_t pid;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		printf("\nFailed forking child..");
+		return;
+	}
+	else if (pid == 0) 
+	{
+		if (ft_strlen(envp[0]) == 3535)
+			printf("oi\n");
+		if (execve(parsed[0], parsed, envp) < 0)
+			printf("%s: No such file or directory\n", parsed[0]);
+		exit(0);
+	}
+	else
+	{
+		wait(NULL); 
+		return;
+	}
+}
 
 char	*execute(char **args, char **envp, char *line)
 {
@@ -40,8 +65,7 @@ char	*execute(char **args, char **envp, char *line)
 	}
 	else
 	{
-		launch(args, envp);
-		//printf("%s: command not found\n", args[0]);
+		printf("%s: command not found\n", args[0]);
 		return (NULL);
 	}
 	check_redirection(args, ret);

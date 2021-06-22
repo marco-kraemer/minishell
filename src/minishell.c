@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/22 09:02:19 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/22 09:27:28 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,54 +73,6 @@ void execArgsPiped(char **parsed, char **parsedpipe, char **env)
 	}
 }
 
-char	*readinput()
-{
-	char	cwd[FILENAME_MAX];
-	char	*line;
-	int		i;
-
-	i = 0;
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-		strerror(3);
-	line = readline("\033[0;36m minishell$ \033[0;37m");
-	if (ft_strlen(line) != 0)
-		add_history(line);
-	return (line);
-}
-
-void	sigintHandler(int sig_num)
-{
-	if (!sig_num)
-		return;
-	printf("\n");
-	readinput();
-}
-
-void	launch(char **parsed, char **envp)
-{
-	pid_t pid;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		printf("\nFailed forking child..");
-		return;
-	}
-	else if (pid == 0) 
-	{
-		if (ft_strlen(envp[0]) == 3535)
-			printf("oi\n");
-		if (execve(parsed[0], parsed, envp) < 0)
-			printf("%s: No such file or directory\n", parsed[0]);
-		exit(0);
-	}
-	else
-	{
-		wait(NULL); 
-		return;
-	}
-}
-
 int	checkFlag(char *line)
 {
 	char	**s;
@@ -145,10 +97,35 @@ int	checkFlag(char *line)
 	return (0);
 }
 
+void	launch_command(char **parsed, char **envp)
+{
+	pid_t pid;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		printf("\nFailed forking child..");
+		return;
+	}
+	else if (pid == 0) 
+	{
+		if (ft_strlen(envp[0]) == 3535)
+			printf("oi\n");
+		if (execve(parsed[0], parsed, envp) < 0)
+			printf("command not found\n");
+		exit(0);
+	}
+	else
+	{
+		wait(NULL); 
+		return;
+	}
+}
+
 void	exec_bultin(char **parsed, char **env)
 {
 	parsed[0] = ft_strjoin("/bin/", parsed[0]);
-	launch(parsed, env);
+	launch_command(parsed, env);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -172,7 +149,7 @@ int	main(int argc, char **argv, char **envp)
 		line = readinput();
 		i = 0;
 		value = NULL;
-		flag = checkFlag(line); // 0 if executable or builtin, 1 if command, 2 if including pipe;
+		flag = checkFlag(line); // 0 builtin, 1 if simple command or binary, 2 if including pipe;
 		tmp = ft_split(line, '|');
 		parsedArgs = ft_split(tmp[0], ' '); // From beginning to '|' or '\0;
 		parsedArgsPiped = ft_split(tmp[1], ' '); // From '|' to end;

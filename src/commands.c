@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:10 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/18 12:00:55 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/22 09:14:55 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,40 +26,26 @@ char	*change_directory(char **args)
 
 char	*echo(char **args)
 {
-	int		i;
-	int		j;
-	int		k;
-	char	*ret;
+	pid_t pid;
 
-	i = 1;
-	//   CHECK IF -n
-	if (ft_strcmp(args[1], "-n") == 0)
-		i++;
-	k = 0;
-	// GET LINE LEN TO ALLOCATE MEMORY
-	while (args[i])
+	pid = fork();
+	if (pid == -1)
 	{
-		k += ft_strlen(args[i]);
-		i++;
+		printf("\nFailed forking child..");
+		return (NULL);
 	}
-	ret = malloc((sizeof(char) * k) + i);
-	i = 1;
-	// CHECK IF -n
-	if (ft_strcmp(args[1], "-n") == 0)
-		i++;
-	k = 0;
-	while (args[i])
+	else if (pid == 0) 
 	{
-		j = 0;
-		if (ft_strcmp(args[i], ">") == 0 || ft_strcmp(args[i], "<") == 0)
-			break ;
-		while (args[i][j])
-			ret[k++] = args[i][j++];
-		ret[k++] = ' ';
-		i++;
+		if (execve("/bin/echo", args, NULL) < 0)
+			printf("%s: No such file or directory\n", args[0]);
+		exit(0);
 	}
-	ret[k - 1] = '\0';
-	return (ret);
+	else
+	{
+		wait(NULL); 
+		return (NULL);
+	}
+	return (NULL);
 }
 
 char	*pwd()
