@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/22 11:12:54 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/22 14:25:09 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ void	launch(char **parsed, char **envp, char *file, char *msg)
 	pid_t pid;
 
 	pid = fork();
+	signal(SIGINT, sigintHandler_process);
 	if (pid == -1)
 	{
-		printf("\nFailed forking child..");
+		printf("Failed forking child..\n");
 		return;
 	}
 	else if (pid == 0) 
@@ -68,9 +69,13 @@ char	*execute(char **args, char **envp, char *line, int rule)
 		if (rule == 0)
 			launch(args, envp, ret, "command not found");
 		else
-			execve(args[0], args, envp);
+		{
+			if (execve(args[0], args, envp) < 0)
+				printf("%s: command not found\n", args[0]);
+			exit(0);
+		}
 		return (NULL);
 	}
-	check_redirection(args, ret);
+//	check_redirection(args, ret);
 	return (ret);
 }

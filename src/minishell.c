@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/22 12:39:39 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/22 14:34:25 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void execArgsPiped(char **parsed, char **parsedpipe, char **env)
 	int pipefd[2]; 
 	pid_t p1, p2;
 
+	signal(SIGINT, sigintHandler_process);
 	if (pipe(pipefd) < 0)
 	{
 		printf("\nPipe could not be initialized");
@@ -41,7 +42,6 @@ void execArgsPiped(char **parsed, char **parsedpipe, char **env)
 			printf("Could not execute command 2..\n");
 			exit(0);
 		}
-
 	}
 	else
 	{
@@ -58,12 +58,12 @@ void execArgsPiped(char **parsed, char **parsedpipe, char **env)
 		{
 			close(pipefd[1]);
 			dup2(pipefd[0], STDIN_FILENO);
-			close(pipefd[0]);
 			if (execute(parsedpipe, env, NULL, 1) < 0)
 			{
 				printf("Could not execute command 2..\n");
 				exit(0);
 			}
+			close(pipefd[0]);
 		}
 		else
 		{
@@ -126,7 +126,7 @@ int	main(int argc, char **argv, char **envp)
 		
 
 		// FREE
-		if (line)
+		if (ft_strlen(line) != 0)
 		{
 			free(line);
 			i = 0;

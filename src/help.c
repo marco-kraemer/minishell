@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:35:21 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/22 11:47:37 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/22 14:32:53 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,24 +50,30 @@ void	free_and_exit(char **args, char *line)
 	exit(EXIT_SUCCESS);
 }
 
-void	sigintHandler(int sig_num)
+void	sigintHandler_process(int sig_num)
 {
-	if (!sig_num)
+	if (sig_num != SIGINT)
 		return;
 	printf("\n");
-	readinput();
+	signal(SIGINT, sigintHandler_process);
+}
+
+void	sigintHandler(int sig_num)
+{
+	if (sig_num != SIGINT)
+		return;
+	printf("\n");
+	ft_putstr_fd(PROMPT_MSG, 1);
+	signal(SIGINT, sigintHandler);
 }
 
 char	*readinput()
 {
-	char	cwd[FILENAME_MAX];
 	char	*line;
 	int		i;
 
 	i = 0;
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-		strerror(3);
-	line = readline("\033[0;36m minishell$ \033[0;37m");
+	line = readline(PROMPT_MSG);
 	if (ft_strlen(line) != 0)
 		add_history(line);
 	return (line);

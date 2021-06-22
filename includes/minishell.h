@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/22 11:11:37 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/22 14:25:36 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define	TRUE	1
 # define	FALSE	0
 # define	BUFF_SIZE	1024
+# define	PROMPT_MSG	"\033[0;36m minishell$ \033[0;37m"
 
 int		check_redirection(char **args, char *value);
 
@@ -49,4 +50,5 @@ char		*readinput();
 void		launch(char** parsed, char **envp, char *file, char *msg);
 void		free_and_exit(char **args, char *line);
 void		sigintHandler(int sig_num);
+void		sigintHandler_process(int sig_num);
 #endif
