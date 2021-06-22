@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/22 12:29:51 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/22 12:39:39 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,22 +126,25 @@ int	main(int argc, char **argv, char **envp)
 		
 
 		// FREE
-		free(line);
-		i = 0;
-		while (parsedArgs[i])
-			free(parsedArgs[i++]);
-		free(parsedArgs);
-		i = 0;
-		while (tmp[i])
-			free(tmp[i++]);
-		free(tmp);
+		if (line)
+		{
+			free(line);
+			i = 0;
+			while (parsedArgs[i])
+				free(parsedArgs[i++]);
+			free(parsedArgs);
+			i = 0;
+			while (tmp[i])
+				free(tmp[i++]);
+			free(tmp);
+		}
 		if (parsedArgsPiped)
 		{
 			i = 0;
 			while (parsedArgsPiped[i])
 				free(parsedArgsPiped[i++]);
+			free(parsedArgsPiped);
 		}
-		free(parsedArgsPiped);
 	}
 	exit (EXIT_SUCCESS);
 }
