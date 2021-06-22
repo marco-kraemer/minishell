@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/22 09:35:14 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/22 11:11:37 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	**ft_splitn(char const *s, char c);
 
 char		*unset(char **args, char **env);
 char		*export(char **args, char **env);
-char		*execute(char **args, char **envp, char *line);
+char		*execute(char **args, char **envp, char *line, int rule);
 char		*env(char **args, char **env);
 char		*pwd();
 char		*echo(char **args);

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/22 09:31:04 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/22 11:11:59 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,12 @@ void execArgsPiped(char **parsed, char **parsedpipe, char **env)
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
-		if (execute(parsed, env, NULL) < 0)
+		if (execute(parsed, env, NULL, 1) < 0)
 		{
 			printf("Could not execute command 2..\n");
 			exit(0);
 		}
+
 	}
 	else
 	{
@@ -58,7 +59,7 @@ void execArgsPiped(char **parsed, char **parsedpipe, char **env)
 			close(pipefd[1]);
 			dup2(pipefd[0], STDIN_FILENO);
 			close(pipefd[0]);
-			if (execute(parsedpipe, env, NULL) < 0)
+			if (execute(parsedpipe, env, NULL, 1) < 0)
 			{
 				printf("Could not execute command 2..\n");
 				exit(0);
@@ -115,7 +116,7 @@ int	main(int argc, char **argv, char **envp)
 		parsedArgs = ft_split(tmp[0], ' '); // From beginning to '|' or '\0;
 		parsedArgsPiped = ft_split(tmp[1], ' '); // From '|' to end;
 		if (flag == 0)
-			value = execute(parsedArgs, env, line);
+			value = execute(parsedArgs, env, line, 0);
 		else if (flag == 1)
 			execArgsPiped(parsedArgs, parsedArgsPiped, env);
 		if (value != NULL)

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/22 09:37:13 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/22 11:12:54 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	launch(char **parsed, char **envp, char *file, char *msg)
 	}
 }
 
-char	*execute(char **args, char **envp, char *line)
+char	*execute(char **args, char **envp, char *line, int rule)
 {
 	char	*ret;
 
@@ -44,8 +44,8 @@ char	*execute(char **args, char **envp, char *line)
 		return (NULL);
 	if (ft_strcmp(args[0], "cd") == 0)
 		return (change_directory(args));
-	else if (ft_strcmp(args[0], "echo") == 0)
-		ret = (echo(args));
+//	else if (ft_strcmp(args[0], "echo") == 0)
+//		ret = (echo(args));
 	else if (ft_strcmp(args[0], "pwd") == 0)
 		ret = pwd();
 	else if (ft_strcmp(args[0], "export") == 0)
@@ -65,7 +65,10 @@ char	*execute(char **args, char **envp, char *line)
 	{
 		ret = args[0];
 		args[0] = ft_strjoin("/bin/", args[0]);
-		launch(args, envp, ret, "command not found");
+		if (rule == 0)
+			launch(args, envp, ret, "command not found");
+		else
+			execve(args[0], args, envp);
 		return (NULL);
 	}
 	check_redirection(args, ret);
