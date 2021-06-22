@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/22 11:11:59 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/22 12:29:51 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,21 +87,23 @@ int	checkFlag(char *line)
 		i++;
 	if (i > 1)
 		return (1);
+	i = 0;
+	while (s[i])
+		free(s[i++]);
+	free(s);
 	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
-	char	**env;
 	char	**parsedArgs;
 	char	**parsedArgsPiped;
 	char	**tmp;
 	int		flag;
-	char	*value;
 	int		i;
+	char	*value;
 
-	env = get_variable_list(envp);
 	if (argc == 54225 && argv)
 		printf("oi\n");
 	flag = 0;
@@ -116,11 +118,30 @@ int	main(int argc, char **argv, char **envp)
 		parsedArgs = ft_split(tmp[0], ' '); // From beginning to '|' or '\0;
 		parsedArgsPiped = ft_split(tmp[1], ' '); // From '|' to end;
 		if (flag == 0)
-			value = execute(parsedArgs, env, line, 0);
+			value = execute(parsedArgs, envp, line, 0);
 		else if (flag == 1)
-			execArgsPiped(parsedArgs, parsedArgsPiped, env);
+			execArgsPiped(parsedArgs, parsedArgsPiped, envp);
 		if (value != NULL)
 			printf("%s\n", value);
+		
+
+		// FREE
+		free(line);
+		i = 0;
+		while (parsedArgs[i])
+			free(parsedArgs[i++]);
+		free(parsedArgs);
+		i = 0;
+		while (tmp[i])
+			free(tmp[i++]);
+		free(tmp);
+		if (parsedArgsPiped)
+		{
+			i = 0;
+			while (parsedArgsPiped[i])
+				free(parsedArgsPiped[i++]);
+		}
+		free(parsedArgsPiped);
 	}
 	exit (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:10 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/22 09:14:55 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/22 12:09:22 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,49 +51,32 @@ char	*echo(char **args)
 char	*pwd()
 {
 	char	cwd[FILENAME_MAX];
-	char	*ret;
 
 	if (getcwd(cwd, sizeof(cwd)) == NULL)
 		printf("getcwd() error\n");
-	ret = ft_strdup(cwd);	
-	return (ret);
+	write(1, cwd, ft_strlen(cwd));	
+	write(1, "\n", 2);
+	return (NULL);
 }
 
 char	*env(char **args, char **env)
 {
 	int		i;
-	int		j;
-	int		k;
-	int		size;
-	char	*ret;
 
 	i = 0;
 	while (args[i])
-	{
-		if (ft_strcmp(args[i], ">") == 0)
-			break ;
 		i++;
-	}
 	if (i > 1)
 	{
 		printf("env: invalid number of arguments\n");
 		return (NULL);
 	}
 	i = 0;
-	size = 0;
-	while (env[i + 1])
-		size += ft_strlen(env[i++]);
-	ret = malloc(sizeof(char) * size);
-	i = 0;
-	j = 0;
-	while (env[i + 1])
+	while (env[i])
 	{
-		k = 0;
-		while (env[i][k])
-			*(ret + j++) = env[i][k++];
-		*(ret + j++) = '\n';
+		write(1, env[i], ft_strlen(env[i]));
+		write(1, "\n", 2);
 		i++;
 	}
-	*(ret + (j - 1)) = '\0';
-	return (ret);
+	return (NULL);
 }

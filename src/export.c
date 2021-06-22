@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:05 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/17 09:55:53 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/22 12:11:07 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,8 @@ char	*export(char **args, char **env)
 {
 	int		i;
 	int		j;
-	int		k;
-	int		size;
 	char	name[FILENAME_MAX];
 	char	value[FILENAME_MAX];
-	char	*ret;
 
 	i = 0;
 	while (args[i])
@@ -59,23 +56,13 @@ char	*export(char **args, char **env)
 	if (i == 1 || ft_strcmp(args[1], ">") == 0) // LIST VARIABLES
 	{
 		i = 0;
-		size = 0;
-		while (env[i + 1])
-			size += ft_strlen(env[i++]);
-		ret = malloc(sizeof(char) * size);
-		i = 0;
-		j = 0;
-		while (env[i + 1])
+		while (env[i])
 		{
-			k = 0;
-			while (env[i][k])
-				*(ret + j++) = env[i][k++];
-			*(ret + j++) = '\n';
+			write(1, env[i], ft_strlen(env[i]));
+			write(1, "\n", 2);
 			i++;
 		}
-		*(ret + (j - 1)) = '\0';
-		i = 0;
-		return (ret);
+		return (NULL);
 	}
 	else // ADD / CHANGE VARIABLES
 	{
