@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:10 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/22 12:09:22 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/29 10:51:37 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ char	*env(char **args, char **env)
 	i = 0;
 	while (env[i])
 	{
+		if (ft_strlen(env[i]) == 0)
+			break ;
 		write(1, env[i], ft_strlen(env[i]));
 		write(1, "\n", 2);
 		i++;

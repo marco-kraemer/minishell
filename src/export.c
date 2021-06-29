@@ -6,107 +6,88 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:05 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/22 12:11:07 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/29 10:47:47 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	**add_line(char **env, char *name, char *value)
+void	add_line(char **env, char *var)
 {
 	int		i;
-	int		j;
-	int		k;
 
 	i = 0;
-	while (env[i + 1])
+	while (env[i + 1] && ft_strlen(env[i + 1]) != 0)
 		i++;
-	env[i] = malloc(sizeof(char) * (ft_strlen(name) + ft_strlen(value) + 2));
-	j = 0;
-	while (name[j])
-	{
-		env[i][j] = name[j];
-		j++;
-	}
-	env[i][j++] = '=';
-	k = 0;
-	while (value[k])
-	{
-		env[i][j] = value[k];
-		j++;
-		k++;
-	}
-	env[i][j++] = '\0';
 	i++;
-	env[i] = malloc(sizeof(char) * 1);
-	env[i][0] = '\0';
-	return (env);
+//	env[i] = malloc(sizeof(char) * ft_strlen(var));
+	env[i] = var;
+//	env[i + 1] = malloc(1);
+	env[i + 1] = NULL;
 }
 
 char	*export(char **args, char **env)
 {
 	int		i;
 	int		j;
+	char	*var;
 	char	name[FILENAME_MAX];
 	char	value[FILENAME_MAX];
 
-	i = 0;
-	while (args[i])
-		i++;
-	if (i == 1 || ft_strcmp(args[1], ">") == 0) // LIST VARIABLES
+	if (!args[1])
 	{
 		i = 0;
 		while (env[i])
 		{
+			if (ft_strlen(env[i]) == 0)
+				break ;
 			write(1, env[i], ft_strlen(env[i]));
 			write(1, "\n", 2);
 			i++;
 		}
 		return (NULL);
 	}
-	else // ADD / CHANGE VARIABLES
+	// GET VARIABLE NAME
+	i = 0;
+	j = 0;
+	while (args[1][i] != '=' && args[1][i])
+		name[j++] = args[1][i++];
+	name[j] = '\0';
+	// GET VARIABLE VALUE
+	if (args[1][i] != '=')
+		value[0] = '\0';
+	else
 	{
-		// GET VARIABLE NAME
-		i = 0;
+		i++;
 		j = 0;
-		while (args[1][i] != '=' && args[1][i])
-			name[j++] = args[1][i++];
-		name[j] = '\0';
-		// GET VARIABLE VALUE
-		if (args[1][i] != '=')
-			value[0] = '\0';
-		else
-		{
-			i++;
-			j = 0;
-			while (args[1][i] && args[1][i])
-				value[j++] = args[1][i++];
-			value[j++] = '\0';
-		}
-		// CHANGE VARIABLE VALUE
-		i = 0;
-		while (env[i])
-		{
-			j = 0;
-			while (env[i][j] != '=' && env[i][j])
-				j++;
-			if (ft_strncmp(name, env[i], ft_strlen(name)) == 0 && j == (int)ft_strlen(name))
-			{
-				int k = 0;
-				j = 0;
-				while (env[i][j] != '=')
-					j++;
-				j++;
-				while (value[k])
-					env[i][j++] = value[k++];
-				env[i][j++] = '\0';
-				return (NULL);
-			}
-			i++;
-		}
-		// ADD VARIABLES
-		i = 0;
-		env = add_line(env, name, value);
+		while (args[1][i] && args[1][i])
+			value[j++] = args[1][i++];
+		value[j++] = '\0';
 	}
+	// CHANGE VARIABLE VALUE
+	i = 0;
+	while (env[i] && ft_strlen(env[i]) != 0)
+	{
+		j = 0;
+		while (env[i][j] != '=' && env[i][j])
+			j++;
+		if (ft_strncmp(name, env[i], ft_strlen(name)) == 0 && j == (int)ft_strlen(name))
+		{
+			int k = 0;
+			j = 0;
+			while (env[i][j] != '=')
+				j++;
+			j++;
+			while (value[k])
+				env[i][j++] = value[k++];
+			env[i][j++] = '\0';
+			return (NULL);
+		}
+		i++;
+	}
+	// ADD VARIABLES
+	var = ft_strjoin(name, "=");
+	var = ft_strjoin(var, value);
+	add_line(env, var);
 	return (NULL);
 }

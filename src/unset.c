@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:02 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/16 14:59:05 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/23 09:11:40 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*unset(char **args, char **env)
 	i = 0;
 	k = 0;
 	variable = malloc(sizeof(char) * ft_strlen(args[1]));
-	while (env[i])
+	while (env[i] && ft_strlen(env[i]) != 0)
 	{
 		j = 0;
 		while (env[i][j] != '=' && env[i][j])
