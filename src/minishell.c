@@ -6,68 +6,40 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/30 11:07:25 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/30 14:03:54 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void execArgsPiped(char **parsed, char **parsedpipe, char **env)
+void execArgsPiped(char **tmp, char **env)
 {
 	// 0 is read end, 1 is write end
 	int pipefd[2]; 
 	pid_t p1, p2;
 
 	signal(SIGINT, sigintHandler_process);
-	if (pipe(pipefd) < 0)
-	{
-		printf("Pipe could not be initialized\n");
-		return;
-	}
+	pipe(pipefd);
 	p1 = fork();
-	if (p1 < 0)
-	{
-		printf("Could not fork\n");
-		return;
-	}
 	if (p1 == 0)
 	{
-		// Child 1 executing..
-		// It only needs to write at the write end
 		close(pipefd[0]);
 		dup2(pipefd[1], STDOUT_FILENO);
 		close(pipefd[1]);
-		if (execute(parsed, env, NULL, 1) < 0)
-		{
-			printf("Could not execute command 2..\n");
-			exit(0);
-		}
+		execute(ft_split(tmp[0], ' '), env, NULL, 1);
 	}
 	else
 	{
-		// Parent executing
 		p2 = fork();
-		if (p2 < 0)
-		{
-			printf("\nCould not fork");
-			return;
-		}
-		// Child 2 executing..
-		// It only needs to read at the read end
 		if (p2 == 0)
 		{
 			close(pipefd[1]);
 			dup2(pipefd[0], STDIN_FILENO);
-			if (execute(parsedpipe, env, NULL, 1) < 0)
-			{
-				printf("Could not execute command 2..\n");
-				exit(0);
-			}
+			execute(ft_split(tmp[1], ' '), env, NULL, 1);
 			close(pipefd[0]);
 		}
 		else
 		{
-			// parent executing, waiting for two children
 			wait(NULL);
 			wait(NULL);
 		}
@@ -97,8 +69,6 @@ int	checkFlag(char *line)
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
-	char	**parsedArgs;
-	char	**parsedArgsPiped;
 	char	**tmp;
 	int		flag;
 	int		i;
@@ -115,21 +85,10 @@ int	main(int argc, char **argv, char **envp)
 		value = NULL;
 		flag = checkFlag(line); // 0 builtin, simple command or binary, 1 if including pipe;
 		tmp = ft_split(line, '|');
-		parsedArgs = ft_split(tmp[0], ' '); // From beginning to '|' or '\0;
-		parsedArgsPiped = ft_split(tmp[1], ' '); // From '|' to end;
 		if (flag == 0)
-			value = execute(parsedArgs, envp, line, 0);
+			value = execute(ft_split(tmp[0], ' '), envp, line, 0);
 		else if (flag == 1)
-		{
-			i = 0;
-			while (tmp[i + 1])
-			{
-				parsedArgs = ft_split(tmp[i], ' ');
-				parsedArgsPiped = ft_split(tmp[i + 1], ' ');
-				execArgsPiped(parsedArgs, parsedArgsPiped, envp);
-				i++;
-			}
-		}
+			execArgsPiped(tmp, envp);
 		if (value != NULL)
 			printf("%s\n", value);
 		
@@ -139,20 +98,9 @@ int	main(int argc, char **argv, char **envp)
 		{
 			free(line);
 			i = 0;
-			while (parsedArgs[i])
-				free(parsedArgs[i++]);
-			free(parsedArgs);
-			i = 0;
 			while (tmp[i])
 				free(tmp[i++]);
 			free(tmp);
-		}
-		if (parsedArgsPiped)
-		{
-			i = 0;
-			while (parsedArgsPiped[i])
-				free(parsedArgsPiped[i++]);
-			free(parsedArgsPiped);
 		}
 	}
 	exit (EXIT_SUCCESS);
