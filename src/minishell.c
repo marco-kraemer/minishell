@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/29 09:45:11 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/30 11:07:25 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ void execArgsPiped(char **parsed, char **parsedpipe, char **env)
 	signal(SIGINT, sigintHandler_process);
 	if (pipe(pipefd) < 0)
 	{
-		printf("\nPipe could not be initialized");
+		printf("Pipe could not be initialized\n");
 		return;
 	}
 	p1 = fork();
 	if (p1 < 0)
 	{
-		printf("\nCould not fork");
+		printf("Could not fork\n");
 		return;
 	}
 	if (p1 == 0)
@@ -120,7 +120,16 @@ int	main(int argc, char **argv, char **envp)
 		if (flag == 0)
 			value = execute(parsedArgs, envp, line, 0);
 		else if (flag == 1)
-			execArgsPiped(parsedArgs, parsedArgsPiped, envp);
+		{
+			i = 0;
+			while (tmp[i + 1])
+			{
+				parsedArgs = ft_split(tmp[i], ' ');
+				parsedArgsPiped = ft_split(tmp[i + 1], ' ');
+				execArgsPiped(parsedArgs, parsedArgsPiped, envp);
+				i++;
+			}
+		}
 		if (value != NULL)
 			printf("%s\n", value);
 		

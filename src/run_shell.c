@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/29 09:42:29 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/29 11:29:46 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,6 @@ char	*execute(char **args, char **envp, char *line, int rule)
 		}
 		return (NULL);
 	}
-//	check_redirection(args, ret);
+	check_redirection(args, ret);
 	return (ret);
 }

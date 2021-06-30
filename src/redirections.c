@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 14:57:44 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/17 10:00:23 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/29 11:33:31 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	redirect_output(char *filename, char *data)
 	int	fd;
 
 	fd = open(filename, O_CREAT | O_WRONLY |O_TRUNC, 0777);
+	printf("%s\n", data);
 	if (data != NULL)
 		write (fd, data, ft_strlen(data));
 	close(fd);
