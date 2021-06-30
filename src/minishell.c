@@ -6,44 +6,57 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/30 14:03:54 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/06/30 14:50:44 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void execArgsPiped(char **tmp, char **env)
+void execArgsPiped(char **tmp, char **env, int numCommands)
 {
-	// 0 is read end, 1 is write end
-	int pipefd[2]; 
-	pid_t p1, p2;
+	int	tmpin;
+	int	tmpout;
+	int	fdin;
+	int	ret;
+	int	fdout;
+	int	i;
+	int	fdpipe[2];
 
-	signal(SIGINT, sigintHandler_process);
-	pipe(pipefd);
-	p1 = fork();
-	if (p1 == 0)
+	tmpin = dup(0);
+	tmpout = dup(1);
+	fdin = dup(tmpin);
+	i = 0;
+	while (i < numCommands)
 	{
-		close(pipefd[0]);
-		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[1]);
-		execute(ft_split(tmp[0], ' '), env, NULL, 1);
-	}
-	else
-	{
-		p2 = fork();
-		if (p2 == 0)
+		dup2(fdin, 0);
+		close(fdin);
+		if (i == numCommands - 1)
 		{
-			close(pipefd[1]);
-			dup2(pipefd[0], STDIN_FILENO);
-			execute(ft_split(tmp[1], ' '), env, NULL, 1);
-			close(pipefd[0]);
+			fdout = dup(tmpout);
 		}
 		else
 		{
-			wait(NULL);
-			wait(NULL);
+			pipe(fdpipe);
+			fdout = fdpipe[1];
+			fdin = fdpipe[0];
 		}
+		dup2(fdout, 1);
+		close(fdout);
+		ret = fork();
+		if (ret == 0)
+		{
+			execute(ft_split(tmp[i], ' '), env, NULL, 0);
+			exit (1);
+		}
+		else
+			wait(NULL);
+		i++;
 	}
+	dup2(tmpin, 0);
+	dup2(tmpout, 1);
+	close(tmpin);
+	close(tmpout);
+	wait(NULL);
 }
 
 int	checkFlag(char *line)
@@ -88,7 +101,12 @@ int	main(int argc, char **argv, char **envp)
 		if (flag == 0)
 			value = execute(ft_split(tmp[0], ' '), envp, line, 0);
 		else if (flag == 1)
-			execArgsPiped(tmp, envp);
+		{
+			i = 0;
+			while (tmp[i])
+				i++;
+			execArgsPiped(tmp, envp, i);
+		}
 		if (value != NULL)
 			printf("%s\n", value);
 		
