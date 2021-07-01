@@ -6,13 +6,32 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/30 14:50:44 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/01 14:20:36 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void execArgsPiped(char **tmp, char **env, int numCommands)
+char	*get_outfile(char *line)
+{
+	char	*ret;
+	int		i;
+
+	i = 0;
+	while(line[i] != '>' && line[i])
+		i++;
+	if ((int)ft_strlen(line) == i)
+		return (NULL);
+	i++;
+	if (line[i] == '>')
+		i++;
+	while (line[i] == ' ')
+		i++;
+	ret = ft_substr(line, i, ft_strlen(line) - i);
+	return (ret);
+}
+
+void	executeArgs(char **tmp, char **env, char *outfile, int numCommands)
 {
 	int	tmpin;
 	int	tmpout;
@@ -21,6 +40,8 @@ void execArgsPiped(char **tmp, char **env, int numCommands)
 	int	fdout;
 	int	i;
 	int	fdpipe[2];
+	char	**splited;
+//	char	*value;
 
 	tmpin = dup(0);
 	tmpout = dup(1);
@@ -32,7 +53,10 @@ void execArgsPiped(char **tmp, char **env, int numCommands)
 		close(fdin);
 		if (i == numCommands - 1)
 		{
-			fdout = dup(tmpout);
+			if (outfile != NULL)
+				fdout = open(outfile, O_CREAT | O_WRONLY |O_TRUNC, 0777);
+			else
+				fdout = dup(tmpout);
 		}
 		else
 		{
@@ -42,11 +66,17 @@ void execArgsPiped(char **tmp, char **env, int numCommands)
 		}
 		dup2(fdout, 1);
 		close(fdout);
-		ret = fork();
+		if (numCommands != 1)
+			ret = fork();
+		else
+			ret = 0;
 		if (ret == 0)
 		{
-			execute(ft_split(tmp[i], ' '), env, NULL, 0);
-			exit (1);
+			splited = ft_split(tmp[i], ' ');
+			execute(splited, env, NULL);
+			free(splited);
+			if (numCommands != 1)
+				exit (1);
 		}
 		else
 			wait(NULL);
@@ -59,66 +89,40 @@ void execArgsPiped(char **tmp, char **env, int numCommands)
 	wait(NULL);
 }
 
-int	checkFlag(char *line)
-{
-	char	**s;
-	int		i;
-	
-	if (ft_strlen(line) == 0)
-		return (2);
-	i = 0;
-	s = ft_split(line, '|');
-	while (s[i])
-		i++;
-	if (i > 1)
-		return (1);
-	i = 0;
-	while (s[i])
-		free(s[i++]);
-	free(s);
-	return (0);
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
-	char	**tmp;
-	int		flag;
+	char	*outfile;
+//	char	*infile	
+	char	**args;
 	int		i;
-	char	*value;
 
 	if (argc == 54225 && argv)
 		printf("oi\n");
-	flag = 0;
 	while (TRUE)
 	{
 		signal(SIGINT, sigintHandler);
 		line = readinput();
+		outfile = get_outfile(line);
+		//infile = get_infile(line);
 		i = 0;
-		value = NULL;
-		flag = checkFlag(line); // 0 builtin, simple command or binary, 1 if including pipe;
-		tmp = ft_split(line, '|');
-		if (flag == 0)
-			value = execute(ft_split(tmp[0], ' '), envp, line, 0);
-		else if (flag == 1)
-		{
-			i = 0;
-			while (tmp[i])
-				i++;
-			execArgsPiped(tmp, envp, i);
-		}
-		if (value != NULL)
-			printf("%s\n", value);
-		
-
+		while (line[i] && line[i] != '>' && line[i] != '<')
+			i++;
+		line[i] = '\0';
+		args = ft_split(line, '|');
+		i = 0;
+		while (args[i])
+			i++;
+		executeArgs(args, envp, outfile, i);
+	
 		// FREE
 		if (ft_strlen(line) != 0)
 		{
 			free(line);
 			i = 0;
-			while (tmp[i])
-				free(tmp[i++]);
-			free(tmp);
+			while (args[i])
+				free(args[i++]);
+			free(args);
 		}
 	}
 	exit (EXIT_SUCCESS);

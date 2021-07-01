@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/29 11:29:46 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/01 14:10:40 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	launch(char **parsed, char **envp, char *file, char *msg)
 	}
 }
 
-char	*execute(char **args, char **envp, char *line, int rule)
+char	*execute(char **args, char **envp, char *line)
 {
 	char	*ret;
 
@@ -66,16 +66,7 @@ char	*execute(char **args, char **envp, char *line, int rule)
 	{
 		ret = args[0];
 		args[0] = ft_strjoin("/bin/", args[0]);
-		if (rule == 0)
-			launch(args, envp, ret, "command not found");
-		else
-		{
-			if (execve(args[0], args, envp) < 0)
-				printf("%s: command not found\n", args[0]);
-			exit(0);
-		}
-		return (NULL);
+		launch(args, envp, ret, "command not found");
 	}
-	check_redirection(args, ret);
 	return (ret);
 }

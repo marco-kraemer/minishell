@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/16 14:57:44 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/29 11:33:31 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/01 09:29:58 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	append_output(char *filename, char *data)
 int	check_redirection(char **args, char *value)
 {
 	int		i;
-
+	printf("passou\n");
+	return (0);
 	i = 0;
 	while (args[i])
 	{
