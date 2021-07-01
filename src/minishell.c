@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/01 14:20:36 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/01 15:12:31 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*get_outfile(char *line)
 	return (ret);
 }
 
-void	executeArgs(char **tmp, char **env, char *outfile, int numCommands)
+void	executeArgs(char **tmp, char **env, char *outfile, int numCommands, int rule)
 {
 	int	tmpin;
 	int	tmpout;
@@ -41,7 +41,6 @@ void	executeArgs(char **tmp, char **env, char *outfile, int numCommands)
 	int	i;
 	int	fdpipe[2];
 	char	**splited;
-//	char	*value;
 
 	tmpin = dup(0);
 	tmpout = dup(1);
@@ -53,8 +52,10 @@ void	executeArgs(char **tmp, char **env, char *outfile, int numCommands)
 		close(fdin);
 		if (i == numCommands - 1)
 		{
-			if (outfile != NULL)
+			if (rule == 1 || rule == 13)
 				fdout = open(outfile, O_CREAT | O_WRONLY |O_TRUNC, 0777);
+			else if (rule == 7 || rule == 17)
+				fdout = open(outfile, O_CREAT | O_WRONLY | O_APPEND, 0777);
 			else
 				fdout = dup(tmpout);
 		}
@@ -89,6 +90,38 @@ void	executeArgs(char **tmp, char **env, char *outfile, int numCommands)
 	wait(NULL);
 }
 
+int	check_rule(char *line)
+{
+	int	i;
+	int	ret;
+	int	check1;
+	int	check2;
+
+	i = 0;
+	ret = 0;
+	check1 = 0;
+	check2 = 0;
+	while (line[i])
+	{
+		if (line[i] == '>' && check1 == 0)
+		{
+			ret += 1;
+			check1++;
+			if (line[i + 1] == '>')
+				ret += 6;
+		}
+		if (line[i] == '<' && check2 == 0)
+		{
+			ret += 4;
+			check2++;
+			if (line[i + 1] == '<')
+				ret += 6;
+		}
+		i++;
+	}
+	return (ret);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
@@ -96,6 +129,7 @@ int	main(int argc, char **argv, char **envp)
 //	char	*infile	
 	char	**args;
 	int		i;
+	int		rule;
 
 	if (argc == 54225 && argv)
 		printf("oi\n");
@@ -105,6 +139,7 @@ int	main(int argc, char **argv, char **envp)
 		line = readinput();
 		outfile = get_outfile(line);
 		//infile = get_infile(line);
+		rule = check_rule(line);
 		i = 0;
 		while (line[i] && line[i] != '>' && line[i] != '<')
 			i++;
@@ -113,7 +148,7 @@ int	main(int argc, char **argv, char **envp)
 		i = 0;
 		while (args[i])
 			i++;
-		executeArgs(args, envp, outfile, i);
+		executeArgs(args, envp, outfile, i, rule);
 	
 		// FREE
 		if (ft_strlen(line) != 0)
