@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:35:21 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/22 14:32:53 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/02 09:36:43 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,15 @@ void	sigintHandler(int sig_num)
 	signal(SIGINT, sigintHandler);
 }
 
+void	sigquitHandler(int sig_num)
+{
+	if (sig_num != SIGQUIT)
+		return;
+//	printf("\n");
+//	ft_putstr_fd(PROMPT_MSG, 1);
+	signal(SIGQUIT, sigquitHandler);
+}
+
 char	*readinput()
 {
 	char	*line;
@@ -74,6 +83,11 @@ char	*readinput()
 
 	i = 0;
 	line = readline(PROMPT_MSG);
+	if (!line)
+	{
+		printf("exit\n");
+		exit (0);
+	}
 	if (ft_strlen(line) != 0)
 		add_history(line);
 	return (line);

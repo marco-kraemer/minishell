@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/01 15:12:31 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/02 09:32:21 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ int	main(int argc, char **argv, char **envp)
 	while (TRUE)
 	{
 		signal(SIGINT, sigintHandler);
+		signal(SIGQUIT, sigquitHandler);
 		line = readinput();
 		outfile = get_outfile(line);
 		//infile = get_infile(line);

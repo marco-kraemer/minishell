@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/01 14:12:01 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/02 09:32:47 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,6 @@ char		*readinput();
 void		launch(char** parsed, char **envp, char *file, char *msg);
 void		free_and_exit(char **args, char *line);
 void		sigintHandler(int sig_num);
+void		sigquitHandler(int sig_num);
 void		sigintHandler_process(int sig_num);
 #endif
