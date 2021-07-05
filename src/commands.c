@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:10 by maraurel          #+#    #+#             */
-/*   Updated: 2021/06/29 10:51:37 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/05 10:01:39 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,41 +21,6 @@ char	*change_directory(char **args)
 		if (chdir(args[1]) != 0)
 			printf("shell: No such file or directory\n");
 	}
-	return (NULL);
-}
-
-char	*echo(char **args)
-{
-	pid_t pid;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		printf("\nFailed forking child..");
-		return (NULL);
-	}
-	else if (pid == 0) 
-	{
-		if (execve("/bin/echo", args, NULL) < 0)
-			printf("%s: No such file or directory\n", args[0]);
-		exit(0);
-	}
-	else
-	{
-		wait(NULL); 
-		return (NULL);
-	}
-	return (NULL);
-}
-
-char	*pwd()
-{
-	char	cwd[FILENAME_MAX];
-
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-		printf("getcwd() error\n");
-	write(1, cwd, ft_strlen(cwd));	
-	write(1, "\n", 2);
 	return (NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/02 09:32:21 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/05 10:38:42 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	executeArgs(char **tmp, char **env, char *outfile, int numCommands, int rul
 			ret = 0;
 		if (ret == 0)
 		{
-			splited = ft_split(tmp[i], ' ');
+			splited = split_args(tmp[i]);
 			execute(splited, env, NULL);
 			free(splited);
 			if (numCommands != 1)

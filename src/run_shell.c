@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/05 09:31:04 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/05 10:41:05 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	launch(char **parsed, char **envp, char *file, char *msg)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	pid = fork();
 	signal(SIGINT, sigintHandler_process);
 	if (pid == -1)
 	{
 		printf("Failed forking child..\n");
-		return;
+		return ;
 	}
-	else if (pid == 0) 
+	else if (pid == 0)
 	{
 		if (execve(parsed[0], parsed, envp) < 0)
 			printf("%s: %s\n", file, msg);
@@ -31,8 +31,8 @@ void	launch(char **parsed, char **envp, char *file, char *msg)
 	}
 	else
 	{
-		wait(NULL); 
-		return;
+		wait(NULL);
+		return ;
 	}
 }
 
@@ -41,7 +41,7 @@ char	*execute(char **args, char **envp, char *line)
 	char	*ret;
 
 	ret = NULL;
-	if (args[0] == NULL)
+	if (!args)
 		return (NULL);
 	if (ft_strcmp(args[0], "cd") == 0)
 		return (change_directory(args));
@@ -50,7 +50,7 @@ char	*execute(char **args, char **envp, char *line)
 	else if (ft_strcmp(args[0], "unset") == 0)
 		return (unset(args, envp));
 	else if (ft_strcmp(args[0], "env") == 0)
-		ret  = env(args, envp);
+		ret = env(args, envp);
 	else if (ft_strcmp(args[0], "exit") == 0)
 		free_and_exit(args, line);
 	else if (ft_strncmp(args[0], "./", 2) == 0)

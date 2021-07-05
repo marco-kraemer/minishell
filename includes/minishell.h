@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/02 09:32:47 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/05 09:56:46 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*read_line(void);
 
 char	**get_variable_list(char **env);
 char	**delete_line(char **env, int line);
-char	**ft_splitn(char const *s, char c);
+char	**split_args(char const *s);
 
 char		*unset(char **args, char **env);
 char		*export(char **args, char **env);
