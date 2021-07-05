@@ -6,7 +6,7 @@
 #    By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/01 11:22:06 by maraurel          #+#    #+#              #
-#    Updated: 2021/06/21 22:22:55 by maraurel         ###   ########.fr        #
+#    Updated: 2021/07/05 15:21:37 by maraurel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,9 @@ clean:
 	@$(RM) $(OBJ_PATH)/*.o
 
 re: fclean all
+
+run: all
+	@./$(NAME)
 
 git:
 	git add .

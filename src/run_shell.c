@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/05 10:41:05 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/05 15:40:29 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ char	*execute(char **args, char **envp, char *line)
 		return (NULL);
 	if (ft_strcmp(args[0], "cd") == 0)
 		return (change_directory(args));
+	else if (ft_strcmp(args[0], "echo") == 0)
+		ret = echo(args, envp);
 	else if (ft_strcmp(args[0], "export") == 0)
 		ret = export(args, envp);
 	else if (ft_strcmp(args[0], "unset") == 0)

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 14:43:48 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/05 10:35:32 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/05 10:58:26 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,10 @@ char	**makearray2(char const *s, char **p, char c, int l)
 		k = 0;
 		while (s[i] == c || s[i] == '\"' || s[i] == '\'')
 		{
-			if (s[i] == '\"' || s[i] == '\'')
+			if (s[i] == '\"')
 				quotes = 1;
+			if (s[i] == '\'')
+				quotes = 2;
 			i++;
 		}
 		p[j] = (char *)malloc(sizeof(char) * countchar2(s, c, i) + 1);
@@ -83,7 +85,15 @@ char	**makearray2(char const *s, char **p, char c, int l)
 			return (to_free2((char const **)p, j));
 		if (quotes == 1)
 		{
-			while (s[i] != '\0' && (s[i] != '\'' && s[i] != '\"'))
+			while (s[i] != '\0' && s[i] != '\"')
+				p[j][k++] = s[i++];
+			if (s[i] == '\0')
+				return (NULL);
+			quotes = 0;
+		}
+		else if (quotes == 2)
+		{
+			while (s[i] != '\0' && s[i] != '\'')
 				p[j][k++] = s[i++];
 			if (s[i] == '\0')
 				return (NULL);
