@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:10 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/05 15:46:55 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/05 16:00:12 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	**correct_args(char **args, char **envp)
 	int	i;
 	char	*value;
 	char	*tmp;
+
 	i = 0;
 	while (args[i])
 	{

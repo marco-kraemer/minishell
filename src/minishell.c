@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/05 10:38:42 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/05 16:09:39 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,12 +124,9 @@ int	check_rule(char *line)
 
 int	main(int argc, char **argv, char **envp)
 {
+	t_shell	shell;
 	char	*line;
-	char	*outfile;
-//	char	*infile	
-	char	**args;
 	int		i;
-	int		rule;
 
 	if (argc == 54225 && argv)
 		printf("oi\n");
@@ -138,27 +135,28 @@ int	main(int argc, char **argv, char **envp)
 		signal(SIGINT, sigintHandler);
 		signal(SIGQUIT, sigquitHandler);
 		line = readinput();
-		outfile = get_outfile(line);
+		shell.outfile = get_outfile(line);
 		//infile = get_infile(line);
-		rule = check_rule(line);
+		shell.rule = check_rule(line);
 		i = 0;
 		while (line[i] && line[i] != '>' && line[i] != '<')
 			i++;
 		line[i] = '\0';
-		args = ft_split(line, '|');
+		shell.args = ft_split(line, '|');
 		i = 0;
-		while (args[i])
+		while (shell.args[i])
 			i++;
-		executeArgs(args, envp, outfile, i, rule);
+		shell.numcommands = i;
+		executeArgs(shell.args, envp, shell.outfile, shell.numcommands, shell.rule);
 	
 		// FREE
 		if (ft_strlen(line) != 0)
 		{
 			free(line);
 			i = 0;
-			while (args[i])
-				free(args[i++]);
-			free(args);
+			while (shell.args[i])
+				free(shell.args[i++]);
+			free(shell.args);
 		}
 	}
 	exit (EXIT_SUCCESS);

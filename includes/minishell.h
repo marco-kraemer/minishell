@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/05 15:42:39 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/05 16:06:32 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,21 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-#include <fcntl.h>
+# include <fcntl.h>
+
 # define	TRUE	1
 # define	FALSE	0
 # define	BUFF_SIZE	1024
 # define	PROMPT_MSG	"\033[0;36m minishell$ \033[0;37m"
+
+typedef	struct s_shell {
+	char	**args;
+	char	*outfile;
+	char	*infile;
+	int		rule;
+	int		numcommands;
+}		t_shell;
+
 
 int		check_redirection(char **args, char *value);
 
