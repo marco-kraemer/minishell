@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/02 09:22:20 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/05 09:31:04 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ char	*execute(char **args, char **envp, char *line)
 		return (NULL);
 	if (ft_strcmp(args[0], "cd") == 0)
 		return (change_directory(args));
-	else if (ft_strcmp(args[0], "pwd") == 0)
-		ret = pwd();
 	else if (ft_strcmp(args[0], "export") == 0)
 		ret = export(args, envp);
 	else if (ft_strcmp(args[0], "unset") == 0)
@@ -63,7 +61,8 @@ char	*execute(char **args, char **envp, char *line)
 	else
 	{
 		ret = args[0];
-		args[0] = ft_strjoin("/bin/", args[0]);
+		if (ft_strncmp("/bin/", args[0], 5) != 0)
+			args[0] = ft_strjoin("/bin/", args[0]);
 		launch(args, envp, ret, "command not found");
 	}
 	return (ret);
