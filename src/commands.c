@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:10 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/05 16:00:12 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/05 19:10:35 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_getenv(char *name, char **env)
 	return (value);
 }
 
-char	**correct_args(char **args, char **envp)
+char	**correct_args(char **args, char **envp, t_shell shell)
 {
 	int	i;
 	char	*value;
@@ -44,7 +44,7 @@ char	**correct_args(char **args, char **envp)
 	i = 0;
 	while (args[i])
 	{
-		if (args[i][0] == '$')
+		if (args[i][0] == '$' && shell.quote_rules[i] != 2)
 		{
 			tmp = ft_substr(args[i], 1, ft_strlen(args[i]));
 			value = ft_getenv(tmp, envp);
@@ -58,11 +58,11 @@ char	**correct_args(char **args, char **envp)
 	return (args);
 }
 
-char	*echo(char **args, char **envp)
+char	*echo(char **args, char **envp, t_shell *shell)
 {
 	pid_t pid;
 
-	args = correct_args(args, envp);
+	args = correct_args(args, envp, *shell);
 	pid = fork();
 	if (pid == -1)
 	{

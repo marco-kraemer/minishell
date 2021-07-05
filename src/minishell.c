@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/05 16:09:39 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/05 19:05:01 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,62 +31,57 @@ char	*get_outfile(char *line)
 	return (ret);
 }
 
-void	executeArgs(char **tmp, char **env, char *outfile, int numCommands, int rule)
+void	executeArgs(t_shell shell, char **env)
 {
-	int	tmpin;
-	int	tmpout;
-	int	fdin;
 	int	ret;
-	int	fdout;
 	int	i;
 	int	fdpipe[2];
-	char	**splited;
 
-	tmpin = dup(0);
-	tmpout = dup(1);
-	fdin = dup(tmpin);
+	shell.tmpin = dup(0);
+	shell.tmpout = dup(1);
+	shell.fdin = dup(shell.tmpin);
 	i = 0;
-	while (i < numCommands)
+	while (i < shell.numcommands)
 	{
-		dup2(fdin, 0);
-		close(fdin);
-		if (i == numCommands - 1)
+		dup2(shell.fdin, 0);
+		close(shell.fdin);
+		if (i == shell.numcommands - 1)
 		{
-			if (rule == 1 || rule == 13)
-				fdout = open(outfile, O_CREAT | O_WRONLY |O_TRUNC, 0777);
-			else if (rule == 7 || rule == 17)
-				fdout = open(outfile, O_CREAT | O_WRONLY | O_APPEND, 0777);
+			if (shell.rule == 1 || shell.rule == 13)
+				shell.fdout = open(shell.outfile, O_CREAT | O_WRONLY |O_TRUNC, 0777);
+			else if (shell.rule == 7 || shell.rule == 17)
+				shell.fdout = open(shell.outfile, O_CREAT | O_WRONLY | O_APPEND, 0777);
 			else
-				fdout = dup(tmpout);
+				shell.fdout = dup(shell.tmpout);
 		}
 		else
 		{
 			pipe(fdpipe);
-			fdout = fdpipe[1];
-			fdin = fdpipe[0];
+			shell.fdout = fdpipe[1];
+			shell.fdin = fdpipe[0];
 		}
-		dup2(fdout, 1);
-		close(fdout);
-		if (numCommands != 1)
+		dup2(shell.fdout, 1);
+		close(shell.fdout);
+		if (shell.numcommands != 1)
 			ret = fork();
 		else
 			ret = 0;
 		if (ret == 0)
 		{
-			splited = split_args(tmp[i]);
-			execute(splited, env, NULL);
-			free(splited);
-			if (numCommands != 1)
+			shell.splited = split_args(shell.args[i], &shell);
+			execute(shell.splited, env, NULL, &shell);
+			free(shell.splited);
+			if (shell.numcommands != 1)
 				exit (1);
 		}
 		else
 			wait(NULL);
 		i++;
 	}
-	dup2(tmpin, 0);
-	dup2(tmpout, 1);
-	close(tmpin);
-	close(tmpout);
+	dup2(shell.tmpin, 0);
+	dup2(shell.tmpout, 1);
+	close(shell.tmpin);
+	close(shell.tmpout);
 	wait(NULL);
 }
 
@@ -130,6 +125,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc == 54225 && argv)
 		printf("oi\n");
+	shell.quote_rules = malloc(sizeof(int) * 1000);
 	while (TRUE)
 	{
 		signal(SIGINT, sigintHandler);
@@ -147,7 +143,7 @@ int	main(int argc, char **argv, char **envp)
 		while (shell.args[i])
 			i++;
 		shell.numcommands = i;
-		executeArgs(shell.args, envp, shell.outfile, shell.numcommands, shell.rule);
+		executeArgs(shell, envp);
 	
 		// FREE
 		if (ft_strlen(line) != 0)

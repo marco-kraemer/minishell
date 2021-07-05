@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/05 15:40:29 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/05 19:05:36 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	launch(char **parsed, char **envp, char *file, char *msg)
 	}
 }
 
-char	*execute(char **args, char **envp, char *line)
+char	*execute(char **args, char **envp, char *line, t_shell *shell)
 {
 	char	*ret;
 
@@ -46,7 +46,7 @@ char	*execute(char **args, char **envp, char *line)
 	if (ft_strcmp(args[0], "cd") == 0)
 		return (change_directory(args));
 	else if (ft_strcmp(args[0], "echo") == 0)
-		ret = echo(args, envp);
+		ret = echo(args, envp, shell);
 	else if (ft_strcmp(args[0], "export") == 0)
 		ret = export(args, envp);
 	else if (ft_strcmp(args[0], "unset") == 0)

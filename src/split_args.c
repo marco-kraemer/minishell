@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 14:43:48 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/05 10:58:26 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/05 19:09:56 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@ int		countstring2(char const *s, char c)
 		return (0);
 	while (*s != '\0')
 	{
+		if (*s == '\"')
+		{
+			s++;
+			while (*s != '\"' && *s != '\0')
+				s++;
+		}
 		if (*s == c)
 			j = 0;
 		else if (j == 0)
@@ -59,7 +65,7 @@ char	**to_free2(char const **p, int j)
 	return (NULL);
 }
 
-char	**makearray2(char const *s, char **p, char c, int l)
+char	**makearray2(t_shell *shell, char const *s, char **p, char c, int l)
 {
 	int	i;
 	int	j;
@@ -85,22 +91,27 @@ char	**makearray2(char const *s, char **p, char c, int l)
 			return (to_free2((char const **)p, j));
 		if (quotes == 1)
 		{
+			shell->quote_rules[j] = 1;
 			while (s[i] != '\0' && s[i] != '\"')
 				p[j][k++] = s[i++];
-			if (s[i] == '\0')
+			i++;
+			if (s[i] == '\0' && s[i - 1] != '\"')
 				return (NULL);
 			quotes = 0;
 		}
 		else if (quotes == 2)
 		{
+			shell->quote_rules[j] = 2;
 			while (s[i] != '\0' && s[i] != '\'')
 				p[j][k++] = s[i++];
-			if (s[i] == '\0')
+			i++;
+			if (s[i] == '\0' && s[i - 1] != '\'')
 				return (NULL);
 			quotes = 0;
 		}
 		else
 		{
+			shell->quote_rules[j] = 0;
 			while (s[i] != '\0' && s[i] != c)
 				p[j][k++] = s[i++];
 		}
@@ -111,7 +122,7 @@ char	**makearray2(char const *s, char **p, char c, int l)
 	return (p);
 }
 
-char	**split_args(char const *s)
+char	**split_args(char const *s, t_shell *shell)
 {
 	char	**p;
 	int		i;
@@ -124,5 +135,5 @@ char	**split_args(char const *s)
 	p = (char **)malloc(sizeof(char *) * (i + 1));
 	if (p == NULL)
 		return (NULL);
-	return (makearray2(s, p, c, i));
+	return (makearray2(shell, s, p, c, i));
 }
