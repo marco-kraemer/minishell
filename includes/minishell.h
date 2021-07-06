@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/05 19:06:01 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/06 09:40:34 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ typedef	struct s_shell {
 	int	fdout;
 	int	fdin;
 
+	int	status;
+
 	int	*quote_rules;
 }		t_shell;
 
@@ -58,10 +60,10 @@ char	**split_args(char const *s, t_shell *shell);
 
 char		*unset(char **args, char **env);
 char		*export(char **args, char **env);
-char		*execute(char **args, char **envp, char *line, t_shell *shell);
+char		*execute(t_shell *shell, char **envp, char *line);
 char		*env(char **args, char **env);
 char		*pwd();
-char		*echo(char **args, char **envp, t_shell *shell);
+char		*echo(t_shell *shell, char **envp);
 char		*change_directory(char **args);
 char		*readinput();
 

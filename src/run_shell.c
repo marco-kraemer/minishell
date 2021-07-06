@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/05 19:05:36 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/06 09:38:04 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	launch(char **parsed, char **envp, char *file, char *msg)
 {
 	pid_t	pid;
+	int	ret;
+	int	status;
 
 	pid = fork();
 	signal(SIGINT, sigintHandler_process);
@@ -25,47 +27,47 @@ void	launch(char **parsed, char **envp, char *file, char *msg)
 	}
 	else if (pid == 0)
 	{
-		if (execve(parsed[0], parsed, envp) < 0)
+		if ((ret = execve(parsed[0], parsed, envp)) < 0)
 			printf("%s: %s\n", file, msg);
-		exit(0);
+		exit(ret);
 	}
 	else
 	{
-		wait(NULL);
+		wait(&status);
 		return ;
 	}
 }
 
-char	*execute(char **args, char **envp, char *line, t_shell *shell)
+char	*execute(t_shell *shell, char **envp, char *line)
 {
 	char	*ret;
 
 	ret = NULL;
-	if (!args)
+	if (!shell->splited)
 		return (NULL);
-	if (ft_strcmp(args[0], "cd") == 0)
-		return (change_directory(args));
-	else if (ft_strcmp(args[0], "echo") == 0)
-		ret = echo(args, envp, shell);
-	else if (ft_strcmp(args[0], "export") == 0)
-		ret = export(args, envp);
-	else if (ft_strcmp(args[0], "unset") == 0)
-		return (unset(args, envp));
-	else if (ft_strcmp(args[0], "env") == 0)
-		ret = env(args, envp);
-	else if (ft_strcmp(args[0], "exit") == 0)
-		free_and_exit(args, line);
-	else if (ft_strncmp(args[0], "./", 2) == 0)
+	if (ft_strcmp(shell->splited[0], "cd") == 0)
+		return (change_directory(shell->splited));
+	else if (ft_strcmp(shell->splited[0], "echo") == 0)
+		ret = echo(shell, envp);
+	else if (ft_strcmp(shell->splited[0], "export") == 0)
+		ret = export(shell->splited, envp);
+	else if (ft_strcmp(shell->splited[0], "unset") == 0)
+		return (unset(shell->splited, envp));
+	else if (ft_strcmp(shell->splited[0], "env") == 0)
+		ret = env(shell->splited, envp);
+	else if (ft_strcmp(shell->splited[0], "exit") == 0)
+		free_and_exit(shell->splited, line);
+	else if (ft_strncmp(shell->splited[0], "./", 2) == 0)
 	{
-		launch(args, envp, args[0], "No such file or directory");
+		launch(shell->splited, envp, shell->splited[0], "No such file or directory");
 		return (NULL);
 	}
 	else
 	{
-		ret = args[0];
-		if (ft_strncmp("/bin/", args[0], 5) != 0)
-			args[0] = ft_strjoin("/bin/", args[0]);
-		launch(args, envp, ret, "command not found");
+		ret = shell->splited[0];
+		if (ft_strncmp("/bin/", shell->splited[0], 5) != 0)
+			shell->splited[0] = ft_strjoin("/bin/", shell->splited[0]);
+		launch(shell->splited, envp, ret, "command not found");
 	}
 	return (ret);
 }

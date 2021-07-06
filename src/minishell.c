@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/05 19:05:01 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/06 09:36:11 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	executeArgs(t_shell shell, char **env)
 		if (ret == 0)
 		{
 			shell.splited = split_args(shell.args[i], &shell);
-			execute(shell.splited, env, NULL, &shell);
+			execute(&shell, env, NULL);
 			free(shell.splited);
 			if (shell.numcommands != 1)
 				exit (1);
