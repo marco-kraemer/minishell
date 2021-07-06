@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/06 09:40:34 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/06 11:11:31 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ char		*export(char **args, char **env);
 char		*execute(t_shell *shell, char **envp, char *line);
 char		*env(char **args, char **env);
 char		*pwd();
-char		*echo(t_shell *shell, char **envp);
+char		*echo(t_shell *shell, int status,char **envp);
 char		*change_directory(char **args);
 char		*readinput();
 
-void		launch(char** parsed, char **envp, char *file, char *msg);
+void		launch(t_shell *shell, char **envp, char *file, char *msg);
 void		free_and_exit(char **args, char *line);
 void		sigintHandler(int sig_num);
 void		sigquitHandler(int sig_num);
