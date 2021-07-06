@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:05 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/02 09:39:10 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/06 12:15:45 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ void	add_line(char **env, char *var)
 	while (env[i + 1] && ft_strlen(env[i + 1]) != 0)
 		i++;
 	i++;
-//	env[i] = malloc(sizeof(char) * ft_strlen(var));
 	env[i] = var;
-//	env[i + 1] = malloc(1);
 	env[i + 1] = NULL;
 }
 
@@ -30,6 +28,7 @@ char	*export(char **args, char **env)
 {
 	int		i;
 	int		j;
+	int		k;
 	char	*var;
 	char	name[FILENAME_MAX];
 	char	value[FILENAME_MAX];
@@ -73,7 +72,7 @@ char	*export(char **args, char **env)
 			j++;
 		if (ft_strncmp(name, env[i], ft_strlen(name)) == 0 && j == (int)ft_strlen(name))
 		{
-			int k = 0;
+			k = 0;
 			j = 0;
 			while (env[i][j] != '=')
 				j++;

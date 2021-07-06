@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/06 11:57:23 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/06 12:21:55 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*ft_getenv(char *name, char **env)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	*value;
 
 	i = 0;
@@ -37,7 +37,7 @@ char	*ft_getenv(char *name, char **env)
 
 char	**correct_args(t_shell *shell, int status, char **envp)
 {
-	int	i;
+	int		i;
 	char	*value;
 	char	*tmp;
 
@@ -63,9 +63,9 @@ char	**correct_args(t_shell *shell, int status, char **envp)
 	return (shell->splited);
 }
 
-char	*echo(t_shell *shell, int status,char **envp)
+char	*echo(t_shell *shell, int status, char **envp)
 {
-	pid_t pid;
+	pid_t	pid;
 
 	shell->splited = correct_args(shell, status, envp);
 	pid = fork();
@@ -74,7 +74,7 @@ char	*echo(t_shell *shell, int status,char **envp)
 		printf("\nFailed forking child..");
 		return (NULL);
 	}
-	else if (pid == 0) 
+	else if (pid == 0)
 	{
 		if (execve("/bin/echo", shell->splited, NULL) < 0)
 			printf("%s: No such file or directory\n", shell->splited[0]);
@@ -82,7 +82,7 @@ char	*echo(t_shell *shell, int status,char **envp)
 	}
 	else
 	{
-		wait(NULL); 
+		wait(NULL);
 		return (NULL);
 	}
 	return (NULL);

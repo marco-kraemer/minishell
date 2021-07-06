@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/06 12:09:34 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/06 12:17:31 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,13 @@ typedef	struct s_shell {
 
 	int	*quote_rules;
 }		t_shell;
+
+typedef	struct s_rule {
+	int	i;
+	int	ret;
+	int	check1;
+	int	check2;
+}		t_rule;
 
 
 int		check_redirection(char **args, char *value);
