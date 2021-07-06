@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/06 12:20:36 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/06 15:04:05 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,15 @@ void	execute(t_shell shell, char **env)
 
 	shell.tmpin = dup(0);
 	shell.tmpout = dup(1);
-	shell.fdin = dup(shell.tmpin);
+	if (shell.rule == 4 || shell.rule == 5 || shell.rule == 11)
+		shell.fdin = open(shell.infile, O_RDONLY);
+	else
+		shell.fdin = dup(shell.tmpin);
+	if (shell.fdin < 0)
+	{
+		printf("shell: No such file or directory\n");
+		return ;
+	}
 	i = 0;
 	while (i < shell.numcommands)
 	{
@@ -28,9 +36,9 @@ void	execute(t_shell shell, char **env)
 		close(shell.fdin);
 		if (i == shell.numcommands - 1)
 		{
-			if (shell.rule == 1 || shell.rule == 13)
+			if (shell.rule == 1 || shell.rule == 13 || shell.rule == 5)
 				shell.fdout = open(shell.outfile, O_CREAT | O_WRONLY | O_TRUNC, 0777);
-			else if (shell.rule == 7 || shell.rule == 17)
+			else if (shell.rule == 7 || shell.rule == 17 || shell.rule == 11)
 				shell.fdout = open(shell.outfile, O_CREAT | O_WRONLY | O_APPEND, 0777);
 			else
 				shell.fdout = dup(shell.tmpout);
@@ -53,7 +61,7 @@ void	execute(t_shell shell, char **env)
 			execute_child(&shell, env, NULL);
 			free(shell.splited);
 			if (shell.numcommands != 1)
-				exit (1);
+				exit (EXIT_SUCCESS);
 		}
 		else
 			wait(NULL);
@@ -81,7 +89,7 @@ int	main(int argc, char **argv, char **envp)
 		signal(SIGQUIT, sigquitHandler);
 		line = readinput();
 		shell.outfile = get_outfile(line);
-		//shell.infile = get_infile(line);
+		shell.infile = get_infile(line);
 		shell.rule = check_rule(line);
 		i = 0;
 		while (line[i] && line[i] != '>' && line[i] != '<')

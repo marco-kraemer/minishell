@@ -6,11 +6,34 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:35:21 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/06 12:18:42 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/06 14:58:19 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+char	*get_infile(char *line)
+{
+	char	*ret;
+	int		i;
+
+	i = 0;
+	while (line[i] != '<' && line[i])
+		i++;
+	if ((int)ft_strlen(line) == i)
+		return (NULL);
+	i++;
+	if (line[i] == '<')
+		i++;
+	while (line[i] == ' ')
+		i++;
+	ret = ft_substr(line, i, ft_strlen(line) - i);
+	i = 0;
+	while (ret[i] && ret[i] != ' ')
+		i++;
+	ret[i] = '\0';
+	return (ret);
+}
 
 char	*get_outfile(char *line)
 {
