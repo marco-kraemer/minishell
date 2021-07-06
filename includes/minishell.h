@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/06 11:11:31 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/06 12:09:34 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,17 @@ typedef	struct s_shell {
 
 
 int		check_redirection(char **args, char *value);
-
+int		check_rule(char *line);
 char	*read_line(void);
 
 char	**get_variable_list(char **env);
 char	**delete_line(char **env, int line);
 char	**split_args(char const *s, t_shell *shell);
 
+char		*get_outfile(char *line);
 char		*unset(char **args, char **env);
 char		*export(char **args, char **env);
-char		*execute(t_shell *shell, char **envp, char *line);
+char		*execute_child(t_shell *shell, char **envp, char *line);
 char		*env(char **args, char **env);
 char		*pwd();
 char		*echo(t_shell *shell, int status,char **envp);
@@ -72,4 +73,5 @@ void		free_and_exit(char **args, char *line);
 void		sigintHandler(int sig_num);
 void		sigquitHandler(int sig_num);
 void		sigintHandler_process(int sig_num);
+void		freeArgs(char *line, t_shell *shell);
 #endif

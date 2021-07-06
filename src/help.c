@@ -6,74 +6,61 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:35:21 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/02 09:36:43 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/06 12:02:04 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	**get_variable_list(char **env)
+char	*get_outfile(char *line)
 {
-	int		i;
-	char	**new;
-
-	i = 0;
-	while (env[i])
-		i++;
-	new = (char **)malloc(sizeof(char *) * i);
-	i = 0;
-	while (env[i])
-	{
-		new[i] = malloc(sizeof(char) * ft_strlen(env[i]));
-		i++;
-	}
-	new[i] = malloc(1);
-	new[i] = "\0";
-	i = 0;
-	while (env[i])
-	{
-		new[i] = env[i];
-		i++;
-	}
-	return (new);
-}
-
-void	free_and_exit(char **args, char *line)
-{
+	char	*ret;
 	int		i;
 
 	i = 0;
-	while (args[i])
-		free(args[i++]);
-	free(line);
-	free(args);
-	exit(EXIT_SUCCESS);
+	while(line[i] != '>' && line[i])
+		i++;
+	if ((int)ft_strlen(line) == i)
+		return (NULL);
+	i++;
+	if (line[i] == '>')
+		i++;
+	while (line[i] == ' ')
+		i++;
+	ret = ft_substr(line, i, ft_strlen(line) - i);
+	return (ret);
 }
 
-void	sigintHandler_process(int sig_num)
+int	check_rule(char *line)
 {
-	if (sig_num != SIGINT)
-		return;
-	printf("\n");
-	signal(SIGINT, sigintHandler_process);
-}
+	int	i;
+	int	ret;
+	int	check1;
+	int	check2;
 
-void	sigintHandler(int sig_num)
-{
-	if (sig_num != SIGINT)
-		return;
-	printf("\n");
-	ft_putstr_fd(PROMPT_MSG, 1);
-	signal(SIGINT, sigintHandler);
-}
-
-void	sigquitHandler(int sig_num)
-{
-	if (sig_num != SIGQUIT)
-		return;
-//	printf("\n");
-//	ft_putstr_fd(PROMPT_MSG, 1);
-	signal(SIGQUIT, sigquitHandler);
+	i = 0;
+	ret = 0;
+	check1 = 0;
+	check2 = 0;
+	while (line[i])
+	{
+		if (line[i] == '>' && check1 == 0)
+		{
+			ret += 1;
+			check1++;
+			if (line[i + 1] == '>')
+				ret += 6;
+		}
+		if (line[i] == '<' && check2 == 0)
+		{
+			ret += 4;
+			check2++;
+			if (line[i + 1] == '<')
+				ret += 6;
+		}
+		i++;
+	}
+	return (ret);
 }
 
 char	*readinput()

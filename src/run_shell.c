@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/06 11:11:20 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/06 12:06:23 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	launch(t_shell *shell, char **envp, char *file, char *msg)
 	}
 }
 
-char	*execute(t_shell *shell, char **envp, char *line)
+char	*execute_child(t_shell *shell, char **envp, char *line)
 {
 	char	*ret;
 	static int	prev_status;
