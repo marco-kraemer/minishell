@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/07 09:40:00 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/07 09:41:14 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	execute(t_shell shell, char **env)
 	int	ret;
 	int	i;
 	int	fdpipe[2];
+	char	*line;
 
 	shell.tmpin = dup(0);
 	shell.tmpout = dup(1);
@@ -53,7 +54,7 @@ void	execute(t_shell shell, char **env)
 			int fd = open("../tmp", O_CREAT | O_WRONLY | O_APPEND, 0777);
 			while (TRUE)
 			{
-				char *line = readline("reading: ");
+				line = readline("reading: ");
 				if (ft_strcmp(line, shell.infile) == 0)
 					break ;
 				write(fd, line, ft_strlen(line));
