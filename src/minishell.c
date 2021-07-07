@@ -6,11 +6,37 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/06 15:04:05 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/07 09:40:00 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+char	*ft_remove(char **envp)
+{
+	pid_t	pid;
+	char	**args;
+
+	args = ft_split("rm ../tmp", ' ');
+	pid = fork();
+	if (pid == -1)
+	{
+		printf("\nFailed forking child..");
+		return (NULL);
+	}
+	else if (pid == 0)
+	{
+		if (execve("/bin/rm", args, NULL) < 0)
+			printf("rm: No such file or directory\n");
+		exit(0);
+	}
+	else
+	{
+		wait(NULL);
+		return (NULL);
+	}
+	return (NULL);
+}
 
 void	execute(t_shell shell, char **env)
 {
@@ -20,8 +46,25 @@ void	execute(t_shell shell, char **env)
 
 	shell.tmpin = dup(0);
 	shell.tmpout = dup(1);
-	if (shell.rule == 4 || shell.rule == 5 || shell.rule == 11)
+	if (shell.rule == 4 || shell.rule == 5 || shell.rule == 11 || shell.rule == 12 || shell.rule == 17 || shell.rule == 13)
+	{
+		if (shell.rule == 12 || shell.rule == 17 || shell.rule == 13)
+		{
+			int fd = open("../tmp", O_CREAT | O_WRONLY | O_APPEND, 0777);
+			while (TRUE)
+			{
+				char *line = readline("reading: ");
+				if (ft_strcmp(line, shell.infile) == 0)
+					break ;
+				write(fd, line, ft_strlen(line));
+				write(fd, "\n", 1);
+			}
+			shell.infile = "../tmp";
+		}
 		shell.fdin = open(shell.infile, O_RDONLY);
+		if (shell.rule == 12 || shell.rule == 17 || shell.rule == 13)
+			ft_remove(env);
+	}
 	else
 		shell.fdin = dup(shell.tmpin);
 	if (shell.fdin < 0)

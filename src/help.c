@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:35:21 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/06 14:58:19 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/07/07 08:49:04 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	check_rule(char *line)
 			rule.ret += 4;
 			rule.check2++;
 			if (line[rule.i + 1] == '<')
-				rule.ret += 6;
+				rule.ret += 8;
 		}
 		rule.i++;
 	}
