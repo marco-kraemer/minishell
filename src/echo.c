@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/11 10:35:13 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/11 15:04:35 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,22 @@ char	*ft_getenv(char *name, char **env)
 	return (value);
 }
 
-char	**correct_args(t_shell *shell, int status, char **envp)
+char	**correct_args(t_shell *shell, int status, char **envp, int i)
 {
-	int		i;
 	char	*value;
 	char	*tmp;
 
-	i = 0;
 	while (shell->splited[i])
 	{
 		if (shell->splited[i][0] == '$' && shell->quote_rules[i] != 2)
 		{
-			if (ft_strncmp(shell->splited[i], "$?", ft_strlen(shell->splited[i])) == 0)
+			if (ft_strncmp(shell->splited[i], "$?",
+					ft_strlen(shell->splited[i])) == 0)
 				value = ft_itoa(status);
 			else
 			{
-				tmp = ft_substr(shell->splited[i], 1, ft_strlen(shell->splited[i]));
+				tmp = ft_substr(shell->splited[i], 1,
+						ft_strlen(shell->splited[i]));
 				value = ft_getenv(tmp, envp);
 			}
 			if (value)
@@ -67,7 +67,7 @@ char	*echo(t_shell *shell, int status, char **envp)
 {
 	pid_t	pid;
 
-	shell->splited = correct_args(shell, status, envp);
+	shell->splited = correct_args(shell, status, envp, 0);
 	pid = fork();
 	if (pid == -1)
 	{

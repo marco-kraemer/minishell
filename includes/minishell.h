@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/11 12:21:00 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/11 14:54:39 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,9 @@ char		*pwd();
 char		*echo(t_shell *shell, int status,char **envp);
 char		*change_directory(char **args);
 char		*readinput(void);
+char		*ft_remove(char **envp);
 
+void		execute(t_shell *shell, char **env);
 void		execute_child(t_shell *shell, char **envp, char *line);
 void		launch(t_shell *shell, char **envp, char *file, char *msg);
 void		free_and_exit(char **args, char *line);

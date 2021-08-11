@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:35:21 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/11 09:10:36 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/11 14:41:32 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,32 @@ char	*readinput(void)
 	if (ft_strlen(line) != 0)
 		add_history(line);
 	return (line);
+}
+
+char	*ft_remove(char **envp)
+{
+	pid_t	pid;
+	char	**args;
+
+	if (envp[0][0] == 'a')
+		printf("oi\n");
+	args = ft_split("rm ../tmp", ' ');
+	pid = fork();
+	if (pid == -1)
+	{
+		printf("\nFailed forking child..");
+		return (NULL);
+	}
+	else if (pid == 0)
+	{
+		if (execve("/bin/rm", args, NULL) < 0)
+			printf("rm: No such file or directory\n");
+		exit(0);
+	}
+	else
+	{
+		wait(NULL);
+		return (NULL);
+	}
+	return (NULL);
 }
