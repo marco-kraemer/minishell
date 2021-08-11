@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/07 09:41:14 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/11 09:12:12 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_remove(char **envp)
 	pid_t	pid;
 	char	**args;
 
+	if (envp[0][0] == 'a')
+		printf("oi\n");
 	args = ft_split("rm ../tmp", ' ');
 	pid = fork();
 	if (pid == -1)

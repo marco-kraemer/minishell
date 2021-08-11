@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/07 08:47:50 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/11 11:27:28 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	launch(t_shell *shell, char **envp, char *file, char *msg)
 {
 	pid_t	pid;
-	int	ret;
+	int		ret;
 
 	pid = fork();
 	signal(SIGINT, sigintHandler_process);
@@ -26,50 +26,54 @@ void	launch(t_shell *shell, char **envp, char *file, char *msg)
 	}
 	else if (pid == 0)
 	{
-		if ((ret = execve(shell->splited[0], shell->splited, envp)) < 0)
+		ret = execve(shell->splited[0], shell->splited, envp);
+		if (ret < 0)
 			printf("%s: %s\n", file, msg);
 		exit(ret);
 	}
 	else
 	{
 		wait(&shell->status);
-		shell->status = WEXITSTATUS(shell->status);
+		if (WEXITSTATUS(shell->status))
+			shell->status = WEXITSTATUS(shell->status);
 		return ;
 	}
 }
 
-char	*execute_child(t_shell *shell, char **envp, char *line)
+char	*launch_prog(t_shell *shell, char **envp)
 {
-	char	*ret;
+	if (ft_strncmp(shell->splited[0], "./", 2) == 0)
+		launch(shell, envp, shell->splited[0], "No such file or directory");
+	else
+	{
+		if (ft_strncmp("/bin/", shell->splited[0], 5) != 0)
+			shell->splited[0] = ft_strjoin("/bin/", shell->splited[0]);
+		launch(shell, envp, shell->splited[0], "command not found");
+	}
+	return (NULL);
+}
+
+void	execute_child(t_shell *shell, char **envp, char *line)
+{
+	char		*ret;
 	static int	prev_status;
 
 	ret = NULL;
 	if (!shell->splited)
-		return (NULL);
+		return ;
 	if (ft_strcmp(shell->splited[0], "cd") == 0)
-		return (change_directory(shell->splited));
+		change_directory(shell->splited);
 	else if (ft_strcmp(shell->splited[0], "echo") == 0)
-		ret = echo(shell, prev_status,envp);
+		echo(shell, prev_status, envp);
 	else if (ft_strcmp(shell->splited[0], "export") == 0)
-		ret = export(shell->splited, envp);
+		export(shell->splited, envp);
 	else if (ft_strcmp(shell->splited[0], "unset") == 0)
-		return (unset(shell->splited, envp));
+		unset(shell->splited, envp);
 	else if (ft_strcmp(shell->splited[0], "env") == 0)
-		ret = env(shell->splited, envp);
+		 env(shell->splited, envp);
 	else if (ft_strcmp(shell->splited[0], "exit") == 0)
 		free_and_exit(shell->splited, line);
-	else if (ft_strncmp(shell->splited[0], "./", 2) == 0)
-	{
-		launch(shell, envp, shell->splited[0], "No such file or directory");
-		return (NULL);
-	}
 	else
-	{
-		ret = shell->splited[0];
-		if (ft_strncmp("/bin/", shell->splited[0], 5) != 0)
-			shell->splited[0] = ft_strjoin("/bin/", shell->splited[0]);
-		launch(shell, envp, ret, "command not found");
-	}
+		launch_prog(shell, envp);
 	prev_status = shell->status;
-	return (ret);
 }

@@ -6,11 +6,11 @@
 #    By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/01 11:22:06 by maraurel          #+#    #+#              #
-#    Updated: 2021/07/06 14:39:54 by maraurel         ###   ########.fr        #
+#    Updated: 2021/08/11 08:33:31 by maraurel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell
+NAME = Minishell
 
 SRC_PATH = ./src
 
@@ -21,7 +21,7 @@ OBJ = $(addprefix $(OBJ_PATH)/, $(SRC:.c=.o))
 
 CC = clang
 
-FLAGS = #-Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME) $(OBJ)
 

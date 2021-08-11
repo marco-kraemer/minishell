@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/06 13:29:30 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/11 12:21:00 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ typedef	struct s_shell {
 	int	status;
 
 	int	*quote_rules;
+
+	int	i;
+	int	j;
+	int	k;
+	int	quotes;
 }		t_shell;
 
 typedef	struct s_rule {
@@ -57,25 +62,29 @@ typedef	struct s_rule {
 }		t_rule;
 
 
+int		countchar2(char const *s2, char c, int i);
+int		countstring2(char const *s, char c);
 int		check_redirection(char **args, char *value);
 int		check_rule(char *line);
+
 char	*read_line(void);
 
 char	**get_variable_list(char **env);
 char	**delete_line(char **env, int line);
 char	**split_args(char const *s, t_shell *shell);
+char	**to_free2(char const **p, int j);
 
 char		*get_outfile(char *line);
 char		*get_infile(char *line);
 char		*unset(char **args, char **env);
 char		*export(char **args, char **env);
-char		*execute_child(t_shell *shell, char **envp, char *line);
 char		*env(char **args, char **env);
 char		*pwd();
 char		*echo(t_shell *shell, int status,char **envp);
 char		*change_directory(char **args);
-char		*readinput();
+char		*readinput(void);
 
+void		execute_child(t_shell *shell, char **envp, char *line);
 void		launch(t_shell *shell, char **envp, char *file, char *msg);
 void		free_and_exit(char **args, char *line);
 void		sigintHandler(int sig_num);

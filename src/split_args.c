@@ -6,119 +6,95 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 14:43:48 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/05 19:09:56 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/11 12:20:28 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		countstring2(char const *s, char c)
+int	special_chars(char **p)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	if (*s == '\0')
-		return (0);
-	while (*s != '\0')
-	{
-		if (*s == '\"')
-		{
-			s++;
-			while (*s != '\"' && *s != '\0')
-				s++;
-		}
-		if (*s == c)
-			j = 0;
-		else if (j == 0)
-		{
-			j = 1;
-			i++;
-		}
-		s++;
-	}
-	return (i);
-}
-
-int		countchar2(char const *s2, char c, int i)
-{
-	int	lenght;
-
-	lenght = 0;
-	while (s2[i] != c && s2[i] != '\0')
-	{
-		lenght++;
-		i++;
-	}
-	return (lenght);
-}
-
-char	**to_free2(char const **p, int j)
-{
-	while (j > 0)
-	{
-		j--;
-		free((void *)p[j]);
-	}
-	free(p);
-	return (NULL);
-}
-
-char	**makearray2(t_shell *shell, char const *s, char **p, char c, int l)
-{
-	int	i;
 	int	j;
 	int	k;
-	int	quotes;
 
-	i = 0;
 	j = 0;
-	quotes = 0;
-	while (s[i] != '\0' && j < l)
+	while (p[j])
 	{
 		k = 0;
-		while (s[i] == c || s[i] == '\"' || s[i] == '\'')
+		while (p[j][k])
 		{
-			if (s[i] == '\"')
-				quotes = 1;
-			if (s[i] == '\'')
-				quotes = 2;
-			i++;
+			if (p[j][k] == '\\' || p[j][k] == ';')
+				return (1);
+			k++;
 		}
-		p[j] = (char *)malloc(sizeof(char) * countchar2(s, c, i) + 1);
-		if (p[j] == NULL)
-			return (to_free2((char const **)p, j));
-		if (quotes == 1)
-		{
-			shell->quote_rules[j] = 1;
-			while (s[i] != '\0' && s[i] != '\"')
-				p[j][k++] = s[i++];
-			i++;
-			if (s[i] == '\0' && s[i - 1] != '\"')
-				return (NULL);
-			quotes = 0;
-		}
-		else if (quotes == 2)
-		{
-			shell->quote_rules[j] = 2;
-			while (s[i] != '\0' && s[i] != '\'')
-				p[j][k++] = s[i++];
-			i++;
-			if (s[i] == '\0' && s[i - 1] != '\'')
-				return (NULL);
-			quotes = 0;
-		}
-		else
-		{
-			shell->quote_rules[j] = 0;
-			while (s[i] != '\0' && s[i] != c)
-				p[j][k++] = s[i++];
-		}
-		p[j][k] = '\0';
 		j++;
 	}
-	p[j] = 0;
+	return (0);
+}
+
+int	quotes_case(int quotes, t_shell *shell, char **p, char const *s)
+{
+	if (quotes == 1)
+	{
+		shell->quote_rules[shell->j] = 1;
+		while (s[shell->i] != '\0' && s[shell->i] != '\"')
+			p[shell->j][shell->k++] = s[shell->i++];
+		shell->i++;
+		if (s[shell->i] == '\0' && s[shell->i - 1] != '\"')
+			return (1);
+	}
+	else if (quotes == 2)
+	{
+		shell->quote_rules[shell->j] = 2;
+		while (s[shell->i] != '\0' && s[shell->i] != '\'')
+			p[shell->j][shell->k++] = s[shell->i++];
+		shell->i++;
+		if (s[shell->i] == '\0' && s[shell->i - 1] != '\'')
+			return (1);
+	}
+	else
+	{
+		shell->quote_rules[shell->j] = 0;
+		while (s[shell->i] != '\0' && s[shell->i] != ' ')
+			p[shell->j][shell->k++] = s[shell->i++];
+	}
+	return (0);
+}
+
+void	check_quotes(t_shell *shell, char const *s)
+{
+	while (s[shell->i] == ' ' || s[shell->i] == '\"' || s[shell->i] == '\'')
+	{
+		if (s[shell->i] == '\"')
+			shell->quotes = 1;
+		if (s[shell->i] == '\'')
+			shell->quotes = 2;
+		shell->i++;
+	}
+}
+
+char	**makearray2(t_shell *shell, char const *s, char **p, int l)
+{
+	shell->i = 0;
+	shell->j = 0;
+	shell->quotes = 0;
+	while (s[shell->i] != '\0' && shell->j < l)
+	{
+		shell->k = 0;
+		check_quotes(shell, s);
+		p[shell->j] = (char *)malloc(sizeof(char)
+				* countchar2(s, ' ', shell->i) + 1);
+		if (p[shell->j] == NULL)
+			return (to_free2((char const **)p, shell->j));
+		if (quotes_case(shell->quotes, shell, p, s) == 1)
+			return (NULL);
+		p[shell->j][shell->k] = '\0';
+		shell->quotes = 0;
+		shell->j++;
+	}
+	p[shell->j] = 0;
+	if (special_chars(p) == 1)
+		return (NULL);
 	return (p);
 }
 
@@ -135,5 +111,5 @@ char	**split_args(char const *s, t_shell *shell)
 	p = (char **)malloc(sizeof(char *) * (i + 1));
 	if (p == NULL)
 		return (NULL);
-	return (makearray2(shell, s, p, c, i));
+	return (makearray2(shell, s, p, i));
 }
