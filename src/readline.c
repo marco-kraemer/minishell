@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 11:04:49 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/12 11:31:18 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/12 11:43:38 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_join(char **str1, char *str2)
 
 	tmp = ft_strjoin(*str1, str2);
 	free(*str1);
-	*str1 = tmp;	
+	*str1 = tmp;
 }
 
 void	create_prompt(char **prompt)
@@ -45,6 +45,7 @@ char	*readinput(void)
 	i = 0;
 	create_prompt(&prompt);
 	line = readline(prompt);
+	free(prompt);
 	if (!line)
 	{
 		printf("exit\n");

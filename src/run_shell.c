@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/12 10:57:51 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/12 14:12:08 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,19 @@ void	launch(t_shell *shell, char **envp, char *file, char *msg)
 
 char	*launch_prog(t_shell *shell, char **envp)
 {
+	char	*tmp;
+
 	if (ft_strncmp(shell->splited[0], "./", 2) == 0)
 		launch(shell, envp, shell->splited[0], "No such file or directory");
 	else
 	{
 		if (ft_strncmp("/bin/", shell->splited[0], 5) != 0)
-			shell->splited[0] = ft_strjoin("/bin/", shell->splited[0]);
+		{
+			tmp = ft_strjoin("/bin/", shell->splited[0]);
+			free(shell->splited[0]);
+			shell->splited[0] = ft_strdup(tmp);
+			free(tmp);
+		}
 		launch(shell, envp, shell->splited[0], "command not found");
 	}
 	return (NULL);
@@ -121,7 +128,7 @@ void	execute(t_shell *shell, char **env)
 		{
 			shell->splited = split_args(shell->args[i], shell);
 			execute_child(shell, env, NULL);
-			free(shell->splited);
+			ft_free_double(shell->splited);
 			if (shell->numcommands != 1)
 				exit (EXIT_SUCCESS);
 		}

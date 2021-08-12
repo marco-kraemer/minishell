@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:58:47 by maraurel          #+#    #+#             */
-/*   Updated: 2021/07/06 12:09:15 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/12 14:12:15 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,14 @@ void	free_and_exit(char **args, char *line)
 	free(line);
 	free(args);
 	exit(EXIT_SUCCESS);
+}
+
+void	ft_free_double(char **s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		free(s[i++]);
+	free(s);
 }

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/12 11:32:16 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/12 14:12:20 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ char		*change_directory(char **args);
 char		*readinput(void);
 char		*ft_remove(char **envp);
 
+void		ft_free_double(char **s);
 void		execute(t_shell *shell, char **env);
 void		execute_child(t_shell *shell, char **envp, char *line);
 void		launch(t_shell *shell, char **envp, char *file, char *msg);
