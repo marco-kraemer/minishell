@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/11 15:04:35 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/12 10:57:29 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ char	**correct_args(t_shell *shell, int status, char **envp, int i)
 	return (shell->splited);
 }
 
-char	*echo(t_shell *shell, int status, char **envp)
+char	*echo(t_shell *shell, char **envp)
 {
 	pid_t	pid;
 
-	shell->splited = correct_args(shell, status, envp, 0);
+	shell->splited = correct_args(shell, g_status, envp, 0);
 	pid = fork();
 	if (pid == -1)
 	{
@@ -82,8 +82,9 @@ char	*echo(t_shell *shell, int status, char **envp)
 	}
 	else
 	{
-		wait(NULL);
-		return (NULL);
+		wait(&g_status);
+		if (WEXITSTATUS(g_status))
+			g_status = 127;
 	}
 	return (NULL);
 }

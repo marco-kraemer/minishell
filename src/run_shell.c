@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/12 10:17:20 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/12 10:57:51 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	launch(t_shell *shell, char **envp, char *file, char *msg)
 	}
 	else
 	{
-		wait(&shell->status);
-		if (WEXITSTATUS(shell->status))
-			shell->status = WEXITSTATUS(shell->status);
+		wait(&g_status);
+		if (WEXITSTATUS(g_status))
+			g_status = 127;
 		return ;
 	}
 }
@@ -64,7 +64,7 @@ void	execute_child(t_shell *shell, char **envp, char *line)
 	if (ft_strcmp(shell->splited[0], "cd") == 0)
 		change_directory(shell->splited);
 	else if (ft_strcmp(shell->splited[0], "echo") == 0)
-		echo(shell, prev_status, envp);
+		echo(shell, envp);
 	else if (ft_strcmp(shell->splited[0], "export") == 0)
 		export(shell->splited, envp);
 	else if (ft_strcmp(shell->splited[0], "unset") == 0)
@@ -75,7 +75,7 @@ void	execute_child(t_shell *shell, char **envp, char *line)
 		free_and_exit(shell->splited, line);
 	else
 		launch_prog(shell, envp);
-	prev_status = shell->status;
+	prev_status = g_status;
 }
 
 void	pipe_fdout_fdin(t_shell *shell, int fdpipe[2], int i)

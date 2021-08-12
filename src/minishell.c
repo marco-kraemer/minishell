@@ -6,11 +6,13 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/12 10:29:33 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/12 10:57:56 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	g_status;
 
 void	treat_infile(t_shell *shell, char **env)
 {
