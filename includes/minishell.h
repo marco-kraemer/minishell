@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/12 10:58:00 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/12 11:32:16 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,13 @@
 # include <readline/history.h>
 # include <fcntl.h>
 
-# define	TRUE	1
-# define	FALSE	0
-# define	BUFF_SIZE	1024
-# define	PROMPT_MSG	"\033[0;36m minishell$ \033[0;37m"
+# define TRUE	1
+# define FALSE	0
+# define BUFF_SIZE	1024
+# define RED "\001\e[1;31m\002"
+# define CYAN "\001\e[1;36m\002"
+# define WHITE "\001\e[1;37m\002"
+# define RESET "\001\e[0m\002"
 
 typedef	struct s_shell {
 	char	**args;

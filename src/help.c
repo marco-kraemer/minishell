@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:35:21 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/12 09:43:42 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/12 11:08:55 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,23 +81,6 @@ int	check_rule(char *line)
 		rule.i++;
 	}
 	return (rule.ret);
-}
-
-char	*readinput(void)
-{
-	char	*line;
-	int		i;
-
-	i = 0;
-	line = readline(PROMPT_MSG);
-	if (!line)
-	{
-		printf("exit\n");
-		exit (0);
-	}
-	if (ft_strlen(line) != 0)
-		add_history(line);
-	return (line);
 }
 
 char	*ft_remove(char **envp)
