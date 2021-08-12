@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:58:05 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/11 09:10:54 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/12 10:18:49 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,23 @@
 
 void	sigintHandler_process(int sig_num)
 {
-	if (sig_num != SIGINT)
-		return ;
+	(void)sig_num;
 	printf("\n");
-	signal(SIGINT, sigintHandler_process);
+	rl_on_new_line();
+	rl_replace_line("", 0);
 }
 
 void	sigintHandler(int sig_num)
 {
-	if (sig_num != SIGINT)
-		return ;
+	(void)sig_num;
 	printf("\n");
-	ft_putstr_fd(PROMPT_MSG, 1);
-	signal(SIGINT, sigintHandler);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
 
 void	sigquitHandler(int sig_num)
 {
-	if (sig_num != SIGQUIT)
-		return ;
+	(void)sig_num;
 	signal(SIGQUIT, sigquitHandler);
 }

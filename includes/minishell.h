@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/11 14:54:39 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/12 10:10:32 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef	struct s_rule {
 	int	check1;
 	int	check2;
 }		t_rule;
-
 
 int		countchar2(char const *s2, char c, int i);
 int		countstring2(char const *s, char c);

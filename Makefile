@@ -6,11 +6,11 @@
 #    By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/01 11:22:06 by maraurel          #+#    #+#              #
-#    Updated: 2021/08/11 08:33:31 by maraurel         ###   ########.fr        #
+#    Updated: 2021/08/12 10:10:48 by maraurel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = Minishell
+NAME = minishell
 
 SRC_PATH = ./src
 

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/11 15:14:39 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/12 10:27:18 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ void	treat_infile(t_shell *shell, char **env)
 		while (TRUE)
 		{
 			line = readline("reading: ");
+			if (!line)
+			{
+				printf("\n");
+				break;
+			}
 			if (ft_strcmp(line, shell->infile) == 0)
 				break ;
 			write(fd, line, ft_strlen(line));
@@ -67,8 +72,8 @@ int	main(int argc, char **argv, char **envp)
 	shell.quote_rules = malloc(sizeof(int) * 1000);
 	while (TRUE)
 	{
-		signal(SIGINT, sigintHandler);
-		signal(SIGQUIT, sigquitHandler);
+		signal(SIGINT, &sigintHandler);
+		signal(SIGQUIT, &sigquitHandler);
 		line = readinput();
 		shell.outfile = get_outfile(line);
 		shell.infile = get_infile(line);
