@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/12 10:27:18 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/12 10:29:33 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	treat_infile(t_shell *shell, char **env)
 			if (!line)
 			{
 				printf("\n");
-				break;
+				break ;
 			}
 			if (ft_strcmp(line, shell->infile) == 0)
 				break ;
