@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:35:21 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/12 11:08:55 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/12 14:28:35 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,12 @@ int	check_rule(char *line)
 	return (rule.ret);
 }
 
-char	*ft_remove(char **envp)
+char	*ft_exec_rm(char **args, char **envp)
 {
 	pid_t	pid;
-	char	**args;
 
 	if (envp[0][0] == 'a')
 		printf("oi\n");
-	args = ft_split("rm ../tmp", ' ');
 	pid = fork();
 	if (pid == -1)
 	{
@@ -108,5 +106,15 @@ char	*ft_remove(char **envp)
 		wait(NULL);
 		return (NULL);
 	}
+	return (NULL);
+}
+
+char	*ft_remove(char **envp)
+{
+	char	**args;
+
+	args = ft_split("rm ../tmp", ' ');
+	ft_exec_rm(args, envp);
+	ft_free_double(args);
 	return (NULL);
 }

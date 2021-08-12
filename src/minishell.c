@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/12 10:57:56 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/12 14:41:53 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,37 @@
 
 int	g_status;
 
+void	infile_loop(t_shell *shell, int fd)
+{
+	char	*line;
+
+	while (TRUE)
+	{
+		line = readline("reading: ");
+		if (!line)
+		{
+			printf("\n");
+			break ;
+		}
+		if (ft_strcmp(line, shell->infile) == 0)
+		{
+			free(line);
+			break ;
+		}
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+	}
+}
+
 void	treat_infile(t_shell *shell, char **env)
 {
 	int		fd;
-	char	*line;
 
 	if (shell->rule == 12 || shell->rule == 17 || shell->rule == 13)
 	{
 		fd = open("../tmp", O_CREAT | O_WRONLY | O_APPEND, 0777);
-		while (TRUE)
-		{
-			line = readline("reading: ");
-			if (!line)
-			{
-				printf("\n");
-				break ;
-			}
-			if (ft_strcmp(line, shell->infile) == 0)
-				break ;
-			write(fd, line, ft_strlen(line));
-			write(fd, "\n", 1);
-		}
+		infile_loop(shell, fd);
 		shell->infile = "../tmp";
 	}
 	shell->fdin = open(shell->infile, O_RDONLY);

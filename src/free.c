@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:58:47 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/12 14:12:15 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/12 14:18:46 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@ void	freeArgs(char *line, t_shell *shell)
 {
 	int	i;
 
+	if (shell->infile != 0)
+		free(shell->infile);
+	if (shell->outfile != 0)
+		free(shell->outfile);
 	if (ft_strlen(line) != 0)
 	{
 		free(line);
