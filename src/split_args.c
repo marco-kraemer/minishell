@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 14:43:48 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/13 15:31:46 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/13 16:04:44 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,21 @@ int	special_chars(char **p, t_shell *shell)
 
 int	quotes_case(int quotes, t_shell *shell, char **p, char const *s)
 {
+	char	c;
+
+	c = '\0';
 	if (quotes == 1)
-	{
-		shell->quote_rules[shell->j] = 1;
-		while (s[shell->i] != '\0' && s[shell->i] != '\"')
-			p[shell->j][shell->k++] = s[shell->i++];
-		shell->i++;
-		if (s[shell->i] == '\0' && s[shell->i - 1] != '\"')
-			return (1);
-	}
+		c = '\"';
 	else if (quotes == 2)
+		c = '\'';
+	if (quotes == 1 || quotes == 2)
 	{
-		shell->quote_rules[shell->j] = 2;
-		while (s[shell->i] != '\0' && s[shell->i] != '\'')
+		shell->quote_rules[shell->j] = quotes;
+		while (s[shell->i] != '\0' && s[shell->i] != c)
 			p[shell->j][shell->k++] = s[shell->i++];
-		shell->i++;
-		if (s[shell->i] == '\0' && s[shell->i - 1] != '\'')
+		if (s[shell->i] != '\0')
+			shell->i++;
+		if (s[shell->i] == '\0' && s[shell->i - 1] != c)
 			return (1);
 	}
 	else
@@ -86,11 +85,14 @@ char	**makearray2(t_shell *shell, char const *s, char **p, int l)
 		shell->k = 0;
 		check_quotes(shell, s);
 		p[shell->j] = (char *)malloc(sizeof(char)
-				* countchar2(*shell, s, shell->i, shell->j) + 1);
+				* countchar2(*shell, s, shell->i) + 1);
 		if (p[shell->j] == NULL)
 			return (to_free2((char const **)p, shell->j));
 		if (quotes_case(shell->quotes, shell, p, s) == 1)
+		{
+			ft_free_double(p);
 			return (NULL);
+		}
 		p[shell->j][shell->k] = '\0';
 		shell->quotes = 0;
 		shell->j++;

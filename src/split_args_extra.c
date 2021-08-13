@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 12:19:57 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/13 15:31:19 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/13 15:58:39 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,15 +57,15 @@ int	countstring2(char const *s, char c)
 	return (i);
 }
 
-int	countchar2(t_shell shell, char const *s2, int i, int j)
+int	countchar2(t_shell shell, char const *s2, int i)
 {
 	int		lenght;
 	char	c;
 
 	lenght = 0;
-	if (shell.quote_rules[j] == 0)
+	if (shell.quotes == 0)
 		c = ' ';
-	else if (shell.quote_rules[j] == 1)
+	else if (shell.quotes == 1)
 		c = '\'';
 	else
 		c = '\"';

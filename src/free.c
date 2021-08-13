@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:58:47 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/13 15:15:19 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/13 16:05:39 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,11 @@ void	ft_free_double(char **s)
 	i = 0;
 	if (!s)
 	{
+		free(s);
 		return ;
 	}
 	while (s[i])
 		free(s[i++]);
+	printf("%i\n", i);
 	free(s);
 }

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/13 14:44:42 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/13 15:58:59 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef	struct s_rule {
 
 extern int	g_status;
 
-int		countchar2(t_shell shell, char const *s2, int i, int j);
+int		countchar2(t_shell shell, char const *s2, int i);
 int		countstring2(char const *s, char c);
 int		check_redirection(char **args, char *value);
 int		check_rule(char *line);
