@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/12 14:41:53 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/13 14:06:03 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	main(int argc, char **argv, char **envp)
 		shell.rule = check_rule(line);
 		shell.i = 0;
 		while (line[shell.i] && line[shell.i] != '>' && line[shell.i] != '<')
-			shell.i++;
+			shell.i = treat_quotes(line, shell.i);
 		line[shell.i] = '\0';
 		shell.args = ft_split(line, '|');
 		shell.numcommands = 0;

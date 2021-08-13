@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:58:47 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/12 14:18:46 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/13 15:15:19 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	freeArgs(char *line, t_shell *shell)
 		i = 0;
 		while (shell->args[i])
 			free(shell->args[i++]);
-		free(shell->args);
 	}
+	free(shell->args);
 }
 
 void	free_and_exit(char **args, char *line)
@@ -47,6 +47,10 @@ void	ft_free_double(char **s)
 	int	i;
 
 	i = 0;
+	if (!s)
+	{
+		return ;
+	}
 	while (s[i])
 		free(s[i++]);
 	free(s);

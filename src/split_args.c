@@ -6,13 +6,13 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 14:43:48 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/11 12:20:28 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/13 15:31:46 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	special_chars(char **p)
+int	special_chars(char **p, t_shell *shell)
 {
 	int	j;
 	int	k;
@@ -21,11 +21,14 @@ int	special_chars(char **p)
 	while (p[j])
 	{
 		k = 0;
-		while (p[j][k])
+		if (shell->quote_rules[j] == 0)
 		{
-			if (p[j][k] == '\\' || p[j][k] == ';')
-				return (1);
-			k++;
+			while (p[j][k])
+			{
+				if (p[j][k] == '\\' || p[j][k] == ';')
+					return (1);
+				k++;
+			}
 		}
 		j++;
 	}
@@ -83,7 +86,7 @@ char	**makearray2(t_shell *shell, char const *s, char **p, int l)
 		shell->k = 0;
 		check_quotes(shell, s);
 		p[shell->j] = (char *)malloc(sizeof(char)
-				* countchar2(s, ' ', shell->i) + 1);
+				* countchar2(*shell, s, shell->i, shell->j) + 1);
 		if (p[shell->j] == NULL)
 			return (to_free2((char const **)p, shell->j));
 		if (quotes_case(shell->quotes, shell, p, s) == 1)
@@ -93,7 +96,7 @@ char	**makearray2(t_shell *shell, char const *s, char **p, int l)
 		shell->j++;
 	}
 	p[shell->j] = 0;
-	if (special_chars(p) == 1)
+	if (special_chars(p, shell) == 1)
 		return (NULL);
 	return (p);
 }

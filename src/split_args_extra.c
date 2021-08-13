@@ -6,19 +6,33 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 12:19:57 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/11 12:20:30 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/13 15:31:19 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void	loop_quotes(char const *s)
+{
+	if (*s == '\"')
+	{
+		s++;
+		while (*s != '\"' && *s != '\0')
+			s++;
+	}
+	if (*s == '\'')
+	{
+		s++;
+		while (*s != '\'' && *s != '\0')
+			s++;
+	}
+}
+
 int	countstring2(char const *s, char c)
 {
 	int	i;
-	int	j;
 
-	i = 0;
-	j = 0;
+	i = 1;
 	if (*s == '\0')
 		return (0);
 	while (*s != '\0')
@@ -29,23 +43,32 @@ int	countstring2(char const *s, char c)
 			while (*s != '\"' && *s != '\0')
 				s++;
 		}
-		if (*s == c)
-			j = 0;
-		else if (j == 0)
+		if (*s == '\'')
 		{
-			j = 1;
-			i++;
+			s++;
+			while (*s != '\'' && *s != '\0')
+				s++;
 		}
-		s++;
+		if (*s == c)
+			i++;
+		if (*s != '\0')
+			s++;
 	}
 	return (i);
 }
 
-int	countchar2(char const *s2, char c, int i)
+int	countchar2(t_shell shell, char const *s2, int i, int j)
 {
-	int	lenght;
+	int		lenght;
+	char	c;
 
 	lenght = 0;
+	if (shell.quote_rules[j] == 0)
+		c = ' ';
+	else if (shell.quote_rules[j] == 1)
+		c = '\'';
+	else
+		c = '\"';
 	while (s2[i] != c && s2[i] != '\0')
 	{
 		lenght++;

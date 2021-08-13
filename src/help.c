@@ -1,16 +1,24 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   help.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/06/09 14:35:21 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/12 14:28:35 by maraurel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/minishell.h"
+
+int	treat_quotes(char *line, int i)
+{
+	if (line[i] == '\"')
+	{
+		i++;
+		while (line[i] != '\"' && line[i])
+			i++;
+		return (i);
+	}
+	if (line[i] == '\'')
+	{
+		i++;
+		while (line[i] != '\'' && line[i])
+			i++;
+		return (i);
+	}
+	i++;
+	return (i);
+}
 
 char	*get_infile(char *line)
 {
@@ -19,8 +27,8 @@ char	*get_infile(char *line)
 
 	i = 0;
 	while (line[i] != '<' && line[i])
-		i++;
-	if ((int)ft_strlen(line) == i)
+		i = treat_quotes(line, i);
+	if ((int)ft_strlen(line) <= i)
 		return (NULL);
 	i++;
 	if (line[i] == '<')
@@ -42,8 +50,8 @@ char	*get_outfile(char *line)
 
 	i = 0;
 	while (line[i] != '>' && line[i])
-		i++;
-	if ((int)ft_strlen(line) == i)
+		i = treat_quotes(line, i);
+	if ((int)ft_strlen(line) <= i)
 		return (NULL);
 	i++;
 	if (line[i] == '>')
@@ -78,7 +86,7 @@ int	check_rule(char *line)
 			if (line[rule.i + 1] == '<')
 				rule.ret += 8;
 		}
-		rule.i++;
+		rule.i = treat_quotes(line, rule.i);
 	}
 	return (rule.ret);
 }

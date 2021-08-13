@@ -1,5 +1,5 @@
 *.o
-Minishell
+minishell
 *.txt
 *.out
 a
