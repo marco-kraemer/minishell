@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:02 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/11 11:15:37 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/15 14:49:33 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**delete_line(char **env, int line)
 	return (env);
 }
 
-void	delete_variable(char *variable, char *name, char **env, char **args)
+void	delete_variable(char variable[FILENAME_MAX], char *name, char **env)
 {
 	int	i;
 	int	k;
@@ -42,7 +42,6 @@ void	delete_variable(char *variable, char *name, char **env, char **args)
 
 	i = 0;
 	k = 0;
-	variable = malloc(sizeof(char) * ft_strlen(args[1]));
 	while (env[i] && ft_strlen(env[i]) != 0)
 	{
 		j = 0;
@@ -55,12 +54,10 @@ void	delete_variable(char *variable, char *name, char **env, char **args)
 		if (ft_strcmp(name, variable) == 0)
 		{
 			env = delete_line(env, i);
-			free(variable);
 			return ;
 		}
 		i++;
 	}
-	free(name);
 }
 
 char	*get_variable_name(char **args)
@@ -71,10 +68,10 @@ char	*get_variable_name(char **args)
 
 	i = 0;
 	j = 0;
-	name = malloc(sizeof(char) * ft_strlen(args[1]));
+	name = malloc(sizeof(char) * (ft_strlen(args[1]) + 1));
 	while (args[1][i] != '\0')
 		*(name + j++) = args[1][i++];
-	name[j + 1] = '\0';
+	name[j] = '\0';
 	i = 0;
 	while (name[i])
 	{
@@ -92,7 +89,7 @@ char	*unset(char **args, char **env)
 {
 	int		i;
 	char	*name;
-	char	*variable;
+	char	variable[FILENAME_MAX];
 
 	i = 0;
 	while (args[i])
@@ -102,7 +99,7 @@ char	*unset(char **args, char **env)
 	name = get_variable_name(args);
 	if (name == NULL)
 		return (NULL);
-	variable = NULL;
-	delete_variable(variable, name, env, args);
+	delete_variable(variable, name, env);
+	free(name);
 	return (NULL);
 }
