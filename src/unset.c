@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:02 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/15 20:42:30 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/15 23:26:36 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ char	**delete_line(t_shell *shell, int line)
 	while (shell->env[i])
 	{
 		if (i == line)
+		{
+			free(shell->env[i]);
 			j = 1;
+		}
 		new[i] = shell->env[i + j];
 		i++;
 	}

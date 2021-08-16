@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/15 23:09:58 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/15 23:18:15 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,14 @@ char		*env(char **args, t_shell *shell);
 char		*pwd();
 char		*echo(t_shell *shell, char **envp);
 char		*change_directory(char **args);
-char		*readinput(void);
+char		*readinput(t_shell *shell);
 char		*ft_remove(char **envp);
 
 void		ft_free_double(char **s);
 void		execute(t_shell *shell, char **env);
 void		execute_child(t_shell *shell, char **envp, char *line);
 void		launch(t_shell *shell, char **envp, char *file, char *msg);
-void		free_and_exit(char **args, char *line);
+void		free_and_exit(char **args, char *line, t_shell *shell);
 void		sigintHandler(int sig_num);
 void		sigquitHandler(int sig_num);
 void		sigintHandler_process(int sig_num);

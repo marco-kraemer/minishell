@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/15 20:40:09 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/15 23:18:49 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	execute_child(t_shell *shell, char **envp, char *line)
 	else if (ft_strcmp(shell->splited[0], "env") == 0)
 		 env(shell->splited, shell);
 	else if (ft_strcmp(shell->splited[0], "exit") == 0)
-		free_and_exit(shell->splited, line);
+		free_and_exit(shell->splited, line, shell);
 	else
 		launch_prog(shell, envp);
 	prev_status = g_status;

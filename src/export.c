@@ -6,13 +6,14 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:05 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/15 23:10:48 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/15 23:21:49 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	add_line(t_shell *shell, char name[FILENAME_MAX], char value[FILENAME_MAX])
+void	add_line(t_shell *shell, char name[FILENAME_MAX],
+	char value[FILENAME_MAX])
 {
 	int		i;
 	char	*tmp;
@@ -73,10 +74,11 @@ void	get_name_value(char value[FILENAME_MAX],
 	}
 }
 
-char	*change_variable(t_shell *shell, char name[FILENAME_MAX], char value[FILENAME_MAX], int i)
+char	*change_variable(t_shell *shell, char name[FILENAME_MAX],
+	char value[FILENAME_MAX], int i)
 {
-	int	oldsize;
-	int	newsize;
+	int		oldsize;
+	int		newsize;
 	char	*tmp1;
 	char	*tmp2;
 

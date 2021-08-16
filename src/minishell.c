@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/15 23:10:13 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/15 23:19:55 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,25 @@ void	treat_infile(t_shell *shell, char **env)
 		ft_remove(env);
 }
 
-void	run_commands(t_shell shell, char **env)
+void	run_commands(t_shell *shell, char **env)
 {
-	shell.tmpin = dup(0);
-	shell.tmpout = dup(1);
-	if (shell.rule == 4 || shell.rule == 5 || shell.rule == 11
-		|| shell.rule == 12 || shell.rule == 17 || shell.rule == 13)
-		treat_infile(&shell, env);
+	shell->tmpin = dup(0);
+	shell->tmpout = dup(1);
+	if (shell->rule == 4 || shell->rule == 5 || shell->rule == 11
+		|| shell->rule == 12 || shell->rule == 17 || shell->rule == 13)
+		treat_infile(shell, env);
 	else
-		shell.fdin = dup(shell.tmpin);
-	if (shell.fdin < 0)
+		shell->fdin = dup(shell->tmpin);
+	if (shell->fdin < 0)
 	{
 		printf("shell: No such file or directory\n");
 		return ;
 	}
-	execute(&shell, env);
-	dup2(shell.tmpin, 0);
-	dup2(shell.tmpout, 1);
-	close(shell.tmpin);
-	close(shell.tmpout);
+	execute(shell, env);
+	dup2(shell->tmpin, 0);
+	dup2(shell->tmpout, 1);
+	close(shell->tmpin);
+	close(shell->tmpout);
 	wait(NULL);
 }
 
@@ -104,7 +104,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		signal(SIGINT, &sigintHandler);
 		signal(SIGQUIT, &sigquitHandler);
-		line = readinput();
+		line = readinput(&shell);
 		shell.outfile = get_outfile(line);
 		shell.infile = get_infile(line);
 		shell.rule = check_rule(line);
@@ -116,7 +116,7 @@ int	main(int argc, char **argv, char **envp)
 		shell.numcommands = 0;
 		while (shell.args[shell.numcommands])
 			shell.numcommands++;
-		run_commands(shell, envp);
+		run_commands(&shell, envp);
 		freeArgs(line, &shell);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 11:04:49 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/12 11:43:38 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/15 23:17:40 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,21 @@ void	create_prompt(char **prompt)
 	ft_join(prompt, "$ ");
 }
 
-char	*readinput(void)
+char	*readinput(t_shell *shell)
 {
 	char	*line;
 	char	*prompt;
 	int		i;
 
-	i = 0;
 	create_prompt(&prompt);
 	line = readline(prompt);
 	free(prompt);
 	if (!line)
 	{
+		i = 0;
+		while (shell->env[i])
+			free(shell->env[i++]);
+		free(shell->env);
 		printf("exit\n");
 		exit (0);
 	}
