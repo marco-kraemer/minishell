@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/16 09:17:40 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/16 09:51:07 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	execute_child(t_shell *shell, char **envp, char *line)
 	if (ft_strcmp(shell->splited[0], "cd") == 0)
 		change_directory(shell->splited);
 	else if (ft_strcmp(shell->splited[0], "echo") == 0)
-		echo(shell, envp);
+		echo(*shell, envp);
 	else if (ft_strcmp(shell->splited[0], "export") == 0)
 		export(shell->splited, shell);
 	else if (ft_strcmp(shell->splited[0], "unset") == 0)

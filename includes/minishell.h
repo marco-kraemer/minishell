@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/15 23:18:15 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/16 09:48:21 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char		*unset(char **args, t_shell *shell);
 char		*export(char **args, t_shell *shell);
 char		*env(char **args, t_shell *shell);
 char		*pwd();
-char		*echo(t_shell *shell, char **envp);
+char		*echo(t_shell shell, char **envp);
 char		*change_directory(char **args);
 char		*readinput(t_shell *shell);
 char		*ft_remove(char **envp);
