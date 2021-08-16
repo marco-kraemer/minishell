@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/15 23:18:49 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/16 09:17:40 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void	execute(t_shell *shell, char **env)
 			shell->splited = split_args(shell->args[i], shell);
 			execute_child(shell, env, NULL);
 			ft_free_double(shell->splited);
+			free(shell->quote_rules);
 			if (shell->numcommands != 1)
 				exit (EXIT_SUCCESS);
 		}

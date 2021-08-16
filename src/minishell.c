@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/15 23:19:55 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/16 09:15:46 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc != 1 || argv[1])
 		exit(EXIT_FAILURE);
-	shell.quote_rules = malloc(sizeof(int) * 1000);
 	init_env(envp, &shell);
 	while (TRUE)
 	{
