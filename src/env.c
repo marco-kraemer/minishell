@@ -6,13 +6,13 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:59:45 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/12 08:40:13 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/15 21:28:51 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*env(char **args, char **env)
+char	*env(char **args, t_shell *shell)
 {
 	int		i;
 
@@ -25,11 +25,11 @@ char	*env(char **args, char **env)
 		return (NULL);
 	}
 	i = 0;
-	while (env[i])
+	while (shell->env[i])
 	{
-		if (ft_strlen(env[i]) == 0)
+		if (ft_strlen(shell->env[i]) == 0)
 			break ;
-		write(1, env[i], ft_strlen(env[i]));
+		write(1, shell->env[i], ft_strlen(shell->env[i]));
 		write(1, "\n", 2);
 		i++;
 	}

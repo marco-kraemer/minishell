@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/15 15:08:01 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/15 23:09:58 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef	struct s_shell {
 	char	*outfile;
 	char	*infile;
 
+	char	**env;
 	char	**splited;
 
 	int		rule;
@@ -71,19 +72,17 @@ int		countstring2(char const *s, char c);
 int		check_redirection(char **args, char *value);
 int		check_rule(char *line);
 int		treat_quotes(char *line, int i);
-
 char	*read_line(void);
 
 char	**get_variable_list(char **env);
-char	**delete_line(char **env, int line);
 char	**split_args(char const *s, t_shell *shell);
 char	**to_free2(char const **p, int j);
 
 char		*get_outfile(char *line);
 char		*get_infile(char *line);
-char		*unset(char **args, char **env);
-char		*export(char **args, char **env);
-char		*env(char **args, char **env);
+char		*unset(char **args, t_shell *shell);
+char		*export(char **args, t_shell *shell);
+char		*env(char **args, t_shell *shell);
 char		*pwd();
 char		*echo(t_shell *shell, char **envp);
 char		*change_directory(char **args);

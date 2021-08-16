@@ -6,13 +6,13 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:02 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/15 14:49:33 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/15 20:42:30 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	**delete_line(char **env, int line)
+char	**delete_line(t_shell *shell, int line)
 {
 	int		i;
 	int		j;
@@ -20,21 +20,21 @@ char	**delete_line(char **env, int line)
 
 	i = 0;
 	j = 0;
-	new = env;
-	while (env[i])
+	new = shell->env;
+	while (shell->env[i])
 	{
 		if (i == line)
 			j = 1;
-		new[i] = env[i + j];
+		new[i] = shell->env[i + j];
 		i++;
 	}
 	new[i - 1] = "\0";
-	env = new;
+	shell->env = new;
 	i = 0;
-	return (env);
+	return (shell->env);
 }
 
-void	delete_variable(char variable[FILENAME_MAX], char *name, char **env)
+void	delete_variable(char variable[FILENAME_MAX], char *name, t_shell *shell)
 {
 	int	i;
 	int	k;
@@ -42,18 +42,18 @@ void	delete_variable(char variable[FILENAME_MAX], char *name, char **env)
 
 	i = 0;
 	k = 0;
-	while (env[i] && ft_strlen(env[i]) != 0)
+	while (shell->env[i] && ft_strlen(shell->env[i]) != 0)
 	{
 		j = 0;
-		while (env[i][j] != '=' && env[i][j])
+		while (shell->env[i][j] != '=' && shell->env[i][j])
 		{
-			variable[j] = env[i][j];
+			variable[j] = shell->env[i][j];
 			j++;
 		}
 		variable[j] = '\0';
 		if (ft_strcmp(name, variable) == 0)
 		{
-			env = delete_line(env, i);
+			shell->env = delete_line(shell, i);
 			return ;
 		}
 		i++;
@@ -85,7 +85,7 @@ char	*get_variable_name(char **args)
 	return (name);
 }
 
-char	*unset(char **args, char **env)
+char	*unset(char **args, t_shell *shell)
 {
 	int		i;
 	char	*name;
@@ -99,7 +99,7 @@ char	*unset(char **args, char **env)
 	name = get_variable_name(args);
 	if (name == NULL)
 		return (NULL);
-	delete_variable(variable, name, env);
+	delete_variable(variable, name, shell);
 	free(name);
 	return (NULL);
 }

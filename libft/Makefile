@@ -6,7 +6,7 @@
 #    By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/09 15:34:23 by maraurel          #+#    #+#              #
-#    Updated: 2021/06/22 14:50:46 by maraurel         ###   ########.fr        #
+#    Updated: 2021/08/15 22:34:49 by maraurel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,6 @@ SRC = ft_atoi.c \
 		ft_toupper.c \
 		ft_strncmp.c \
 		ft_strcmp.c \
-		ft_realloc.c
 
 SRC_BONUS = ft_lstnew.c \
 		ft_lstclear.c \

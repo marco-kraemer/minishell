@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/15 15:06:17 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/15 23:10:13 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,23 @@ void	run_commands(t_shell shell, char **env)
 	wait(NULL);
 }
 
+void	init_env(char **envp, t_shell *shell)
+{
+	int		i;
+
+	i = 0;
+	while (envp[i])
+		i++;
+	shell->env = (char **) malloc(sizeof(char *) * (i + 10000));
+	i = 0;
+	while (envp[i])
+	{
+		shell->env[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	shell->env[i] = NULL;
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
@@ -82,6 +99,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1 || argv[1])
 		exit(EXIT_FAILURE);
 	shell.quote_rules = malloc(sizeof(int) * 1000);
+	init_env(envp, &shell);
 	while (TRUE)
 	{
 		signal(SIGINT, &sigintHandler);
