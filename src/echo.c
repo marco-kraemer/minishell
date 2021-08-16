@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/16 10:04:40 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/16 10:26:24 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,18 @@ char	*ft_getenv(char *name, char **env)
 		if (ft_strncmp(env[i], name, j) == 0)
 		{
 			value = ft_substr(env[i], j + 1, ft_strlen(env[i]) - j);
+			free(name);
 			return (value);
 		}
 		i++;
 	}
+	free(name);
 	return (value);
 }
 
 char	**correct_args(t_shell *shell, int status, char **envp, int i)
 {
 	char	*value;
-	char	*tmp;
 
 	while (shell->splited[i])
 	{
@@ -48,12 +49,8 @@ char	**correct_args(t_shell *shell, int status, char **envp, int i)
 					ft_strlen(shell->splited[i])) == 0)
 				value = ft_itoa(status);
 			else
-			{
-				tmp = ft_substr(shell->splited[i], 1,
-						ft_strlen(shell->splited[i]));
-				value = ft_getenv(tmp, envp);
-				free(tmp);
-			}
+				value = ft_getenv(ft_substr(shell->splited[i], 1,
+							ft_strlen(shell->splited[i])), envp);
 			free(shell->splited[i]);
 			if (value)
 				shell->splited[i] = value;

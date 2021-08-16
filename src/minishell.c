@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/16 09:15:46 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/16 11:10:54 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	treat_infile(t_shell *shell, char **env)
 	{
 		fd = open("../tmp", O_CREAT | O_WRONLY | O_APPEND, 0777);
 		infile_loop(shell, fd);
-		shell->infile = "../tmp";
+		free(shell->infile);
+		shell->infile = ft_strdup("../tmp");
 	}
 	shell->fdin = open(shell->infile, O_RDONLY);
 	if (shell->rule == 12 || shell->rule == 17 || shell->rule == 13)

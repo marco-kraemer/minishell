@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 14:43:48 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/16 09:16:05 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/16 11:35:33 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,20 +86,15 @@ char	**makearray2(t_shell *shell, char const *s, char **p, int l)
 		check_quotes(shell, s);
 		p[shell->j] = (char *)malloc(sizeof(char)
 				* countchar2(*shell, s, shell->i) + 1);
-		if (p[shell->j] == NULL)
+		if (quotes_case(shell->quotes, shell, p, s) == 1 || p[shell->j] == NULL)
 			return (to_free2((char const **)p, shell->j));
-		if (quotes_case(shell->quotes, shell, p, s) == 1)
-		{
-			ft_free_double(p);
-			return (NULL);
-		}
 		p[shell->j][shell->k] = '\0';
 		shell->quotes = 0;
 		shell->j++;
 	}
 	p[shell->j] = 0;
 	if (special_chars(p, shell) == 1)
-		return (NULL);
+		return (to_free2((char const **)p, shell->j));
 	return (p);
 }
 
