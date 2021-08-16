@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 14:43:48 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/16 11:35:33 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/16 11:53:48 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	**split_args(char const *s, t_shell *shell)
 	c = ' ';
 	if (s == NULL)
 		return (NULL);
-	i = countstring2(s, c);
+	i = countstring2(s, c, 0, 0);
 	shell->quote_rules = malloc(sizeof(int) * i);
 	p = (char **)malloc(sizeof(char *) * (i + 1));
 	if (p == NULL)
