@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/16 11:10:54 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/25 13:35:04 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	infile_loop(t_shell *shell, int fd)
 	}
 }
 
-void	treat_infile(t_shell *shell, char **env)
+void	treat_infile(t_shell *shell)
 {
 	int		fd;
 
@@ -50,7 +50,7 @@ void	treat_infile(t_shell *shell, char **env)
 	}
 	shell->fdin = open(shell->infile, O_RDONLY);
 	if (shell->rule == 12 || shell->rule == 17 || shell->rule == 13)
-		ft_remove(env);
+		ft_remove();
 }
 
 void	run_commands(t_shell *shell, char **env)
@@ -59,7 +59,7 @@ void	run_commands(t_shell *shell, char **env)
 	shell->tmpout = dup(1);
 	if (shell->rule == 4 || shell->rule == 5 || shell->rule == 11
 		|| shell->rule == 12 || shell->rule == 17 || shell->rule == 13)
-		treat_infile(shell, env);
+		treat_infile(shell);
 	else
 		shell->fdin = dup(shell->tmpin);
 	if (shell->fdin < 0)

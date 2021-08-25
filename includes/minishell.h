@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/16 11:53:58 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/08/25 13:35:10 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char		*pwd();
 char		*echo(t_shell shell, char **envp);
 char		*change_directory(char **args);
 char		*readinput(t_shell *shell);
-char		*ft_remove(char **envp);
+char		*ft_remove(void);
 
 void		ft_free_double(char **s);
 void		execute(t_shell *shell, char **env);

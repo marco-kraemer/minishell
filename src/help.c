@@ -29,12 +29,10 @@ int	check_rule(char *line)
 	return (rule.ret);
 }
 
-char	*ft_exec_rm(char **args, char **envp)
+char	*ft_exec_rm(char **args)
 {
 	pid_t	pid;
 
-	if (envp[0][0] == 'a')
-		printf("oi\n");
 	pid = fork();
 	if (pid == -1)
 	{
@@ -55,12 +53,12 @@ char	*ft_exec_rm(char **args, char **envp)
 	return (NULL);
 }
 
-char	*ft_remove(char **envp)
+char	*ft_remove(void)
 {
 	char	**args;
 
 	args = ft_split("rm ../tmp", ' ');
-	ft_exec_rm(args, envp);
+	ft_exec_rm(args);
 	ft_free_double(args);
 	return (NULL);
 }
