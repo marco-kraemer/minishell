@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 18:48:42 by maraurel          #+#    #+#             */
-/*   Updated: 2021/02/10 17:58:38 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/11 09:05:31 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void	*p;
 
-	if (!(p = malloc(nmemb * size)))
-		return (NULL);
+	p = malloc(nmemb * size);
 	p = ft_memset(p, 0, size * nmemb);
 	return (p);
 }

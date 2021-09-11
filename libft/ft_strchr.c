@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 14:54:36 by maraurel          #+#    #+#             */
-/*   Updated: 2021/02/07 15:00:15 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/11 09:10:24 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strchr(const char *str, int c)
 	char	*p;
 
 	i = 0;
-	p = (char*)str;
+	p = (char *)str;
 	while (str[i])
 	{
 		if (str[i] == c)

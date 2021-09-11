@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 15:04:16 by maraurel          #+#    #+#             */
-/*   Updated: 2021/02/12 19:37:10 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/11 09:11:56 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	len = ft_strlen(s1) + ft_strlen(s2);
 	if (!s1 || !s2)
 		return (NULL);
-	if (!(p = malloc(len + 1)))
+	p = malloc(len + 1);
+	if (!p)
 		return (NULL);
 	i = 0;
 	while (s1[i])

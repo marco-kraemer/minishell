@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/09 03:04:04 by maraurel          #+#    #+#             */
-/*   Updated: 2021/02/20 10:08:03 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/11 09:08:25 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 	newlst = NULL;
 	while (lst)
 	{
-		if (!(element = ft_lstnew(f(lst->content))))
+		element = ft_lstnew(f(lst->content));
+		if (!element)
 		{
 			while (newlst)
 			{

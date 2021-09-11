@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 03:41:08 by maraurel          #+#    #+#             */
-/*   Updated: 2021/02/12 03:45:32 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/11 09:09:56 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	char digit;
-	char negative;
+	char	digit;
+	char	negative;
 
 	negative = 45;
 	if (n == -2147483648)

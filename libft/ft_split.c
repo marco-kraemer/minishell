@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 14:43:48 by maraurel          #+#    #+#             */
-/*   Updated: 2021/02/16 01:39:14 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/11 09:10:08 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		countstring(char const *s, char c)
+int	countstring(char const *s, char c)
 {
 	int	i;
 	int	j;
@@ -35,7 +35,7 @@ int		countstring(char const *s, char c)
 	return (i);
 }
 
-int		countchar(char const *s2, char c, int i)
+int	countchar(char const *s2, char c, int i)
 {
 	int	lenght;
 

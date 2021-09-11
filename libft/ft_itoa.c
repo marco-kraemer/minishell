@@ -3,81 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:02:09 by maraurel          #+#    #+#             */
-/*   Updated: 2021/02/12 19:34:08 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/11 09:07:35 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		count_digits(int n)
+static char	*ft_array(char *x, unsigned int number, long int len)
 {
-	int		i;
-
-	if (n == -2147483648)
-		return (10);
-	i = 1;
-	if (n < 0)
-		n = n * (-1);
-	while (i > 0)
+	while (number > 0)
 	{
-		n = n / 10;
-		if (n < 1)
-			break ;
-		i++;
+		x[len--] = 48 + (number % 10);
+		number = number / 10;
 	}
-	return (i);
+	return (x);
 }
 
-char	*reverse(char *p, char *tmp, int i, int n)
+static long int	ft_len(int n)
 {
-	int		j;
-	int		c;
+	int					len;
 
-	c = count_digits(n);
-	j = 0;
-	if (n < 0)
+	len = 0;
+	if (n <= 0)
+		len = 1;
+	while (n != 0)
 	{
-		j++;
-		c++;
+		len++;
+		n = n / 10;
 	}
-	while (j < c)
-	{
-		p[j] = tmp[i - 1];
-		j++;
-		i--;
-	}
-	p[j] = '\0';
-	return (p);
+	return (len);
 }
 
 char	*ft_itoa(int n)
 {
-	char	*p;
-	char	tmp[count_digits(n)];
-	size_t	i;
-	size_t	c;
-	size_t	cpy;
+	char				*x;
+	long int			len;
+	unsigned int		number;
+	int					sign;
 
-	c = count_digits(n);
-	i = 0;
-	if (n < 0)
-		c++;
-	if (!(p = (char *)malloc(c + 1)))
+	sign = 1;
+	len = ft_len(n);
+	x = (char *)malloc(sizeof(char) * (len + 1));
+	if (!(x))
 		return (NULL);
-	cpy = n;
+	x[len--] = '\0';
+	if (n == 0)
+		x[0] = '0';
 	if (n < 0)
 	{
-		i++;
-		p[0] = '-';
-		cpy = cpy * (-1);
+		sign *= -1;
+		number = n * -1;
+		x[0] = '-';
 	}
-	while (i++ < c)
-	{
-		tmp[i] = (cpy % 10) + '0';
-		cpy = cpy / 10;
-	}
-	return (reverse(p, tmp, i, n));
+	else
+		number = n;
+	x = ft_array(x, number, len);
+	return (x);
 }
