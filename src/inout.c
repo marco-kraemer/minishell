@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inout.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 09:23:20 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/16 11:05:37 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/17 14:03:02 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ int	treat_quotes(char *line, int i)
 	if (line[i] == '\"')
 	{
 		i++;
-		while (line[i] != '\"' && line[i])
+		while (line[i - 1] != '\"' && line[i])
 			i++;
 		return (i);
 	}
 	if (line[i] == '\'')
 	{
 		i++;
-		while (line[i] != '\'' && line[i])
+		while (line[i - 1] != '\"' && line[i])
 			i++;
 		return (i);
 	}

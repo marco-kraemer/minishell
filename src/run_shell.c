@@ -3,32 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   run_shell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
+/*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/16 11:24:18 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/17 22:52:06 by jdanelon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	launch(t_shell *shell, char **envp, char *file, char *msg)
+void	launch(t_shell *shell, char **envp, char **file, char *msg)
 {
 	pid_t	pid;
 	int		ret;
 
 	pid = fork();
-	signal(SIGINT, sigintHandler_process);
+	signal(SIGINT, sigint_handler_process);
 	if (pid == -1)
 	{
-		printf("Failed forking child..\n");
+		printf("Failed forking child.\n");
 		return ;
 	}
 	else if (pid == 0)
 	{
-		ret = execve(shell->splited[0], shell->splited, envp);
+		if (contains_slash(shell->splited[0], &ret))
+			ret = execve(shell->splited[0], shell->splited, envp);
 		if (ret < 0)
-			printf("%s: %s\n", file, msg);
+			ret = iterate_over_path(shell, envp, file, msg);
 		exit(ret);
 	}
 	else
@@ -42,21 +43,18 @@ void	launch(t_shell *shell, char **envp, char *file, char *msg)
 
 char	*launch_prog(t_shell *shell, char **envp)
 {
-	char	*tmp;
+	int		i;
+	char	**path_args;
 
+	i = 0;
+	path_args = ft_split(getenv("PATH"), ':');
 	if (ft_strncmp(shell->splited[0], "./", 2) == 0)
-		launch(shell, envp, shell->splited[0], "No such file or directory");
+		launch(shell, envp, path_args, "no such file or directory");
 	else
-	{
-		if (ft_strncmp("/bin/", shell->splited[0], 5) != 0)
-		{
-			tmp = ft_strjoin("/bin/", shell->splited[0]);
-			free(shell->splited[0]);
-			shell->splited[0] = ft_strdup(tmp);
-			free(tmp);
-		}
-		launch(shell, envp, shell->splited[0], "command not found");
-	}
+		launch(shell, envp, path_args, "command not found");
+	while (path_args[i])
+		free(path_args[i++]);
+	free(path_args);
 	return (NULL);
 }
 
@@ -68,16 +66,15 @@ void	execute_child(t_shell *shell, char **envp, char *line)
 	ret = NULL;
 	if (!shell->splited)
 		return ;
+	shell->splited = correct_args(shell, g_status, shell->env, 0);
 	if (ft_strcmp(shell->splited[0], "cd") == 0)
 		change_directory(shell->splited);
-	else if (ft_strcmp(shell->splited[0], "echo") == 0)
-		echo(*shell, envp);
 	else if (ft_strcmp(shell->splited[0], "export") == 0)
 		export(shell->splited, shell);
 	else if (ft_strcmp(shell->splited[0], "unset") == 0)
 		unset(shell->splited, shell);
 	else if (ft_strcmp(shell->splited[0], "env") == 0)
-		 env(shell->splited, shell);
+		env(shell->splited, shell);
 	else if (ft_strcmp(shell->splited[0], "exit") == 0)
 		free_and_exit(shell->splited, line, shell);
 	else

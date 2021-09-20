@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   sig_handlers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
+/*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:58:05 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/12 10:58:14 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/12 23:35:43 by jdanelon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	sigintHandler_process(int sig_num)
+void	sigint_handler_process(int sig_num)
 {
 	(void)sig_num;
 	g_status = 130;
@@ -21,7 +21,7 @@ void	sigintHandler_process(int sig_num)
 	rl_replace_line("", 0);
 }
 
-void	sigintHandler(int sig_num)
+void	sigint_handler(int sig_num)
 {
 	(void)sig_num;
 	g_status = 130;
@@ -31,8 +31,8 @@ void	sigintHandler(int sig_num)
 	rl_redisplay();
 }
 
-void	sigquitHandler(int sig_num)
+void	sigquit_handler(int sig_num)
 {
 	(void)sig_num;
-	signal(SIGQUIT, sigquitHandler);
+	signal(SIGQUIT, sigquit_handler);
 }

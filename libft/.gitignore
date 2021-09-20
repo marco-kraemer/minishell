@@ -4,3 +4,4 @@ a.out
 *.swp
 *.a
 *.so
+*.o

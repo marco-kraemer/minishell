@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:58:47 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/16 11:09:48 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/18 13:42:26 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	freeArgs(char *line, t_shell *shell)
+void	free_args(char *line, t_shell *shell)
 {
 	int	i;
 
@@ -39,8 +39,13 @@ void	free_and_exit(char **args, char *line, t_shell *shell)
 		free(args[i++]);
 	i = 0;
 	while (shell->env[i])
+	{
+		if (ft_strlen(shell->env[i]) == 0)
+			break ;
 		free(shell->env[i++]);
+	}
 	free(shell->env);
+	free(shell->quote_rules);
 	free(line);
 	free(args);
 	exit(EXIT_SUCCESS);

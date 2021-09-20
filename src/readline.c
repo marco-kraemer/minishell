@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 11:04:49 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/16 09:18:21 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/13 14:08:05 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,11 @@ char	*readinput(t_shell *shell)
 	{
 		i = 0;
 		while (shell->env[i])
+		{
+			if (ft_strlen(shell->env[i]) == 0)
+				break ;
 			free(shell->env[i++]);
+		}
 		free(shell->env);
 		printf("exit\n");
 		exit (0);

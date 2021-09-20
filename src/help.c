@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   help.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/12 23:37:15 by jdanelon          #+#    #+#             */
+/*   Updated: 2021/09/17 19:10:36 by jdanelon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 int	check_rule(char *line)
@@ -61,4 +73,41 @@ char	*ft_remove(void)
 	ft_exec_rm(args);
 	ft_free_double(args);
 	return (NULL);
+}
+
+int	iterate_over_path(t_shell *shell, char **envp, char **file, char *msg)
+{
+	int		i;
+	int		ret;
+	char	*tmp;
+
+	i = 0;
+	while (file[i])
+	{
+		tmp = ft_strjoin(file[i], "/");
+		tmp = ft_strjoin(tmp, shell->splited[0]);
+		ret = execve(tmp, shell->splited, envp);
+		free(tmp);
+		if (ret == 0)
+			break ;
+		i++;
+	}
+	if (ret < 0)
+		printf("%s: %s\n", shell->splited[0], msg);
+	return (ret);
+}
+
+int	contains_slash(char *str, int *ret)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '/')
+			return (1);
+		i++;
+	}
+	*ret = -1;
+	return (0);
 }

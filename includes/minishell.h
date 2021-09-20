@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/11 09:03:51 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/17 19:09:08 by jdanelon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ char	*read_line(void);
 char	**get_variable_list(char **env);
 char	**split_args(char const *s, t_shell *shell);
 char	**to_free2(char const **p, int j);
+char	**correct_args(t_shell *shell, int status, char **envp, int i);
 
 char	*get_outfile(char *line);
 char	*get_infile(char *line);
@@ -86,7 +87,6 @@ char	*unset(char **args, t_shell *shell);
 char	*export(char **args, t_shell *shell);
 char	*env(char **args, t_shell *shell);
 char	*pwd(void);
-char	*echo(t_shell shell, char **envp);
 char	*change_directory(char **args);
 char	*readinput(t_shell *shell);
 char	*ft_remove(void);
@@ -94,10 +94,12 @@ char	*ft_remove(void);
 void	ft_free_double(char **s);
 void	execute(t_shell *shell, char **env);
 void	execute_child(t_shell *shell, char **envp, char *line);
-void	launch(t_shell *shell, char **envp, char *file, char *msg);
+void	launch(t_shell *shell, char **envp, char **file, char *msg);
+int		iterate_over_path(t_shell *shell, char **envp, char **file, char *msg);
+int		contains_slash(char *str, int *ret);
 void	free_and_exit(char **args, char *line, t_shell *shell);
-void	sigintHandler(int sig_num);
-void	sigquitHandler(int sig_num);
-void	sigintHandler_process(int sig_num);
-void	freeArgs(char *line, t_shell *shell);
+void	sigint_handler(int sig_num);
+void	sigquit_handler(int sig_num);
+void	sigint_handler_process(int sig_num);
+void	free_args(char *line, t_shell *shell);
 #endif

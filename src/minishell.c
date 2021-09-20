@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/25 13:35:04 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/18 12:32:57 by jdanelon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	init_env(char **envp, t_shell *shell)
 	i = 0;
 	while (envp[i])
 		i++;
-	shell->env = (char **) malloc(sizeof(char *) * (i + 10000));
+	shell->env = (char **)malloc(sizeof(char *) * (i + 10000));
 	i = 0;
 	while (envp[i])
 	{
@@ -102,8 +102,8 @@ int	main(int argc, char **argv, char **envp)
 	init_env(envp, &shell);
 	while (TRUE)
 	{
-		signal(SIGINT, &sigintHandler);
-		signal(SIGQUIT, &sigquitHandler);
+		signal(SIGINT, &sigint_handler);
+		signal(SIGQUIT, &sigquit_handler);
 		line = readinput(&shell);
 		shell.outfile = get_outfile(line);
 		shell.infile = get_infile(line);
@@ -117,6 +117,6 @@ int	main(int argc, char **argv, char **envp)
 		while (shell.args[shell.numcommands])
 			shell.numcommands++;
 		run_commands(&shell, envp);
-		freeArgs(line, &shell);
+		free_args(line, &shell);
 	}
 }

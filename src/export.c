@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
+/*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:05 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/15 23:21:49 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/12 23:33:36 by jdanelon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	add_line(t_shell *shell, char name[FILENAME_MAX],
 	free(var);
 }
 
-char	*NoValueCase(t_shell *shell)
+char	*no_value_case(t_shell *shell)
 {
 	int	i;
 
@@ -106,7 +106,7 @@ char	*export(char **args, t_shell *shell)
 	char	value[FILENAME_MAX];
 
 	if (!args[1])
-		return (NoValueCase(shell));
+		return (no_value_case(shell));
 	get_name_value(value, name, args);
 	i = 0;
 	while (shell->env[i] && ft_strlen(shell->env[i]) != 0)
