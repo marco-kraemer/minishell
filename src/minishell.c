@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/18 12:32:57 by jdanelon         ###   ########.fr       */
+/*   Updated: 2021/09/20 22:45:55 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	main(int argc, char **argv, char **envp)
 		while (line[shell.i] && line[shell.i] != '>' && line[shell.i] != '<')
 			shell.i = treat_quotes(line, shell.i);
 		line[shell.i] = '\0';
-		shell.args = ft_split(line, '|');
+		shell.args = ft_split(line, '|'); // ALTERAR
 		shell.numcommands = 0;
 		while (shell.args[shell.numcommands])
 			shell.numcommands++;

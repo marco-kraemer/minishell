@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 09:23:20 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/17 14:03:02 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/20 22:43:11 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@ int	treat_quotes(char *line, int i)
 	if (line[i] == '\"')
 	{
 		i++;
-		while (line[i - 1] != '\"' && line[i])
+		while (line[i] != '\"' && line[i])
 			i++;
-		return (i);
+		return (i + 1);
 	}
 	if (line[i] == '\'')
 	{
 		i++;
-		while (line[i - 1] != '\"' && line[i])
+		while (line[i] != '\'' && line[i])
 			i++;
-		return (i);
+		return (i + 1);
 	}
 	i++;
 	return (i);

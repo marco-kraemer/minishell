@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/01 11:22:06 by maraurel          #+#    #+#              #
-#    Updated: 2021/09/17 19:28:59 by jdanelon         ###   ########.fr        #
+#    Updated: 2021/09/20 21:29:27 by maraurel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
