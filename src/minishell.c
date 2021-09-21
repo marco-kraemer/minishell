@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/21 09:58:35 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/21 10:22:53 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	main(int argc, char **argv, char **envp)
 			while (shell.args[shell.numcommands])
 				shell.numcommands++;
 			run_commands(&shell, envp);
-			free_args(line, &shell);
 		}
+		free_args(line, &shell);
 	}
 }

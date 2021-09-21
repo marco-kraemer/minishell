@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   correct_args.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/17 23:10:00 by jdanelon         ###   ########.fr       */
+/*   Updated: 2021/09/21 10:27:16 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_getenv(char *name, char **env)
 		j = 0;
 		while (env[i][j] != '=' && env[i][j])
 			j++;
-		if (ft_strncmp(env[i], name, j) == 0)
+		if (ft_strncmp(env[i], name, ft_strlen(name)) == 0)
 		{
 			value = ft_substr(env[i], j + 1, ft_strlen(env[i]) - j);
 			free(name);
