@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/21 09:58:10 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/21 20:50:28 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ int		iterate_over_path(t_shell *shell, char **envp, char **file, char *msg);
 int		contains_slash(char *str, int *ret);
 void	free_and_exit(char **args, char *line, t_shell *shell);
 void	sigint_handler(int sig_num);
-void	sigquit_handler(int sig_num);
 void	sigint_handler_process(int sig_num);
 void	free_args(char *line, t_shell *shell);
 void	get_in_and_out_file(t_shell *shell, char *line);

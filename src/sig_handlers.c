@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sig_handlers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:58:05 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/12 23:35:43 by jdanelon         ###   ########.fr       */
+/*   Updated: 2021/09/21 20:51:56 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,4 @@ void	sigint_handler(int sig_num)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-}
-
-void	sigquit_handler(int sig_num)
-{
-	(void)sig_num;
-	signal(SIGQUIT, sigquit_handler);
 }
