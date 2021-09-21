@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/17 19:09:08 by jdanelon         ###   ########.fr       */
+/*   Updated: 2021/09/21 09:58:10 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,10 @@ char	**get_variable_list(char **env);
 char	**split_args(char const *s, t_shell *shell);
 char	**to_free2(char const **p, int j);
 char	**correct_args(t_shell *shell, int status, char **envp, int i);
+char	**split_commands(char const *s);
+char	**even_number_of_quotes(t_shell *shell, char **p, int num_commands);
+char	**to_free2(char const **p, int j);
 
-char	*get_outfile(char *line);
-char	*get_infile(char *line);
 char	*unset(char **args, t_shell *shell);
 char	*export(char **args, t_shell *shell);
 char	*env(char **args, t_shell *shell);
@@ -102,4 +103,6 @@ void	sigint_handler(int sig_num);
 void	sigquit_handler(int sig_num);
 void	sigint_handler_process(int sig_num);
 void	free_args(char *line, t_shell *shell);
+void	get_in_and_out_file(t_shell *shell, char *line);
+
 #endif

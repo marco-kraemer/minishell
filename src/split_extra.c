@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_args_extra.c                                 :+:      :+:    :+:   */
+/*   split_extra.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp>           +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 12:19:57 by maraurel          #+#    #+#             */
-/*   Updated: 2021/08/16 11:56:04 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/21 09:50:29 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,30 @@ char	**to_free2(char const **p, int j)
 	}
 	free(p);
 	return (NULL);
+}
+
+char	**even_number_of_quotes(t_shell *shell, char **p, int num_commands)
+{
+	int	double_quotes;
+	int	single_quotes;
+
+	shell->i = 0;
+	while (p[shell->i])
+	{
+		shell->j = 0;
+		double_quotes = 0;
+		single_quotes = 0;
+		while (p[shell->i][shell->j])
+		{
+			if (p[shell->i][shell->j] == '\"')
+				double_quotes++;
+			else if (p[shell->i][shell->j] == '\'')
+				single_quotes++;
+			shell->j++;
+		}
+		if (double_quotes % 2 != 0 || single_quotes % 2 != 0)
+			return (to_free2((char const **)p, num_commands));
+		shell->i++;
+	}
+	return (p);
 }

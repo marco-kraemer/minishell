@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/20 22:45:55 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/21 09:58:35 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,21 +102,21 @@ int	main(int argc, char **argv, char **envp)
 	init_env(envp, &shell);
 	while (TRUE)
 	{
-		signal(SIGINT, &sigint_handler);
-		signal(SIGQUIT, &sigquit_handler);
 		line = readinput(&shell);
-		shell.outfile = get_outfile(line);
-		shell.infile = get_infile(line);
+		get_in_and_out_file(&shell, line);
 		shell.rule = check_rule(line);
 		shell.i = 0;
 		while (line[shell.i] && line[shell.i] != '>' && line[shell.i] != '<')
 			shell.i = treat_quotes(line, shell.i);
 		line[shell.i] = '\0';
-		shell.args = ft_split(line, '|'); // ALTERAR
-		shell.numcommands = 0;
-		while (shell.args[shell.numcommands])
-			shell.numcommands++;
-		run_commands(&shell, envp);
-		free_args(line, &shell);
+		shell.args = split_commands(line);
+		if (shell.args != NULL)
+		{
+			shell.numcommands = 0;
+			while (shell.args[shell.numcommands])
+				shell.numcommands++;
+			run_commands(&shell, envp);
+			free_args(line, &shell);
+		}
 	}
 }

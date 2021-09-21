@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 09:23:20 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/20 22:43:11 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/21 09:59:18 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,18 @@ int	treat_quotes(char *line, int i)
 		i++;
 		while (line[i] != '\"' && line[i])
 			i++;
-		return (i + 1);
+		if (line[i] != '\0')
+			i++;
+		return (i + 0);
 	}
 	if (line[i] == '\'')
 	{
 		i++;
 		while (line[i] != '\'' && line[i])
 			i++;
-		return (i + 1);
+		if (line[i] != '\0')
+			i++;
+		return (i);
 	}
 	i++;
 	return (i);
@@ -72,4 +76,10 @@ char	*get_outfile(char *line)
 		i++;
 	ret = ft_substr(line, i, ft_strlen(line) - i);
 	return (ret);
+}
+
+void	get_in_and_out_file(t_shell *shell, char *line)
+{
+	shell->outfile = get_outfile(line);
+	shell->infile = get_infile(line);
 }

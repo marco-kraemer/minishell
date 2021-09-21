@@ -6,7 +6,7 @@
 #    By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/01 11:22:06 by maraurel          #+#    #+#              #
-#    Updated: 2021/09/20 21:29:27 by maraurel         ###   ########.fr        #
+#    Updated: 2021/09/21 09:50:07 by maraurel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,10 @@ SRC = $(notdir ./src/cd.c \
 				./src/readline.c \
 				./src/run_shell.c \
 				./src/sig_handlers.c \
-				./src/split_args_extra.c \
+				./src/split_extra.c \
 				./src/split_args.c \
-				./src/unset.c)
+				./split_commands.c \
+				./src/unset.c) 
 
 OBJ = $(addprefix $(OBJ_PATH)/, $(SRC:.c=.o))
 

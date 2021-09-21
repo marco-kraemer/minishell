@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 11:04:49 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/13 14:08:05 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/21 09:47:15 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ char	*readinput(t_shell *shell)
 	char	*prompt;
 	int		i;
 
+	signal(SIGINT, &sigint_handler);
+	signal(SIGQUIT, &sigquit_handler);
 	create_prompt(&prompt);
 	line = readline(prompt);
 	free(prompt);
