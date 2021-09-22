@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 12:19:57 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/21 09:50:29 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/21 22:48:53 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ int	countchar2(t_shell shell, char const *s2, int i)
 	if (shell.quotes == 0)
 		c = ' ';
 	else if (shell.quotes == 1)
-		c = '\'';
-	else
 		c = '\"';
+	else
+		c = '\'';
 	while (s2[i] != c && s2[i] != '\0')
 	{
 		lenght++;
