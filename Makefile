@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/01 11:22:06 by maraurel          #+#    #+#              #
-#    Updated: 2021/09/21 09:50:07 by maraurel         ###   ########.fr        #
+#    Updated: 2021/09/24 00:12:31 by jdanelon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,6 @@ SRC_PATH = ./src
 
 OBJ_PATH = ./obj
 
-#SRC = $(notdir $(wildcard ./src/*.c))
 SRC = $(notdir ./src/cd.c \
 				./src/correct_args.c \
 				./src/env.c \
@@ -31,7 +30,8 @@ SRC = $(notdir ./src/cd.c \
 				./src/split_extra.c \
 				./src/split_args.c \
 				./split_commands.c \
-				./src/unset.c) 
+				./src/treat_tabs.c \
+				./src/unset.c)
 
 OBJ = $(addprefix $(OBJ_PATH)/, $(SRC:.c=.o))
 
@@ -66,5 +66,3 @@ git:
 	git add .
 	git commit -m "Update"
 	git push
-
-

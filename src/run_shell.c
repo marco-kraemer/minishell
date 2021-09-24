@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_shell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/20 21:27:21 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/23 23:52:45 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	execute_child(t_shell *shell, char **envp, char *line)
 	ret = NULL;
 	if (!shell->splited)
 		return ;
-	shell->splited = correct_args(shell, g_status, shell->env, 0);
+	shell->splited = correct_args(shell, g_status, shell->env);
 	if (!shell->splited[0])
 		return ;
 	if (ft_strcmp(shell->splited[0], "cd") == 0)
@@ -93,7 +93,7 @@ void	pipe_fdout_fdin(t_shell *shell, int fdpipe[2], int i)
 		if (shell->rule == 1 || shell->rule == 13 || shell->rule == 5)
 			shell->fdout = open(shell->outfile, O_CREAT
 					| O_WRONLY | O_TRUNC, 0777);
-		else if (shell->rule == 7 || shell->rule == 17 || shell->rule == 11)
+		else if (shell->rule == 7 || shell->rule == 19 || shell->rule == 11)
 			shell->fdout = open(shell->outfile, O_CREAT
 					| O_WRONLY | O_APPEND, 0777);
 		else

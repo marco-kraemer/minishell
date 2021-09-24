@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 14:43:48 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/21 22:49:37 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/24 09:05:36 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	quotes_case(int quotes, t_shell *shell, char **p, char const *s)
 {
 	char	c;
 
-	c = '\0';
 	if (quotes == 1)
 		c = '\"';
 	else if (quotes == 2)
@@ -57,7 +56,8 @@ int	quotes_case(int quotes, t_shell *shell, char **p, char const *s)
 	else
 	{
 		shell->quote_rules[shell->j] = 0;
-		while (s[shell->i] != '\0' && s[shell->i] != ' ')
+		while (s[shell->i] != '\0' && s[shell->i] != ' '
+			&& s[shell->i] != '\'' && s[shell->i] != '\"')
 			p[shell->j][shell->k++] = s[shell->i++];
 	}
 	return (0);
@@ -68,9 +68,17 @@ void	check_quotes(t_shell *shell, char const *s)
 	while (s[shell->i] == ' ' || s[shell->i] == '\"' || s[shell->i] == '\'')
 	{
 		if (s[shell->i] == '\"')
+		{
 			shell->quotes = 1;
+			shell->i++;
+			break ;
+		}
 		if (s[shell->i] == '\'')
+		{
 			shell->quotes = 2;
+			shell->i++;
+			break ;
+		}
 		shell->i++;
 	}
 }

@@ -14,16 +14,26 @@
 
 int	check_quotes2(char const line, int rule)
 {
-	if (line == '\"')
+	static int	check;
+
+	if (line == '\"' && check != 2)
 	{
+		check = 1;
 		if (rule > 0 && line == '\"')
+		{
+			check = 0;
 			return (0);
+		}
 		rule++;
 	}
-	if (line == '\'')
+	if (line == '\'' && check != 1)
 	{
+		check = 2;
 		if (rule > 0 && line == '\'')
+		{
+			check = 0;
 			return (0);
+		}
 		rule++;
 	}
 	if (rule > 0)

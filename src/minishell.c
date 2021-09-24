@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/21 21:13:23 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/23 23:53:13 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	treat_infile(t_shell *shell)
 {
 	int		fd;
 
-	if (shell->rule == 12 || shell->rule == 17 || shell->rule == 13)
+	if (shell->rule == 12 || shell->rule == 19 || shell->rule == 13)
 	{
 		fd = open("../tmp", O_CREAT | O_WRONLY | O_APPEND, 0777);
 		infile_loop(shell, fd);
@@ -49,7 +49,7 @@ void	treat_infile(t_shell *shell)
 		shell->infile = ft_strdup("../tmp");
 	}
 	shell->fdin = open(shell->infile, O_RDONLY);
-	if (shell->rule == 12 || shell->rule == 17 || shell->rule == 13)
+	if (shell->rule == 12 || shell->rule == 19 || shell->rule == 13)
 		ft_remove();
 }
 
@@ -58,7 +58,7 @@ void	run_commands(t_shell *shell, char **env)
 	shell->tmpin = dup(0);
 	shell->tmpout = dup(1);
 	if (shell->rule == 4 || shell->rule == 5 || shell->rule == 11
-		|| shell->rule == 12 || shell->rule == 17 || shell->rule == 13)
+		|| shell->rule == 12 || shell->rule == 13 || shell->rule == 19)
 		treat_infile(shell);
 	else
 		shell->fdin = dup(shell->tmpin);
@@ -67,6 +67,7 @@ void	run_commands(t_shell *shell, char **env)
 		printf("shell: No such file or directory\n");
 		return ;
 	}
+	shell->args = treat_tabs(shell->args);
 	execute(shell, env);
 	dup2(shell->tmpin, 0);
 	dup2(shell->tmpout, 1);

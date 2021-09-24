@@ -6,7 +6,7 @@
 /*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:02 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/18 16:10:38 by jdanelon         ###   ########.fr       */
+/*   Updated: 2021/09/23 22:44:16 by jdanelon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,42 +35,6 @@ char	**delete_line(t_shell *shell, int line)
 	i = 0;
 	return (shell->env);
 }
-
-/*
-int	env_size(char **env)
-{
-	int	size;
-
-	size = 0;
-	while (env[size])
-		size++;
-	return (size);
-}
-
-char	**delete_line(t_shell *shell, int line)
-{
-	int		i;
-	int		j;
-	char	**new;
-
-	i = 0;
-	j = 0;
-	new = (char **)malloc(sizeof(char *) * env_size(shell->env));
-	while (shell->env[i])
-	{
-		if (i == line)
-		{
-			free(shell->env[i]);
-			j = 1;
-		}
-		new[i] = shell->env[i + j];
-		i++;
-	}
-	free(shell->env);
-	shell->env = new;
-	return (shell->env);
-}
-*/
 
 void	delete_variable(char variable[FILENAME_MAX], char *name, t_shell *shell)
 {

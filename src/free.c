@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:58:47 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/21 21:05:07 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/24 00:05:07 by jdanelon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,36 @@ void	free_args(char *line, t_shell *shell)
 	free(shell->args);
 }
 
-void	free_and_exit(char **args, char *line, t_shell *shell)
+static	int	check_exit_arg(char **args)
 {
-	int		i;
+	int	i;
+	int	status;
 
 	i = 0;
+	while (args[i])
+		i++;
+	if (i == 1)
+		status = 0;
+	else if (i == 2)
+		status = ft_atoi(args[1]);
+	else
+	{
+		printf("shell: exit: too many arguments\n");
+		g_status = 130;
+		return (-1);
+	}
+	return (status);
+}
+
+void	free_and_exit(char **args, char *line, t_shell *shell)
+{
+	int	i;
+	int	status;
+
+	i = 0;
+	status = check_exit_arg(shell->splited);
+	if (status == -1)
+		return ;
 	while (args[i])
 		free(args[i++]);
 	i = 0;
@@ -48,7 +73,7 @@ void	free_and_exit(char **args, char *line, t_shell *shell)
 	free(shell->quote_rules);
 	free(line);
 	free(args);
-	exit(EXIT_SUCCESS);
+	exit(status);
 }
 
 void	ft_free_double(char **s)
@@ -64,4 +89,15 @@ void	ft_free_double(char **s)
 	while (s[i])
 		free(s[i++]);
 	free(s);
+}
+
+char	**to_free2(char const **p, int j)
+{
+	while (j >= 0)
+	{
+		free((void *)p[j]);
+		j--;
+	}
+	free(p);
+	return (NULL);
 }

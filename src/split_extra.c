@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 12:19:57 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/21 22:48:53 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/24 09:05:20 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,16 @@ int	countstring2(char const *s, char c, int i, int state)
 {
 	while (*s != '\0')
 	{
-		if (*s == '\"')
+		if (*s == '\"' || *s == '\'')
 		{
+			c = *s;
 			s++;
-			while (*s != '\"' && *s != '\0')
+			while (*s != c && *s != '\0')
 				s++;
+			i++;
+			state = 0;
 		}
-		if (*s == '\'')
-		{
-			s++;
-			while (*s != '\'' && *s != '\0')
-				s++;
-		}
-		if (*s == c)
+		else if (*s == ' ')
 			state = 0;
 		else if (state == 0)
 		{
@@ -71,21 +68,25 @@ int	countchar2(t_shell shell, char const *s2, int i)
 		c = '\'';
 	while (s2[i] != c && s2[i] != '\0')
 	{
+		if (c == ' ' && (s2[i] == '\'' || s2[i] == '\"'))
+			break ;
 		lenght++;
 		i++;
 	}
 	return (lenght);
 }
 
-char	**to_free2(char const **p, int j)
+int	count_quotes(int quotes, char **p, t_shell *shell, char c)
 {
-	while (j >= 0)
-	{
-		free((void *)p[j]);
-		j--;
-	}
-	free(p);
-	return (NULL);
+	quotes++;
+	shell->j++;
+	while (p[shell->i][shell->j] != c && p[shell->i][shell->j])
+		shell->j++;
+	if (p[shell->i][shell->j] != c)
+		return (quotes);
+	quotes++;
+	shell->j++;
+	return (quotes);
 }
 
 char	**even_number_of_quotes(t_shell *shell, char **p, int num_commands)
@@ -102,10 +103,11 @@ char	**even_number_of_quotes(t_shell *shell, char **p, int num_commands)
 		while (p[shell->i][shell->j])
 		{
 			if (p[shell->i][shell->j] == '\"')
-				double_quotes++;
+				double_quotes = count_quotes(double_quotes, p, shell, '\"');
 			else if (p[shell->i][shell->j] == '\'')
-				single_quotes++;
-			shell->j++;
+				single_quotes = count_quotes(single_quotes, p, shell, '\'');
+			else
+				shell->j++;
 		}
 		if (double_quotes % 2 != 0 || single_quotes % 2 != 0)
 			return (to_free2((char const **)p, num_commands));

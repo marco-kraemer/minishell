@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/21 20:50:28 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/23 23:51:50 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,23 @@
 # define CYAN "\001\e[1;36m\002"
 # define WHITE "\001\e[1;37m\002"
 # define RESET "\001\e[0m\002"
+
+typedef struct s_correct_args
+{
+	char	*new;
+	char	*value;
+	char	*word;
+
+	char	*string;
+
+	int		status;
+
+	int		i;
+	int		j;
+	int		k;
+
+	int		rule;
+}		t_correct_args;
 
 typedef struct s_shell {
 	char	**args;
@@ -76,10 +93,11 @@ int		ft_strcmp(const char *str1, const char *str2);
 
 char	*read_line(void);
 
+char	**treat_tabs(char **args);
 char	**get_variable_list(char **env);
 char	**split_args(char const *s, t_shell *shell);
 char	**to_free2(char const **p, int j);
-char	**correct_args(t_shell *shell, int status, char **envp, int i);
+char	**correct_args(t_shell *shell, int status, char **envp);
 char	**split_commands(char const *s);
 char	**even_number_of_quotes(t_shell *shell, char **p, int num_commands);
 char	**to_free2(char const **p, int j);
