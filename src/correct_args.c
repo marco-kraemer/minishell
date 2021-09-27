@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/23 15:05:44 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/27 13:47:04 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ void	replace_values2(t_correct_args *helper, char *old, char ret[9999])
 		k++;
 	}
 	tmp[k] = '\0';
-	if (ft_strncmp(tmp, old, ft_strlen(old)) == 0 && helper->rule == 0)
+	if (ft_strncmp(tmp, old, ft_strlen(old)) == 0 && helper->rule == NO_QUOTES)
 	{
 		k = 0;
 		if (helper->new)
 			while (helper->new[k])
 				ret[helper->j++] = helper->new[k++];
-		helper->rule = 1;
+		helper->rule = DOUBLE_QUOTES;
 		helper->i += ft_strlen(tmp);
 	}
 	ret[helper->j] = helper->string[helper->i];
@@ -110,19 +110,59 @@ void	replace(t_shell *shell, t_correct_args helper, char **envp)
 	free(helper.word);
 }
 
+/* Juntar argumentos quando não há espaço entre eles e remover os espaços*/
+char	**join_no_space_args(char **args, t_shell *shell)
+{
+	char	**ret;
+	int		i;
+	int		j;
+
+	/* Calcular numeros de palavras, sem contar espaços */
+	i = 0;
+	j = 1;
+	while (args[i])
+	{
+		if (ft_strcmp(args[i], " ") == 0 && ft_strlen(args[i]) == 1 && args[i + 1])
+			j++;
+		i++;
+	}
+
+	/* Juntar argumentos quando não há espaços*/
+	ret = (char **)malloc(sizeof(char *) * (j + 1));
+	i = 0;
+	j = 0;
+	while (args[i])
+	{
+		ret[j] = ft_strdup(args[i]);
+		i++;
+		while (args[i])
+		{
+			if (ft_strcmp(args[i], " ") == 0 && ft_strlen(args[i]) == 1)
+				break ;
+			ret[j] = ft_strjoin_free(ret[j], args[i]);
+			i++;
+		}
+		j++;
+	}
+	ret[j] = 0;
+	ft_free_double(shell->splited);
+	return (ret);
+}
+
 char	**correct_args(t_shell *shell, int status, char **envp)
 {
 	t_correct_args	helper;
 
 	shell->status = status;
 	helper.i = 0;
+
 	while (shell->splited[helper.i])
 	{
 		helper.j = 0;
 		while (shell->splited[helper.i][helper.j])
 		{
 			if (shell->splited[helper.i][helper.j] == '$'
-				&& shell->quote_rules[helper.i] != 2
+				&& shell->quote_rules[helper.i] != SINGLE_QUOTES
 				&& shell->splited[helper.i][helper.j + 1] != ' '
 				&& shell->splited[helper.i][helper.j + 1] != '\0')
 				replace(shell, helper, envp);
@@ -132,5 +172,6 @@ char	**correct_args(t_shell *shell, int status, char **envp)
 		}
 		helper.i++;
 	}
+	shell->splited = join_no_space_args(shell->splited, shell);
 	return (shell->splited);
 }

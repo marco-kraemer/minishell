@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:58:47 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/24 00:05:07 by jdanelon         ###   ########.fr       */
+/*   Updated: 2021/09/27 09:22:19 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@ void	free_args(char *line, t_shell *shell)
 	free(shell->args);
 }
 
-static	int	check_exit_arg(char **args)
+static	int	check_exit_arg(char **args, int *mark)
 {
 	int	i;
 	int	status;
 
 	i = 0;
+	*mark = 0;
 	while (args[i])
 		i++;
 	if (i == 1)
@@ -46,6 +47,7 @@ static	int	check_exit_arg(char **args)
 	{
 		printf("shell: exit: too many arguments\n");
 		g_status = 130;
+		*mark = -1;
 		return (-1);
 	}
 	return (status);
@@ -54,11 +56,12 @@ static	int	check_exit_arg(char **args)
 void	free_and_exit(char **args, char *line, t_shell *shell)
 {
 	int	i;
+	int	mark;
 	int	status;
 
 	i = 0;
-	status = check_exit_arg(shell->splited);
-	if (status == -1)
+	status = check_exit_arg(shell->splited, &mark);
+	if (mark == -1)
 		return ;
 	while (args[i])
 		free(args[i++]);

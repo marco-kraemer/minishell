@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 12:19:57 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/24 09:05:20 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/27 12:05:06 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ void	loop_quotes(char const *s)
 
 int	countstring2(char const *s, char c, int i, int state)
 {
+	int	count_space;
+
+	count_space = 0;
 	while (*s != '\0')
 	{
 		if (*s == '\"' || *s == '\'')
@@ -39,13 +42,20 @@ int	countstring2(char const *s, char c, int i, int state)
 			while (*s != c && *s != '\0')
 				s++;
 			i++;
+			count_space = 0;
 			state = 0;
 		}
 		else if (*s == ' ')
+		{
+			if (count_space == 0)
+				i++;
+			count_space = 1;
 			state = 0;
+		}
 		else if (state == 0)
 		{
 			state = 1;
+			count_space = 0;
 			i++;
 		}
 		if (*s != '\0')

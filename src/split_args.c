@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 14:43:48 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/24 09:05:36 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/27 12:19:14 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	special_chars(char **p, t_shell *shell)
 	while (p[j])
 	{
 		k = 0;
-		if (shell->quote_rules[j] == 0)
+		if (shell->quote_rules[j] == NO_QUOTES)
 		{
 			while (p[j][k])
 			{
@@ -39,11 +39,11 @@ int	quotes_case(int quotes, t_shell *shell, char **p, char const *s)
 {
 	char	c;
 
-	if (quotes == 1)
+	if (quotes == DOUBLE_QUOTES)
 		c = '\"';
-	else if (quotes == 2)
+	else if (quotes == SINGLE_QUOTES)
 		c = '\'';
-	if (quotes == 1 || quotes == 2)
+	if (quotes == SINGLE_QUOTES || quotes == DOUBLE_QUOTES)
 	{
 		shell->quote_rules[shell->j] = quotes;
 		while (s[shell->i] != '\0' && s[shell->i] != c)
@@ -55,7 +55,7 @@ int	quotes_case(int quotes, t_shell *shell, char **p, char const *s)
 	}
 	else
 	{
-		shell->quote_rules[shell->j] = 0;
+		shell->quote_rules[shell->j] = NO_QUOTES;
 		while (s[shell->i] != '\0' && s[shell->i] != ' '
 			&& s[shell->i] != '\'' && s[shell->i] != '\"')
 			p[shell->j][shell->k++] = s[shell->i++];
@@ -69,13 +69,13 @@ void	check_quotes(t_shell *shell, char const *s)
 	{
 		if (s[shell->i] == '\"')
 		{
-			shell->quotes = 1;
+			shell->quotes = DOUBLE_QUOTES;
 			shell->i++;
 			break ;
 		}
 		if (s[shell->i] == '\'')
 		{
-			shell->quotes = 2;
+			shell->quotes = SINGLE_QUOTES;
 			shell->i++;
 			break ;
 		}
@@ -98,6 +98,14 @@ char	**makearray2(t_shell *shell, char const *s, char **p, int l)
 			return (to_free2((char const **)p, shell->j));
 		p[shell->j][shell->k] = '\0';
 		shell->quotes = 0;
+		if (s[shell->i] ==  ' ')
+		{
+			shell->j++;
+			p[shell->j] = (char *)malloc(sizeof(char) * 2);
+			shell->quote_rules[shell->j] = 0;
+			p[shell->j][0] = ' ';
+			p[shell->j][1] = '\0';
+		}
 		shell->j++;
 	}
 	p[shell->j] = 0;

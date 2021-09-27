@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/27 01:00:31 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/27 13:46:32 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 # include <readline/history.h>
 # include <fcntl.h>
 
+# define NO_QUOTES	0
+# define SINGLE_QUOTES	2
+# define DOUBLE_QUOTES	1
 # define TRUE	1
 # define FALSE	0
 # define BUFF_SIZE	1024
@@ -109,6 +112,7 @@ char	*pwd(void);
 char	*change_directory(char **args);
 char	*readinput(t_shell *shell);
 char	*ft_remove(void);
+char	*ft_strjoin_free(char const *s1, char const *s2);
 
 void	ft_free_double(char **s);
 void	execute(t_shell *shell, char **env);
