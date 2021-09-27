@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:05 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/12 23:33:36 by jdanelon         ###   ########.fr       */
+/*   Updated: 2021/09/27 01:35:07 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	add_line(t_shell *shell, char name[FILENAME_MAX],
-	char value[FILENAME_MAX])
+void	add_line(t_shell *shell, char *name, char *value)
 {
 	int		i;
 	char	*tmp;
@@ -33,49 +32,35 @@ void	add_line(t_shell *shell, char name[FILENAME_MAX],
 	*(shell->env + (i + 1)) = NULL;
 	free(tmp);
 	free(var);
+	free(name);
+	free(value);
 }
 
-char	*no_value_case(t_shell *shell)
+char	*get_name(char *args)
 {
 	int	i;
 
 	i = 0;
-	while (shell->env[i])
-	{
-		if (ft_strlen(shell->env[i]) == 0)
-			break ;
-		write(1, shell->env[i], ft_strlen(shell->env[i]));
-		write(1, "\n", 2);
+	while (args[i] != '=')
 		i++;
-	}
-	return (NULL);
+	return (ft_substr(args, 0, i));
 }
 
-void	get_name_value(char value[FILENAME_MAX],
-		char name[FILENAME_MAX], char **args)
+char	*get_value(char *args)
 {
 	int	i;
-	int	j;
+	int	length;
 
 	i = 0;
-	j = 0;
-	while (args[1][i] != '=' && args[1][i])
-		name[j++] = args[1][i++];
-	name[j] = '\0';
-	if (args[1][i] != '=')
-		value[0] = '\0';
-	else
-	{
+	while (args[i] != '=')
 		i++;
-		j = 0;
-		while (args[1][i] && args[1][i])
-			value[j++] = args[1][i++];
-		value[j++] = '\0';
-	}
+	length = 0;
+	while (args[i + length])
+		length++;
+	return (ft_substr(args, i + 1, length));
 }
 
-char	*change_variable(t_shell *shell, char name[FILENAME_MAX],
-	char value[FILENAME_MAX], int i)
+void	change_variable(t_shell *shell, char *name, char *value, int i)
 {
 	int		oldsize;
 	int		newsize;
@@ -95,19 +80,21 @@ char	*change_variable(t_shell *shell, char name[FILENAME_MAX],
 	shell->env[i] = ft_strdup(tmp2);
 	free(tmp1);
 	free(tmp2);
-	return (NULL);
+	free(name);
+	free(value);
 }
 
-char	*export(char **args, t_shell *shell)
+char	*insert_variable(char **args, t_shell *shell, int index)
 {
 	int		i;
 	int		j;
-	char	name[FILENAME_MAX];
-	char	value[FILENAME_MAX];
+	char	*name;
+	char	*value;
 
-	if (!args[1])
-		return (no_value_case(shell));
-	get_name_value(value, name, args);
+	if (!args[index])
+		return (NULL);
+	name = get_name(args[index]);
+	value = get_value(args[index]);
 	i = 0;
 	while (shell->env[i] && ft_strlen(shell->env[i]) != 0)
 	{
@@ -116,9 +103,41 @@ char	*export(char **args, t_shell *shell)
 			j++;
 		if (ft_strncmp(name, shell->env[i], ft_strlen(name)) == 0
 			&& j == (int)ft_strlen(name))
-			return (change_variable(shell, name, value, i));
+		{
+			change_variable(shell, name, value, i);
+			return (insert_variable(args, shell, index + 1));
+		}
 		i++;
 	}
 	add_line(shell, name, value);
+	return (insert_variable(args, shell, index + 1));
+}
+
+char	*no_value_case(t_shell *shell)
+{
+	int		i;
+	char	*name;
+	char	*value;
+
+	i = 0;
+	while (shell->env[i])
+	{
+		name = get_name(shell->env[i]);
+		value = get_value(shell->env[i]);
+		if (ft_strlen(shell->env[i]) == 0)
+			break ;
+		printf("declare -x %s=\"%s\"\n", name, value);
+		free(name);
+		free(value);
+		i++;
+	}
 	return (NULL);
+}
+
+char	*export(char **args, t_shell *shell, int index)
+{
+	if (!args[1])
+		return (no_value_case(shell));
+	else
+		return (insert_variable(args, shell, index));
 }

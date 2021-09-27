@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:02 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/23 22:44:16 by jdanelon         ###   ########.fr       */
+/*   Updated: 2021/09/27 01:02:32 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	delete_variable(char variable[FILENAME_MAX], char *name, t_shell *shell)
 	}
 }
 
-char	*get_variable_name(char **args)
+char	*get_variable_name(char *args)
 {
 	int		i;
 	int		j;
@@ -70,9 +70,9 @@ char	*get_variable_name(char **args)
 
 	i = 0;
 	j = 0;
-	name = malloc(sizeof(char) * (ft_strlen(args[1]) + 1));
-	while (args[1][i] != '\0')
-		*(name + j++) = args[1][i++];
+	name = malloc(sizeof(char) * (ft_strlen(args) + 1));
+	while (args[i] != '\0')
+		*(name + j++) = args[i++];
 	name[j] = '\0';
 	i = 0;
 	while (name[i])
@@ -87,21 +87,17 @@ char	*get_variable_name(char **args)
 	return (name);
 }
 
-char	*unset(char **args, t_shell *shell)
+char	*unset(char **args, t_shell *shell, int index)
 {
-	int		i;
 	char	*name;
 	char	variable[FILENAME_MAX];
 
-	i = 0;
-	while (args[i])
-		i++;
-	if (i == 1)
+	while (!args[index])
 		return (NULL);
-	name = get_variable_name(args);
+	name = get_variable_name(args[index]);
 	if (name == NULL)
 		return (NULL);
 	delete_variable(variable, name, shell);
 	free(name);
-	return (NULL);
+	return (unset(args, shell, index + 1));
 }

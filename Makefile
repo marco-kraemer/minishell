@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/01 11:22:06 by maraurel          #+#    #+#              #
-#    Updated: 2021/09/24 00:12:31 by jdanelon         ###   ########.fr        #
+#    Updated: 2021/09/27 00:42:49 by maraurel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,22 +16,7 @@ SRC_PATH = ./src
 
 OBJ_PATH = ./obj
 
-SRC = $(notdir ./src/cd.c \
-				./src/correct_args.c \
-				./src/env.c \
-				./src/export.c \
-				./src/free.c \
-				./src/help.c \
-				./src/inout.c \
-				./src/minishell.c \
-				./src/readline.c \
-				./src/run_shell.c \
-				./src/sig_handlers.c \
-				./src/split_extra.c \
-				./src/split_args.c \
-				./split_commands.c \
-				./src/treat_tabs.c \
-				./src/unset.c)
+SRC = $(notdir $(wildcard ./src/*.c))
 
 OBJ = $(addprefix $(OBJ_PATH)/, $(SRC:.c=.o))
 

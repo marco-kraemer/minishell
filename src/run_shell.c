@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_shell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/23 23:52:45 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/27 01:00:40 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ void	execute_child(t_shell *shell, char **envp, char *line)
 	if (ft_strcmp(shell->splited[0], "cd") == 0)
 		change_directory(shell->splited);
 	else if (ft_strcmp(shell->splited[0], "export") == 0)
-		export(shell->splited, shell);
+		export(shell->splited, shell, 1);
 	else if (ft_strcmp(shell->splited[0], "unset") == 0)
-		unset(shell->splited, shell);
+		unset(shell->splited, shell, 1);
 	else if (ft_strcmp(shell->splited[0], "env") == 0)
 		env(shell->splited, shell);
 	else if (ft_strcmp(shell->splited[0], "exit") == 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/23 23:51:50 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/27 01:00:31 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ char	**split_commands(char const *s);
 char	**even_number_of_quotes(t_shell *shell, char **p, int num_commands);
 char	**to_free2(char const **p, int j);
 
-char	*unset(char **args, t_shell *shell);
-char	*export(char **args, t_shell *shell);
+char	*unset(char **args, t_shell *shell, int index);
+char	*export(char **args, t_shell *shell, int index);
 char	*env(char **args, t_shell *shell);
 char	*pwd(void);
 char	*change_directory(char **args);
