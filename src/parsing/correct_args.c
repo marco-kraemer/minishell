@@ -6,13 +6,11 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 14:18:46 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:53:27 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
-
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char	*ft_getenv(char *old, char **env)
 {

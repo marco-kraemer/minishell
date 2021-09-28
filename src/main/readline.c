@@ -6,11 +6,11 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/12 11:04:49 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/21 20:49:18 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:53:53 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	ft_join(char **str1, char *str2)
 {

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:58:47 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 00:32:49 by jdanelon         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:53:34 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	free_args(char *line, t_shell *shell)
 {

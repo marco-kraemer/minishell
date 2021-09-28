@@ -6,17 +6,17 @@
 #    By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/01 11:22:06 by maraurel          #+#    #+#              #
-#    Updated: 2021/09/27 00:42:49 by maraurel         ###   ########.fr        #
+#    Updated: 2021/09/28 15:00:10 by maraurel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRC_PATH = ./src
+SRC_PATH = ./src/*
 
 OBJ_PATH = ./obj
 
-SRC = $(notdir $(wildcard ./src/*.c))
+SRC = $(notdir $(wildcard ./src/*/*.c))
 
 OBJ = $(addprefix $(OBJ_PATH)/, $(SRC:.c=.o))
 

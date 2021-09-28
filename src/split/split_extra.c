@@ -6,11 +6,11 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 12:19:57 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/27 22:52:56 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:54:20 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	loop_quotes(char const *s)
 {

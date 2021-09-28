@@ -6,11 +6,11 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 23:37:15 by jdanelon          #+#    #+#             */
-/*   Updated: 2021/09/28 08:57:31 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:53:33 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	check_rule(char *line)
 {

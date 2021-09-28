@@ -6,11 +6,11 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 14:43:48 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/27 22:44:22 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:54:09 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	special_chars(char **p, t_shell *shell)
 {

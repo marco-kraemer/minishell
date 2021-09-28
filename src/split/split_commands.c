@@ -6,11 +6,11 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 07:16:24 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/21 09:52:50 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:54:14 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	check_quotes2(char const line, int rule)
 {

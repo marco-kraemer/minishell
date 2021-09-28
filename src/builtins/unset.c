@@ -6,11 +6,11 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:02 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/27 01:02:32 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:54:28 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 char	**delete_line(t_shell *shell, int line)
 {

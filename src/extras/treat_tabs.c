@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   treat_tabs.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 23:50:43 by user42            #+#    #+#             */
-/*   Updated: 2021/09/23 23:53:20 by user42           ###   ########.fr       */
+/*   Updated: 2021/09/28 14:54:24 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	treat_quotes2(char *s, int i)
 {
