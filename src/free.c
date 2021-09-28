@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:58:47 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/27 09:22:19 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 00:32:49 by jdanelon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,20 @@ void	free_args(char *line, t_shell *shell)
 	free(shell->args);
 }
 
+static	int	check_numeric_arg(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 static	int	check_exit_arg(char **args, int *mark)
 {
 	int	i;
@@ -42,11 +56,17 @@ static	int	check_exit_arg(char **args, int *mark)
 	if (i == 1)
 		status = 0;
 	else if (i == 2)
-		status = ft_atoi(args[1]);
+	{
+		status = 2;
+		if (check_numeric_arg(args[1]))
+			status = ft_atoi(args[1]);
+		else
+			printf("bash: exit: %s: numeric argument required\n", args[1]);
+	}
 	else
 	{
 		printf("shell: exit: too many arguments\n");
-		g_status = 130;
+		g_status = 1;
 		*mark = -1;
 		return (-1);
 	}

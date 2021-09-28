@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:10 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/20 10:46:10 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 00:41:47 by jdanelon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ char	*change_directory(char **args)
 		}
 		new_arg = handle_tilde(args);
 		if (chdir(new_arg) != 0)
+		{
+			g_status = 1;
 			printf("shell: cd: %s: No such file or directory\n", args[1]);
+		}
 		free(new_arg);
 	}
 	return (NULL);

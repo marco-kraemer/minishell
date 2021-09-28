@@ -6,9 +6,11 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 00:50:43 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 09:54:17 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../includes/minishell.h"
 
 #include "../includes/minishell.h"
 
@@ -41,51 +43,46 @@ char	*ft_getenv(char *old, char **env)
 	return (value);
 }
 
-void	replace_values2(t_correct_args *helper, char *old, char ret[9999])
+char	*replace_values(char *s, char *old, char *new)
 {
-	int		k;
-	char	tmp[9999];
+	char	*result;
+	int		i;
+	int		cnt;
+	int		newlen;
+	int		oldlen;
 
-	k = 0;
-	while (helper->string[helper->i + k] != ' '
-		&& helper->string[helper->i + k])
+	i = 0;
+	cnt = 0;
+	newlen = ft_strlen(new);
+	oldlen = ft_strlen(old);
+	
+	/* Contar num vezes old word aparece*/
+	while (s[i] != '\0')
 	{
-		tmp[k] = helper->string[helper->i + k];
-		k++;
-	}
-	tmp[k] = '\0';
-	if (ft_strncmp(tmp, old, ft_strlen(old)) == 0 && helper->rule == NO_QUOTES)
-	{
-		k = 0;
-		if (helper->new)
-			while (helper->new[k])
-				ret[helper->j++] = helper->new[k++];
-		helper->rule = DOUBLE_QUOTES;
-		helper->i += ft_strlen(tmp);
-	}
-	ret[helper->j] = helper->string[helper->i];
-	helper->i++;
-}
-
-char	*replace_values(char *string, char *old, char *new)
-{
-	t_correct_args	helper;
-	char			ret[9999];
-
-	helper.i = 0;
-	helper.j = 0;
-	helper.rule = 0;
-	helper.new = new;
-	helper.string = string;
-	while (helper.string[helper.i])
-	{
-		replace_values2(&helper, old, ret);
-		if (helper.i > (int)ft_strlen(helper.string))
+		if (ft_strstr(&s[i], old) == &s[i])
+			cnt++;
+		i += oldlen - 1;
+		if (i > (int)ft_strlen(s))
 			break ;
-		helper.j++;
 	}
-	ret[helper.j] = '\0';
-	return (ft_strdup(ret));
+	/* Allocar memória suficiente */
+	result = (char*)malloc(i + cnt * (newlen - oldlen) + 1);
+
+	i = 0;
+	while (*s)
+	{
+		if (ft_strstr(s, old) == s)
+		{
+			if (new)
+				ft_strcpy(&result[i], new);
+			i += newlen;
+			s += oldlen;
+		}
+		else
+			result[i++] = *s++;
+	}
+	result[i] = '\0';
+	return (result);
 }
 
 /* Replace string iniciadas com $ pelo valor

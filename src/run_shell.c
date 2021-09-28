@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_shell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 00:05:07 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 00:00:47 by jdanelon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	launch(t_shell *shell, char **envp, char **file, char *msg)
 {
 	pid_t	pid;
 	int		ret;
+	int		wait_status;
 
 	pid = fork();
 	signal(SIGINT, sigint_handler_process);
@@ -35,9 +36,8 @@ void	launch(t_shell *shell, char **envp, char **file, char *msg)
 	}
 	else
 	{
-		wait(&g_status);
-		if (WEXITSTATUS(g_status))
-			g_status = 127;
+		wait(&wait_status);
+		g_status = WEXITSTATUS(wait_status);
 	}
 }
 
@@ -52,7 +52,9 @@ char	*launch_prog(t_shell *shell, char **envp)
 		launch(shell, envp, path_args, "no such file or directory");
 	else
 		launch(shell, envp, path_args, "command not found");
-	ft_free_double(path_args);
+	while (path_args[i])
+		free(path_args[i++]);
+	free(path_args);
 	return (NULL);
 }
 

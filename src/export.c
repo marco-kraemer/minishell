@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:05 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/27 01:35:07 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 09:17:30 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,15 @@ char	*get_name(char *args)
 	int	i;
 
 	i = 0;
-	while (args[i] != '=')
+	while (args[i] != '=' && args[i])
+	{
+		if (ft_isalpha(args[i]) == 0 && args[i] != '_')
+		{
+			printf("export: '%s': not a valid identifier\n", args);
+			return (NULL);
+		}
 		i++;
+	}
 	return (ft_substr(args, 0, i));
 }
 
@@ -52,7 +59,7 @@ char	*get_value(char *args)
 	int	length;
 
 	i = 0;
-	while (args[i] != '=')
+	while (args[i] != '=' && args[i])
 		i++;
 	length = 0;
 	while (args[i + length])
@@ -94,6 +101,8 @@ char	*insert_variable(char **args, t_shell *shell, int index)
 	if (!args[index])
 		return (NULL);
 	name = get_name(args[index]);
+	if (!name)
+		return (insert_variable(args, shell, index + 1));
 	value = get_value(args[index]);
 	i = 0;
 	while (shell->env[i] && ft_strlen(shell->env[i]) != 0)
@@ -126,7 +135,10 @@ char	*no_value_case(t_shell *shell)
 		value = get_value(shell->env[i]);
 		if (ft_strlen(shell->env[i]) == 0)
 			break ;
-		printf("declare -x %s=\"%s\"\n", name, value);
+		if (value[0])
+			printf("declare -x %s=\"%s\"\n", name, value);
+		else
+			printf("declare -x %s\n", name);
 		free(name);
 		free(value);
 		i++;
