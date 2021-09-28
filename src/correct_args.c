@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/27 13:47:04 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/27 22:13:23 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,19 +116,20 @@ char	**join_no_space_args(char **args, t_shell *shell)
 	char	**ret;
 	int		i;
 	int		j;
+	int		count_words;
 
 	/* Calcular numeros de palavras, sem contar espaços */
 	i = 0;
-	j = 1;
+	count_words = 1;
 	while (args[i])
 	{
 		if (ft_strcmp(args[i], " ") == 0 && ft_strlen(args[i]) == 1 && args[i + 1])
-			j++;
+			count_words++;
 		i++;
 	}
 
 	/* Juntar argumentos quando não há espaços*/
-	ret = (char **)malloc(sizeof(char *) * (j + 1));
+	ret = (char **)malloc(sizeof(char *) * (count_words + 1));
 	i = 0;
 	j = 0;
 	while (args[i])
@@ -138,13 +139,16 @@ char	**join_no_space_args(char **args, t_shell *shell)
 		while (args[i])
 		{
 			if (ft_strcmp(args[i], " ") == 0 && ft_strlen(args[i]) == 1)
+			{
+				i++;
 				break ;
+			}
 			ret[j] = ft_strjoin_free(ret[j], args[i]);
 			i++;
 		}
 		j++;
 	}
-	ret[j] = 0;
+	ret[count_words] = 0;
 	ft_free_double(shell->splited);
 	return (ret);
 }
@@ -172,6 +176,14 @@ char	**correct_args(t_shell *shell, int status, char **envp)
 		}
 		helper.i++;
 	}
+
+//	for (int i = 0; shell->splited[i]; i++)
+//		printf("%s\n", shell->splited[i]);
+	
 	shell->splited = join_no_space_args(shell->splited, shell);
+
+//	for (int i = 0; shell->splited[i]; i++)
+//		printf("%s\n", shell->splited[i]);
+
 	return (shell->splited);
 }
