@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 09:43:36 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:18:54 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ char	*change_directory(char **args);
 char	*readinput(t_shell *shell);
 char	*ft_remove(void);
 char	*ft_strjoin_free(char const *s1, char const *s2);
+char	*replace_words(char *s, char *old, char *new);
 
 void	ft_free_double(char **s);
 void	execute(t_shell *shell, char **env);

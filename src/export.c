@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:05 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 09:17:30 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:28:19 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,8 @@ void	change_variable(t_shell *shell, char *name, char *value, int i)
 	free(value);
 }
 
-char	*insert_variable(char **args, t_shell *shell, int index)
+char	*insert_variable(char **args, t_shell *s, int index)
 {
-	int		i;
-	int		j;
 	char	*name;
 	char	*value;
 
@@ -102,24 +100,24 @@ char	*insert_variable(char **args, t_shell *shell, int index)
 		return (NULL);
 	name = get_name(args[index]);
 	if (!name)
-		return (insert_variable(args, shell, index + 1));
+		return (insert_variable(args, s, index + 1));
 	value = get_value(args[index]);
-	i = 0;
-	while (shell->env[i] && ft_strlen(shell->env[i]) != 0)
+	s->i = 0;
+	while (s->env[s->i] && ft_strlen(s->env[s->i]) != 0)
 	{
-		j = 0;
-		while (shell->env[i][j] != '=' && shell->env[i][j])
-			j++;
-		if (ft_strncmp(name, shell->env[i], ft_strlen(name)) == 0
-			&& j == (int)ft_strlen(name))
+		s->j = 0;
+		while (s->env[s->i][s->j] != '='&& s->env[s->i][s->j])
+			s->j++;
+		if (ft_strncmp(name, s->env[s->i], ft_strlen(name)) == 0
+			&& s->j == (int)ft_strlen(name))
 		{
-			change_variable(shell, name, value, i);
-			return (insert_variable(args, shell, index + 1));
+			change_variable(s, name, value, s->i);
+			return (insert_variable(args, s, index + 1));
 		}
-		i++;
+		s->i++;
 	}
-	add_line(shell, name, value);
-	return (insert_variable(args, shell, index + 1));
+	add_line(s, name, value);
+	return (insert_variable(args, s, index + 1));
 }
 
 char	*no_value_case(t_shell *shell)

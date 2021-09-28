@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 14:14:08 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:18:46 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ char	*ft_getenv(char *old, char **env)
 	return (value);
 }
 
+/* Conta quantas vezes palavra 'word' aparece na 'string' */
 int	count_times_word_occur_in_string(char *string, char *word)
 {
 	int	wordlen;
@@ -66,7 +67,8 @@ int	count_times_word_occur_in_string(char *string, char *word)
 	return (cnt);
 }
 
-char	*replace_values(char *s, char *old, char *new)
+/* Troca as palavras old por new na string s */
+char	*replace_words(char *s, char *old, char *new)
 {
 	int		i;
 	int		newlen;
@@ -95,6 +97,7 @@ char	*replace_values(char *s, char *old, char *new)
 	return (result);
 }
 
+/* Realiza checkagem para while loop função replace */
 int	check_replace(t_shell *shell, int word_length, t_correct_args helper)
 {
 	if (((ft_isalpha(shell->splited[helper.i][helper.j + word_length]) != 0
@@ -106,6 +109,7 @@ int	check_replace(t_shell *shell, int word_length, t_correct_args helper)
 	return (1);
 }
 
+/* Free parametros da função duplicate */
 void	free_and_duplicate_replace(t_shell *shell, t_correct_args *helper)
 {
 	free(shell->splited[helper->i]);
@@ -138,7 +142,7 @@ void	replace(t_shell *shell, t_correct_args helper, char **envp)
 		helper.value = ft_itoa(shell->status);
 	else
 		helper.value = ft_getenv(helper.word, envp);
-	helper.new = replace_values(shell->splited[helper.i],
+	helper.new = replace_words(shell->splited[helper.i],
 			helper.word, helper.value);
 	free_and_duplicate_replace(shell, &helper);
 }
