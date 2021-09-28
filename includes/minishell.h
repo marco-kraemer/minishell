@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/27 13:46:32 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/27 23:19:52 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,5 +125,5 @@ void	sigint_handler(int sig_num);
 void	sigint_handler_process(int sig_num);
 void	free_args(char *line, t_shell *shell);
 void	get_in_and_out_file(t_shell *shell, char *line);
-
+void	sigquit_handler_process(int sig_num);
 #endif
