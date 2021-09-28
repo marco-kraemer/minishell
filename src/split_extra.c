@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/11 12:19:57 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/27 12:05:06 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/27 22:52:56 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,21 @@ void	loop_quotes(char const *s)
 	}
 }
 
+void	countstring2_state_0_case(int *state, int *count_space, int *i)
+{
+	*state = 1;
+	*count_space = 0;
+	*i += 1;
+}
+
+void	countstring2_space_case(int *state, int *count_space, int *i)
+{
+	if (*count_space == 0)
+		*i += 1;
+	*count_space = 1;
+	*state = 0;
+}
+
 int	countstring2(char const *s, char c, int i, int state)
 {
 	int	count_space;
@@ -46,18 +61,9 @@ int	countstring2(char const *s, char c, int i, int state)
 			state = 0;
 		}
 		else if (*s == ' ')
-		{
-			if (count_space == 0)
-				i++;
-			count_space = 1;
-			state = 0;
-		}
+			countstring2_space_case(&state, &count_space, &i);
 		else if (state == 0)
-		{
-			state = 1;
-			count_space = 0;
-			i++;
-		}
+			countstring2_state_0_case(&state, &count_space, &i);
 		if (*s != '\0')
 			s++;
 	}

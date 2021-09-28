@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/27 22:13:23 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/27 22:41:04 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,25 +110,30 @@ void	replace(t_shell *shell, t_correct_args helper, char **envp)
 	free(helper.word);
 }
 
-/* Juntar argumentos quando não há espaço entre eles e remover os espaços*/
-char	**join_no_space_args(char **args, t_shell *shell)
+/* Contar número de palavras sem contar espaços */
+int	count_num_word(char **args)
 {
-	char	**ret;
-	int		i;
-	int		j;
-	int		count_words;
+	int	i;
+	int	count_words;
 
-	/* Calcular numeros de palavras, sem contar espaços */
 	i = 0;
 	count_words = 1;
 	while (args[i])
 	{
-		if (ft_strcmp(args[i], " ") == 0 && ft_strlen(args[i]) == 1 && args[i + 1])
+		if (ft_strcmp(args[i], " ") == 0
+			&& ft_strlen(args[i]) == 1 && args[i + 1])
 			count_words++;
 		i++;
 	}
+	return (count_words);
+}
 
-	/* Juntar argumentos quando não há espaços*/
+/* Juntar argumentos quando não há espaço entre eles e remover os espaços*/
+char	**join_no_space_args(char **args, int i, int j, int count_words)
+{
+	char	**ret;
+
+	count_words = count_num_word(args);
 	ret = (char **)malloc(sizeof(char *) * (count_words + 1));
 	i = 0;
 	j = 0;
@@ -149,7 +154,7 @@ char	**join_no_space_args(char **args, t_shell *shell)
 		j++;
 	}
 	ret[count_words] = 0;
-	ft_free_double(shell->splited);
+	ft_free_double(args);
 	return (ret);
 }
 
@@ -159,7 +164,6 @@ char	**correct_args(t_shell *shell, int status, char **envp)
 
 	shell->status = status;
 	helper.i = 0;
-
 	while (shell->splited[helper.i])
 	{
 		helper.j = 0;
@@ -176,14 +180,5 @@ char	**correct_args(t_shell *shell, int status, char **envp)
 		}
 		helper.i++;
 	}
-
-//	for (int i = 0; shell->splited[i]; i++)
-//		printf("%s\n", shell->splited[i]);
-	
-	shell->splited = join_no_space_args(shell->splited, shell);
-
-//	for (int i = 0; shell->splited[i]; i++)
-//		printf("%s\n", shell->splited[i]);
-
-	return (shell->splited);
+	return (join_no_space_args(shell->splited, 0, 0, 0));
 }

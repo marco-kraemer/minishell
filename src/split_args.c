@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 14:43:48 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/27 12:19:14 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/27 22:44:22 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ char	**makearray2(t_shell *shell, char const *s, char **p, int l)
 			return (to_free2((char const **)p, shell->j));
 		p[shell->j][shell->k] = '\0';
 		shell->quotes = 0;
-		if (s[shell->i] ==  ' ')
+		if (s[shell->i] == ' ')
 		{
 			shell->j++;
 			p[shell->j] = (char *)malloc(sizeof(char) * 2);
@@ -109,8 +109,6 @@ char	**makearray2(t_shell *shell, char const *s, char **p, int l)
 		shell->j++;
 	}
 	p[shell->j] = 0;
-	if (special_chars(p, shell) == 1)
-		return (to_free2((char const **)p, shell->j));
 	return (p);
 }
 
@@ -128,5 +126,10 @@ char	**split_args(char const *s, t_shell *shell)
 	p = (char **)malloc(sizeof(char *) * (i + 1));
 	if (p == NULL)
 		return (NULL);
-	return (makearray2(shell, s, p, i));
+	p = makearray2(shell, s, p, i);
+	if (p[0][0] == 0)
+		return (NULL);
+	if (special_chars(p, shell) == 1)
+		return (to_free2((char const **)p, shell->j));
+	return (p);
 }
