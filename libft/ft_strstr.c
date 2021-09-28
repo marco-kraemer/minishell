@@ -6,14 +6,14 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 09:38:39 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 09:39:03 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:31:15 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 char	*ft_strstr(char *str, char *to_find)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	if (to_find[0] == '\0')
