@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/27 23:19:38 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 00:05:07 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,7 @@ char	*launch_prog(t_shell *shell, char **envp)
 		launch(shell, envp, path_args, "no such file or directory");
 	else
 		launch(shell, envp, path_args, "command not found");
-	while (path_args[i])
-		free(path_args[i++]);
-	free(path_args);
+	ft_free_double(path_args);
 	return (NULL);
 }
 

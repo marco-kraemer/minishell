@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 23:37:15 by jdanelon          #+#    #+#             */
-/*   Updated: 2021/09/21 22:37:46 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/27 23:56:59 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	iterate_over_path(t_shell *shell, char **envp, char **file, char *msg)
 	while (file[i])
 	{
 		tmp = ft_strjoin(file[i], "/");
-		tmp = ft_strjoin(tmp, shell->splited[0]);
+		tmp = ft_strjoin_free(tmp, shell->splited[0]);
 		ret = execve(tmp, shell->splited, envp);
 		free(tmp);
 		if (ret == 0)
