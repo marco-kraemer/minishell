@@ -14,7 +14,7 @@ char	*ft_strcpy(char *dest, char *src)
 {
 	int	i;
 
-	if (!str)
+	if (!src)
 		return (dest);
 	i = 0;
 	while (src[i] != '\0')

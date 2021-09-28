@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 09:54:17 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 12:10:47 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ char	*replace_values(char *s, char *old, char *new)
 	int		newlen;
 	int		oldlen;
 
+//	printf("%s\n", s);
 	i = 0;
 	cnt = 0;
 	newlen = ft_strlen(new);
@@ -59,14 +60,17 @@ char	*replace_values(char *s, char *old, char *new)
 	/* Contar num vezes old word aparece*/
 	while (s[i] != '\0')
 	{
-		if (ft_strstr(&s[i], old) == &s[i])
+		if (strstr(&s[i], old) == &s[i])
+		{
 			cnt++;
-		i += oldlen - 1;
+			i += oldlen;
+		}
+		i++;
 		if (i > (int)ft_strlen(s))
 			break ;
 	}
 	/* Allocar memória suficiente */
-	result = (char*)malloc(i + cnt * (newlen - oldlen) + 1);
+	result = (char*)malloc(sizeof(char) * i + cnt * (newlen - oldlen) + 1);
 
 	i = 0;
 	while (*s)
