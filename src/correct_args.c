@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 13:54:31 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:14:08 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,35 +43,42 @@ char	*ft_getenv(char *old, char **env)
 	return (value);
 }
 
-char	*replace_values(char *s, char *old, char *new)
+int	count_times_word_occur_in_string(char *string, char *word)
 {
-	char	*result;
-	int		i;
-	int		cnt;
-	int		newlen;
-	int		oldlen;
+	int	wordlen;
+	int	cnt;
+	int	i;
 
 	i = 0;
 	cnt = 0;
-	newlen = ft_strlen(new);
-	oldlen = ft_strlen(old);
-//	printf("%s\n%s\n%s\n", s, old, new);
-	/* Contar num vezes old word aparece*/
-	while (s[i] != '\0')
+	wordlen = ft_strlen(word);
+	while (string[i] != '\0')
 	{
-		if (strstr(&s[i], old) == &s[i])
+		if (strstr(&string[i], word) == &string[i])
 		{
 			cnt++;
-			i += oldlen - 1;
+			i += wordlen - 1;
 		}
 		i++;
-		if (i > (int)ft_strlen(s))
+		if (i > (int)ft_strlen(string))
 			break ;
 	}
-	/* Allocar memória suficiente */
-	result = (char*)malloc(sizeof(char) * i + cnt * (newlen - oldlen) + 1);
+	return (cnt);
+}
+
+char	*replace_values(char *s, char *old, char *new)
+{
+	int		i;
+	int		newlen;
+	int		oldlen;
+	char	*result;
 
 	i = 0;
+	newlen = ft_strlen(new);
+	oldlen = ft_strlen(old);
+	result = (char *)malloc(sizeof(char) * ft_strlen(s)
+			+ count_times_word_occur_in_string(s, old)
+			* (ft_strlen(new) - ft_strlen(old)) + 1);
 	while (*s)
 	{
 		if (ft_strstr(s, old) == s)
@@ -91,12 +98,21 @@ char	*replace_values(char *s, char *old, char *new)
 int	check_replace(t_shell *shell, int word_length, t_correct_args helper)
 {
 	if (((ft_isalpha(shell->splited[helper.i][helper.j + word_length]) != 0
-		|| shell->splited[helper.i][helper.j + word_length] == '$'
+			|| shell->splited[helper.i][helper.j + word_length] == '$'
 		|| shell->splited[helper.i][helper.j + word_length] == '?'
 		|| shell->splited[helper.i][helper.j + word_length] == '_')
 		&& shell->splited[helper.i][helper.j + word_length]))
 		return (0);
 	return (1);
+}
+
+void	free_and_duplicate_replace(t_shell *shell, t_correct_args *helper)
+{
+	free(shell->splited[helper->i]);
+	shell->splited[helper->i] = ft_strdup(helper->new);
+	free(helper->value);
+	free(helper->new);
+	free(helper->word);
 }
 
 /* Replace string iniciadas com $ pelo valor
@@ -108,7 +124,6 @@ void	replace(t_shell *shell, t_correct_args helper, char **envp)
 
 	status = 0;
 	word_length = 0;
-//	printf("-> %s\n", shell->splited[helper.i]);
 	while (check_replace(shell, word_length, helper) == 0)
 	{
 		if (shell->splited[helper.i][helper.j + word_length] == '$')
@@ -125,11 +140,7 @@ void	replace(t_shell *shell, t_correct_args helper, char **envp)
 		helper.value = ft_getenv(helper.word, envp);
 	helper.new = replace_values(shell->splited[helper.i],
 			helper.word, helper.value);
-	free(shell->splited[helper.i]);
-	shell->splited[helper.i] = ft_strdup(helper.new);
-	free(helper.value);
-	free(helper.new);
-	free(helper.word);
+	free_and_duplicate_replace(shell, &helper);
 }
 
 /* Contar número de palavras sem contar espaços */
