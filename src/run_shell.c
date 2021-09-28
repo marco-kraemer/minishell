@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/27 11:40:36 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/27 23:15:29 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	launch(t_shell *shell, char **envp, char **file, char *msg)
 
 	pid = fork();
 	signal(SIGINT, sigint_handler_process);
+	signal(SIGQUIT, &sigint_handler_process);
 	if (pid == -1)
 	{
 		printf("Failed forking child.\n");
@@ -37,7 +38,6 @@ void	launch(t_shell *shell, char **envp, char **file, char *msg)
 		wait(&g_status);
 		if (WEXITSTATUS(g_status))
 			g_status = 127;
-		return ;
 	}
 }
 
