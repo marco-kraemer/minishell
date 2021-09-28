@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 12:10:47 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 13:54:31 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,18 @@ char	*replace_values(char *s, char *old, char *new)
 	int		newlen;
 	int		oldlen;
 
-//	printf("%s\n", s);
 	i = 0;
 	cnt = 0;
 	newlen = ft_strlen(new);
 	oldlen = ft_strlen(old);
-	
+//	printf("%s\n%s\n%s\n", s, old, new);
 	/* Contar num vezes old word aparece*/
 	while (s[i] != '\0')
 	{
 		if (strstr(&s[i], old) == &s[i])
 		{
 			cnt++;
-			i += oldlen;
+			i += oldlen - 1;
 		}
 		i++;
 		if (i > (int)ft_strlen(s))
@@ -89,18 +88,35 @@ char	*replace_values(char *s, char *old, char *new)
 	return (result);
 }
 
+int	check_replace(t_shell *shell, int word_length, t_correct_args helper)
+{
+	if (((ft_isalpha(shell->splited[helper.i][helper.j + word_length]) != 0
+		|| shell->splited[helper.i][helper.j + word_length] == '$'
+		|| shell->splited[helper.i][helper.j + word_length] == '?'
+		|| shell->splited[helper.i][helper.j + word_length] == '_')
+		&& shell->splited[helper.i][helper.j + word_length]))
+		return (0);
+	return (1);
+}
+
 /* Replace string iniciadas com $ pelo valor
 			da variável de ambiende correspondente */
 void	replace(t_shell *shell, t_correct_args helper, char **envp)
 {
 	int	word_length;
+	int	status;
 
+	status = 0;
 	word_length = 0;
-	while ((ft_isalpha(shell->splited[helper.i][helper.j + word_length]) != 0
-		|| shell->splited[helper.i][helper.j + word_length] == '$'
-		|| shell->splited[helper.i][helper.j + word_length] == '?')
-		&& shell->splited[helper.i][helper.j + word_length])
+//	printf("-> %s\n", shell->splited[helper.i]);
+	while (check_replace(shell, word_length, helper) == 0)
+	{
+		if (shell->splited[helper.i][helper.j + word_length] == '$')
+			status++;
+		if (status > 1)
+			break ;
 		word_length++;
+	}
 	helper.word = ft_substr(shell->splited[helper.i], helper.j, word_length);
 	if (ft_strncmp(shell->splited[helper.i], "$?", word_length) == 0
 		&& word_length == 2)
@@ -179,7 +195,10 @@ char	**correct_args(t_shell *shell, int status, char **envp)
 				&& shell->quote_rules[helper.i] != SINGLE_QUOTES
 				&& shell->splited[helper.i][helper.j + 1] != ' '
 				&& shell->splited[helper.i][helper.j + 1] != '\0')
+			{
 				replace(shell, helper, envp);
+				helper.j--;
+			}
 			helper.j++;
 			if (helper.j > (int)ft_strlen(shell->splited[helper.i]))
 				break ;
