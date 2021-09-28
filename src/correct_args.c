@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/27 22:41:04 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 00:50:43 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_getenv(char *old, char **env)
 void	replace_values2(t_correct_args *helper, char *old, char ret[9999])
 {
 	int		k;
-	char	tmp[999];
+	char	tmp[9999];
 
 	k = 0;
 	while (helper->string[helper->i + k] != ' '
@@ -88,16 +88,21 @@ char	*replace_values(char *string, char *old, char *new)
 	return (ft_strdup(ret));
 }
 
+/* Replace string iniciadas com $ pelo valor
+			da variável de ambiende correspondente */
 void	replace(t_shell *shell, t_correct_args helper, char **envp)
 {
 	int	word_length;
 
 	word_length = 0;
-	while (shell->splited[helper.i][helper.j + word_length] != ' '
+	while ((ft_isalpha(shell->splited[helper.i][helper.j + word_length]) != 0
+		|| shell->splited[helper.i][helper.j + word_length] == '$'
+		|| shell->splited[helper.i][helper.j + word_length] == '?')
 		&& shell->splited[helper.i][helper.j + word_length])
 		word_length++;
 	helper.word = ft_substr(shell->splited[helper.i], helper.j, word_length);
-	if (ft_strcmp(helper.word, "$?") == 0 && word_length == 2)
+	if (ft_strncmp(shell->splited[helper.i], "$?", word_length) == 0
+		&& word_length == 2)
 		helper.value = ft_itoa(shell->status);
 	else
 		helper.value = ft_getenv(helper.word, envp);
