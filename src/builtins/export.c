@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:05 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 14:53:36 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 17:28:16 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,37 +34,6 @@ void	add_line(t_shell *shell, char *name, char *value)
 	free(var);
 	free(name);
 	free(value);
-}
-
-char	*get_name(char *args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i] != '=' && args[i])
-	{
-		if (ft_isalpha(args[i]) == 0 && args[i] != '_')
-		{
-			printf("export: '%s': not a valid identifier\n", args);
-			return (NULL);
-		}
-		i++;
-	}
-	return (ft_substr(args, 0, i));
-}
-
-char	*get_value(char *args)
-{
-	int	i;
-	int	length;
-
-	i = 0;
-	while (args[i] != '=' && args[i])
-		i++;
-	length = 0;
-	while (args[i + length])
-		length++;
-	return (ft_substr(args, i + 1, length));
 }
 
 void	change_variable(t_shell *shell, char *name, char *value, int i)
@@ -106,7 +75,7 @@ char	*insert_variable(char **args, t_shell *s, int index)
 	while (s->env[s->i] && ft_strlen(s->env[s->i]) != 0)
 	{
 		s->j = 0;
-		while (s->env[s->i][s->j] != '='&& s->env[s->i][s->j])
+		while (s->env[s->i][s->j] != '=' && s->env[s->i][s->j])
 			s->j++;
 		if (ft_strncmp(name, s->env[s->i], ft_strlen(name)) == 0
 			&& s->j == (int)ft_strlen(name))

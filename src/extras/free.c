@@ -6,29 +6,11 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:58:47 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 14:53:34 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 17:34:45 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	free_args(char *line, t_shell *shell)
-{
-	int	i;
-
-	if (shell->infile != 0)
-		free(shell->infile);
-	if (shell->outfile != 0)
-		free(shell->outfile);
-	if (ft_strlen(line) != 0)
-	{
-		free(line);
-		i = 0;
-		while (shell->args[i])
-			free(shell->args[i++]);
-	}
-	free(shell->args);
-}
 
 static	int	check_numeric_arg(char *str)
 {

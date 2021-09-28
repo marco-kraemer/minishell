@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 14:18:54 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 17:33:28 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ char	**treat_tabs(char **args);
 char	**get_variable_list(char **env);
 char	**split_args(char const *s, t_shell *shell);
 char	**to_free2(char const **p, int j);
-char	**correct_args(t_shell *shell, int status, char **envp);
+char	**tokenizer(t_shell *shell, int status, char **envp);
 char	**split_commands(char const *s);
 char	**even_number_of_quotes(t_shell *shell, char **p, int num_commands);
 char	**to_free2(char const **p, int j);
@@ -114,7 +114,12 @@ char	*readinput(t_shell *shell);
 char	*ft_remove(void);
 char	*ft_strjoin_free(char const *s1, char const *s2);
 char	*replace_words(char *s, char *old, char *new);
+char	*get_value(char *args);
+char	*get_name(char *args);
+char	*ft_getenv(char *old, char **env);
 
+void	replace(t_shell *shell, t_correct_args helper, char **envp);
+void	free_and_duplicate_replace(t_shell *shell, t_correct_args *helper);
 void	ft_free_double(char **s);
 void	execute(t_shell *shell, char **env);
 void	execute_child(t_shell *shell, char **envp, char *line);

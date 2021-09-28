@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 14:53:57 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/28 17:30:29 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	execute_child(t_shell *shell, char **envp, char *line)
 	ret = NULL;
 	if (!shell->splited)
 		return ;
-	shell->splited = correct_args(shell, g_status, shell->env);
+	shell->splited = tokenizer(shell, g_status, shell->env);
 	if (!shell->splited[0])
 		return ;
 	if (ft_strcmp(shell->splited[0], "cd") == 0)
