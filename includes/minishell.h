@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 13:16:18 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 15:25:37 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ typedef struct s_shell {
 	char	**env;
 	char	**splited;
 
-	int		rule;
+	int		infile_rule;
+	int		outfile_rule;
 	int		numcommands;
 	int		tmpin;
 	int		tmpout;

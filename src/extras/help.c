@@ -6,40 +6,11 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 23:37:15 by jdanelon          #+#    #+#             */
-/*   Updated: 2021/09/28 14:53:33 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 15:34:21 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	check_rule(char *line)
-{
-	t_rule	rule;
-
-	rule.i = 0;
-	rule.ret = 0;
-	rule.check1 = 0;
-	rule.check2 = 0;
-	while (line[rule.i])
-	{
-		if (line[rule.i] == '>' && rule.check1 == 0)
-		{
-			rule.ret += 1;
-			rule.check1++;
-			if (line[rule.i + 1] == '>')
-				rule.ret += 6;
-		}
-		if (line[rule.i] == '<' && rule.check2 == 0)
-		{
-			rule.ret += 4;
-			rule.check2++;
-			if (line[rule.i + 1] == '<')
-				rule.ret += 8;
-		}
-		rule.i = treat_quotes(line, rule.i);
-	}
-	return (rule.ret);
-}
 
 char	*ft_exec_rm(char **args)
 {

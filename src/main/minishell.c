@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 13:40:04 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 15:47:53 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,27 @@ void	treat_infile(t_shell *shell)
 {
 	int		fd;
 
-	if (shell->rule == 12 || shell->rule == 19 || shell->rule == 13)
+	if (shell->infile_rule == 2)
 	{
 		fd = open("../tmp", O_CREAT | O_WRONLY | O_APPEND, 0777);
 		infile_loop(shell, fd);
 		free(shell->infile);
 		shell->infile = ft_strdup("../tmp");
 	}
-	shell->fdin = open(shell->infile, O_RDONLY);
-	if (shell->rule == 12 || shell->rule == 19 || shell->rule == 13)
+	if (shell->infile_rule == 1 || shell->infile_rule == 2)
+		shell->fdin = open(shell->infile, O_RDONLY);
+	else
+		shell->fdin = dup(shell->tmpin);
+	if (shell->fdin < 0)
+	{
+		printf("shell: No such file or directory\n");
+		return ;
+	}
+	if (shell->infile_rule == 2)
 		ft_remove();
 }
 
-void	run_commands(t_shell *shell, char **env)
+void	parse_execute(t_shell *shell, char **env)
 {
 	int	i;
 
@@ -63,24 +71,9 @@ void	run_commands(t_shell *shell, char **env)
 		shell->splited = split_args(shell->args[i], shell);
 		shell->splited = tokenizer(shell, g_status, shell->env);
 		shell->splited = get_in_and_out_file(shell, shell->splited);
-		
-		
 		shell->tmpin = dup(0);
 		shell->tmpout = dup(1);
-
-
-	//	if (shell->rule == 4 || shell->rule == 5 || shell->rule == 11
-	//		|| shell->rule == 12 || shell->rule == 13 || shell->rule == 19)
-	//		treat_infile(shell);
-	//	else
-		
-		shell->fdin = dup(shell->tmpin);
-		if (shell->fdin < 0)
-		{
-			printf("shell: No such file or directory\n");
-			return ;
-		}
-		shell->args = treat_tabs(shell->args);
+		treat_infile(shell);
 		execute(shell, env, i);
 		dup2(shell->tmpin, 0);
 		dup2(shell->tmpout, 1);
@@ -182,7 +175,6 @@ char	*parse_line(char *line)
 		}
 	}
 	new[j] = '\0';
-//	printf("%s\n", new);
 	free(line);
 	return (new);
 }
@@ -198,16 +190,19 @@ int	main(int argc, char **argv, char **envp)
 	while (TRUE)
 	{
 		line = readinput(&shell);
-		shell.rule = check_rule(line);
 		shell.i = 0;
 		line = parse_line(line);
 		shell.args = split_commands(line);
+		shell.args = treat_tabs(shell.args);
+
+		/* ARRUMAR QND INPUT É SÓ ESPAÇOS */
+
 		if (shell.args != NULL)
 		{
 			shell.numcommands = 0;
 			while (shell.args[shell.numcommands])
 				shell.numcommands++;
-			run_commands(&shell, envp);
+			parse_execute(&shell, envp);
 		//	free_args(line, &shell);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 10:42:09 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 15:26:29 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,13 @@ void	pipe_fdout_fdin(t_shell *shell, int fdpipe[2], int i)
 	close(shell->fdin);
 	if (i == shell->numcommands - 1)
 	{
-		if (shell->rule == 1 || shell->rule == 13 || shell->rule == 5)
+	//	if (shell->rule == 1 || shell->rule == 13 || shell->rule == 5)
 			shell->fdout = open(shell->outfile, O_CREAT
 					| O_WRONLY | O_TRUNC, 0777);
-		else if (shell->rule == 7 || shell->rule == 19 || shell->rule == 11)
+	//	else if (shell->rule == 7 || shell->rule == 19 || shell->rule == 11)
 			shell->fdout = open(shell->outfile, O_CREAT
 					| O_WRONLY | O_APPEND, 0777);
-		else
+	//	else
 			shell->fdout = dup(shell->tmpout);
 	}
 	else
@@ -113,7 +113,6 @@ void	execute(t_shell *shell, char **env, int i)
 	int	fdpipe[2];
 	int	ret;
 
-	/*
 	pipe_fdout_fdin(shell, fdpipe, i);
 	if (shell->numcommands != 1)
 		ret = fork();
@@ -129,6 +128,5 @@ void	execute(t_shell *shell, char **env, int i)
 	}
 	else
 		wait(NULL);
-	*/
 //	printf("%s e %s\n", shell->infile, shell->outfile);
 }
