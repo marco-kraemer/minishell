@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 10:43:41 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 11:24:31 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ void	run_commands(t_shell *shell, char **env)
 	{
 		shell->splited = split_args(shell->args[i], shell);
 
-		for (int i = 0; shell->splited[i]; i++)
-			printf("%s\n", shell->splited[i]);
+//		for (int i = 0; shell->splited[i]; i++)
+//			printf("%s\n", shell->splited[i]);
 
 		shell->splited = tokenizer(shell, g_status, shell->env);
 		get_in_and_out_file(shell, shell->splited);
@@ -112,6 +112,77 @@ void	init_env(char **envp, t_shell *shell)
 	shell->env[i] = NULL;
 }
 
+/* Inserir espaços antes e depois de redirecionadores*/
+char	*parse_line(char *line)
+{
+	int	i;
+	int	extra;
+	char	*new;
+
+	i = 0;
+	extra = 0;
+	while (line[i])
+	{
+		if (line[i] == '>')
+		{
+			extra += 2;
+			i++;
+			while (line[i] == '>')
+				i++;
+		}
+		if (line[i] == '<')
+		{
+			extra += 2;
+			i++;
+			while (line[i] == '<')
+				i++;
+		}
+		else
+			i = treat_quotes(line, i);
+	}
+	new = (char *) malloc(sizeof(char) * (ft_strlen(line) + extra) + 1);
+
+	int	j;
+	j = 0;
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '\"')
+		{
+			new[j++] = line[i++];
+			while (line[i] && line[i] != '\"')
+				new[j++] = line[i++];
+		}
+		if (line[i] == '\'')
+		{
+			new[j++] = line[i++];
+			while (line[i] && line[i] != '\'')
+				new[j++] = line[i++];
+		}
+		if (line[i] == '<')
+		{
+			new[j++] = ' ';
+			while (line[i] == '<')
+				new[j++] = line[i++];
+			new[j++] = ' ';
+		}
+		if (line[i] == '>')
+		{
+			new[j++] = ' ';
+			while (line[i] == '>')
+				new[j++] = line[i++];
+			new[j++] = ' ';
+		}
+		new[j] = line[i];
+		i++;
+		j++;
+	}
+	new[j] = '\0';
+	printf("%s\n", new);
+	free(line);
+	return (new);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
@@ -125,6 +196,7 @@ int	main(int argc, char **argv, char **envp)
 		line = readinput(&shell);
 		shell.rule = check_rule(line);
 		shell.i = 0;
+		line = parse_line(line);
 		shell.args = split_commands(line);
 		if (shell.args != NULL)
 		{
