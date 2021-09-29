@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 17:30:29 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 10:05:29 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,31 +109,29 @@ void	pipe_fdout_fdin(t_shell *shell, int fdpipe[2], int i)
 	close(shell->fdout);
 }
 
-void	execute(t_shell *shell, char **env)
+void	execute(t_shell *shell, char **env, int i)
 {
-	int	i;
 	int	fdpipe[2];
 	int	ret;
 
-	i = 0;
-	while (i < shell->numcommands)
+	/*
+	pipe_fdout_fdin(shell, fdpipe, i);
+	if (shell->numcommands != 1)
+		ret = fork();
+	else
+		ret = 0;
+	if (ret == 0)
 	{
-		pipe_fdout_fdin(shell, fdpipe, i);
+		shell->splited = split_args(shell->args[i], shell);
+		execute_child(shell, env, NULL);
+		ft_free_double(shell->splited);
+		free(shell->quote_rules);
 		if (shell->numcommands != 1)
-			ret = fork();
-		else
-			ret = 0;
-		if (ret == 0)
-		{
-			shell->splited = split_args(shell->args[i], shell);
-			execute_child(shell, env, NULL);
-			ft_free_double(shell->splited);
-			free(shell->quote_rules);
-			if (shell->numcommands != 1)
-				exit (EXIT_SUCCESS);
-		}
-		else
-			wait(NULL);
-		i++;
+			exit (EXIT_SUCCESS);
 	}
+	else
+		wait(NULL);
+	*/
+	get_in_and_out_file(shell, shell->args[i]);
+	printf("%s e %s\n", shell->infile, shell->outfile);
 }

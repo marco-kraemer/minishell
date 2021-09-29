@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 09:23:20 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 14:53:31 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 10:01:35 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,50 +36,43 @@ int	treat_quotes(char *line, int i)
 	return (i);
 }
 
-char	*get_infile(char *line)
+char	*get_file_name(char *line, int *start, int *i)
 {
-	char	*ret;
-	int		i;
-
-	i = 0;
-	while (line[i] != '<' && line[i])
-		i = treat_quotes(line, i);
-	if ((int)ft_strlen(line) <= i)
-		return (NULL);
-	i++;
-	if (line[i] == '<')
-		i++;
-	while (line[i] == ' ')
-		i++;
-	ret = ft_substr(line, i, ft_strlen(line) - i);
-	i = 0;
-	while (ret[i] && ret[i] != ' ')
-		i++;
-	ret[i] = '\0';
-	return (ret);
+	while (line[*i] && line[*i] == ' ')
+		*i += 1;
+	*start = *i;
+	while (line[*i] != ' ' && line[*i] != '<' && line[*i] && line[*i] != '>')
+		*i = treat_quotes(line, *i);
+	return (ft_substr(line, *start, *i - *start));
 }
 
-char	*get_outfile(char *line)
+char	*get_in_out_file(char *line, char c)
 {
-	char	*ret;
+	char	*filename;
 	int		i;
+	int		start;
 
 	i = 0;
-	while (line[i] != '>' && line[i])
-		i = treat_quotes(line, i);
-	if ((int)ft_strlen(line) <= i)
-		return (NULL);
-	i++;
-	if (line[i] == '>')
-		i++;
-	while (line[i] == ' ')
-		i++;
-	ret = ft_substr(line, i, ft_strlen(line) - i);
-	return (ret);
+	filename = NULL;
+	while (line[i])
+	{
+		if (line[i] == c)
+		{
+			i++;
+			if (line[i] == c)
+				i++;
+			if (filename != NULL)
+				free(filename);
+			filename = get_file_name(line, &start, &i);
+		}
+		else
+			i = treat_quotes(line, i);
+	}
+	return (filename);
 }
 
 void	get_in_and_out_file(t_shell *shell, char *line)
 {
-	shell->outfile = get_outfile(line);
-	shell->infile = get_infile(line);
+	shell->outfile = get_in_out_file(line, '>');
+	shell->infile = get_in_out_file(line, '<');
 }

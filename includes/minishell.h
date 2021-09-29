@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 17:33:28 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 10:05:53 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ char	*ft_getenv(char *old, char **env);
 void	replace(t_shell *shell, t_correct_args helper, char **envp);
 void	free_and_duplicate_replace(t_shell *shell, t_correct_args *helper);
 void	ft_free_double(char **s);
-void	execute(t_shell *shell, char **env);
+void	execute(t_shell *shell, char **env, int i);
 void	execute_child(t_shell *shell, char **envp, char *line);
 void	launch(t_shell *shell, char **envp, char **file, char *msg);
 int		iterate_over_path(t_shell *shell, char **envp, char **file, char *msg);

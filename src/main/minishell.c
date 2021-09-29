@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 14:53:43 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 10:05:42 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,31 @@ void	treat_infile(t_shell *shell)
 
 void	run_commands(t_shell *shell, char **env)
 {
-	shell->tmpin = dup(0);
-	shell->tmpout = dup(1);
-	if (shell->rule == 4 || shell->rule == 5 || shell->rule == 11
-		|| shell->rule == 12 || shell->rule == 13 || shell->rule == 19)
-		treat_infile(shell);
-	else
-		shell->fdin = dup(shell->tmpin);
-	if (shell->fdin < 0)
+	int	i;
+
+	i = 0;
+	while (i < shell->numcommands)
 	{
-		printf("shell: No such file or directory\n");
-		return ;
+		shell->tmpin = dup(0);
+		shell->tmpout = dup(1);
+	//	if (shell->rule == 4 || shell->rule == 5 || shell->rule == 11
+	//		|| shell->rule == 12 || shell->rule == 13 || shell->rule == 19)
+	//		treat_infile(shell);
+	//	else
+			shell->fdin = dup(shell->tmpin);
+		if (shell->fdin < 0)
+		{
+			printf("shell: No such file or directory\n");
+			return ;
+		}
+		shell->args = treat_tabs(shell->args);
+		execute(shell, env, i);
+		dup2(shell->tmpin, 0);
+		dup2(shell->tmpout, 1);
+		close(shell->tmpin);
+		close(shell->tmpout);
+		i++;
 	}
-	shell->args = treat_tabs(shell->args);
-	execute(shell, env);
-	dup2(shell->tmpin, 0);
-	dup2(shell->tmpout, 1);
-	close(shell->tmpin);
-	close(shell->tmpout);
 	wait(NULL);
 }
 
@@ -104,12 +111,8 @@ int	main(int argc, char **argv, char **envp)
 	while (TRUE)
 	{
 		line = readinput(&shell);
-		get_in_and_out_file(&shell, line);
 		shell.rule = check_rule(line);
 		shell.i = 0;
-		while (line[shell.i] && line[shell.i] != '>' && line[shell.i] != '<')
-			shell.i = treat_quotes(line, shell.i);
-		line[shell.i] = '\0';
 		shell.args = split_commands(line);
 		if (shell.args != NULL)
 		{
