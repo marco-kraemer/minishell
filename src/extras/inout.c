@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 09:23:20 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 10:42:47 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 11:56:19 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,7 @@ int	treat_quotes(char *line, int i)
 	return (i);
 }
 
-char	*get_file_name(char *line, int *start, int *i)
-{
-	while (line[*i] && line[*i] == ' ')
-		*i += 1;
-	*start = *i;
-	while (line[*i] != ' ' && line[*i] != '<' && line[*i] && line[*i] != '>')
-		*i = treat_quotes(line, *i);
-	return (ft_substr(line, *start, *i - *start));
-}
-
-char	*get_in_out_file(char *line, char c)
+char	*get_in_out_file(char **args, char *type1, char *type2)
 {
 	char	*filename;
 	int		i;
@@ -54,19 +44,26 @@ char	*get_in_out_file(char *line, char c)
 
 	i = 0;
 	filename = NULL;
-	while (line[i])
+	while (args[i])
 	{
-		if (line[i] == c)
+		if (ft_strncmp(args[i], "<<<", 3) == 0 || ft_strncmp(args[i], ">>>", 3) == 0)
+		{
+			printf("minishell: syntax error\n");
+			return (NULL);
+		}
+		if (ft_strcmp(args[i], type1) == 0 || ft_strcmp(args[i], type2) == 0)
 		{
 			i++;
-			if (line[i] == c)
-				i++;
 			if (filename != NULL)
 				free(filename);
-			filename = get_file_name(line, &start, &i);
+			if (!(args[i]) || ft_strncmp(args[i], ">", 1) == 0 || ft_strncmp(args[i], "<", 1) == 0)
+			{
+				printf("minishell: syntax error\n");
+				return (NULL);
+			}
+			filename = ft_strdup(args[i]);
 		}
-		else
-			i = treat_quotes(line, i);
+		i++;
 	}
 	return (filename);
 }
@@ -91,8 +88,6 @@ char	*args_to_line(char **args)
 
 void	get_in_and_out_file(t_shell *shell, char **args)
 {
-	char	*line;
-
-//	shell->outfile = get_in_out_file(line, '>');
-//	shell->infile = get_in_out_file(line, '<');
+	shell->outfile = get_in_out_file(args, ">", ">>");
+	shell->infile = get_in_out_file(args, "<", "<<");
 }

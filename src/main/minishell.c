@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 11:24:31 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 11:51:11 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ char	*parse_line(char *line)
 	int	extra;
 	char	*new;
 
+	// Calcular tamanho malloc
 	i = 0;
 	extra = 0;
 	while (line[i])
@@ -140,8 +141,10 @@ char	*parse_line(char *line)
 		else
 			i = treat_quotes(line, i);
 	}
+
 	new = (char *) malloc(sizeof(char) * (ft_strlen(line) + extra) + 1);
 
+	// Realizar a cópia
 	int	j;
 	j = 0;
 	i = 0;
@@ -153,29 +156,32 @@ char	*parse_line(char *line)
 			while (line[i] && line[i] != '\"')
 				new[j++] = line[i++];
 		}
-		if (line[i] == '\'')
+		else if (line[i] == '\'')
 		{
 			new[j++] = line[i++];
 			while (line[i] && line[i] != '\'')
 				new[j++] = line[i++];
 		}
-		if (line[i] == '<')
+		else if (line[i] == '<')
 		{
 			new[j++] = ' ';
 			while (line[i] == '<')
 				new[j++] = line[i++];
 			new[j++] = ' ';
 		}
-		if (line[i] == '>')
+		else if (line[i] == '>')
 		{
 			new[j++] = ' ';
 			while (line[i] == '>')
 				new[j++] = line[i++];
 			new[j++] = ' ';
 		}
-		new[j] = line[i];
-		i++;
-		j++;
+		else
+		{
+			new[j] = line[i];
+			i++;
+			j++;
+		}
 	}
 	new[j] = '\0';
 	printf("%s\n", new);
