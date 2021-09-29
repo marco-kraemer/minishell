@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 12:21:23 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 13:40:04 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,8 @@ void	run_commands(t_shell *shell, char **env)
 	while (i < shell->numcommands)
 	{
 		shell->splited = split_args(shell->args[i], shell);
-
-//		for (int i = 0; shell->splited[i]; i++)
-//			printf("%s\n", shell->splited[i]);
-
 		shell->splited = tokenizer(shell, g_status, shell->env);
-		get_in_and_out_file(shell, shell->splited);
+		shell->splited = get_in_and_out_file(shell, shell->splited);
 		
 		
 		shell->tmpin = dup(0);
@@ -155,12 +151,14 @@ char	*parse_line(char *line)
 			new[j++] = line[i++];
 			while (line[i] && line[i] != '\"')
 				new[j++] = line[i++];
+			new[j++] = line[i++];
 		}
 		else if (line[i] == '\'')
 		{
 			new[j++] = line[i++];
 			while (line[i] && line[i] != '\'')
 				new[j++] = line[i++];
+			new[j++] = line[i++];
 		}
 		else if (line[i] == '<')
 		{

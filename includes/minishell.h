@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 10:24:19 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 13:16:18 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ char	**tokenizer(t_shell *shell, int status, char **envp);
 char	**split_commands(char const *s);
 char	**even_number_of_quotes(t_shell *shell, char **p, int num_commands);
 char	**to_free2(char const **p, int j);
+char	**get_in_and_out_file(t_shell *shell, char **args);
 
 char	*unset(char **args, t_shell *shell, int index);
 char	*export(char **args, t_shell *shell, int index);
@@ -130,6 +131,5 @@ void	free_and_exit(char **args, char *line, t_shell *shell);
 void	sigint_handler(int sig_num);
 void	sigint_handler_process(int sig_num);
 void	free_args(char *line, t_shell *shell);
-void	get_in_and_out_file(t_shell *shell, char **args);
 void	sigquit_handler_process(int sig_num);
 #endif

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 09:23:20 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 12:20:39 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 13:41:55 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,52 @@ char	*get_in_out_file(char **args, char *type1, char *type2, int rule)
 	return (filename);
 }
 
-void	get_in_and_out_file(t_shell *shell, char **args)
+char	**remove_redirections(char **args)
+{
+	int	i;
+	int	size;
+	char	**ret;
+
+	i = 0;
+	size = 0;
+	while (args[i])
+	{
+		if (ft_strcmp(args[i], ">") == 0 || ft_strcmp(args[i], ">>") == 0
+			|| ft_strcmp(args[i], "<<") == 0 || ft_strcmp(args[i], "<") == 0)
+			size -= 2;
+		size++;
+		i++;
+	}
+	
+	ret = (char **)malloc(sizeof(char *) * size);
+		
+	i = 0;
+	size = 0;
+	while (args[i])
+	{
+	
+		if (ft_strcmp(args[i], ">") == 0 || ft_strcmp(args[i], ">>") == 0
+			|| ft_strcmp(args[i], "<<") == 0 || ft_strcmp(args[i], "<") == 0)
+			i += 2;
+	//	if (args[i])
+	//		break;
+		printf("aaa\n");
+		ret[size] = ft_strdup(args[i]);
+		i++;
+		size++;
+	}
+	ret[i] = 0;
+	ft_free_double(args);
+
+	for (int i=0; ret[i]; i++)
+		printf("%s\n", ret[i]);
+
+	return (ret);
+}
+
+char	**get_in_and_out_file(t_shell *shell, char **args)
 {
 	shell->outfile = get_in_out_file(args, ">", ">>", 0);
 	shell->infile = get_in_out_file(args, "<", "<<", 1);
-
-//	printf("%s e %s\n", shell->outfile, shell->infile);
+	return (remove_redirections(args));
 }
