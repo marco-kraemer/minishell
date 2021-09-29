@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 11:51:11 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 12:21:23 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ char	*parse_line(char *line)
 		}
 	}
 	new[j] = '\0';
-	printf("%s\n", new);
+//	printf("%s\n", new);
 	free(line);
 	return (new);
 }
