@@ -6,7 +6,7 @@
 #    By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/01 11:22:06 by maraurel          #+#    #+#              #
-#    Updated: 2021/09/29 09:12:42 by maraurel         ###   ########.fr        #
+#    Updated: 2021/09/29 16:57:55 by maraurel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ OBJ = $(addprefix $(OBJ_PATH)/, $(SRC:.c=.o))
 
 CC = clang
 
-FLAGS = #-Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME) $(OBJ)
 

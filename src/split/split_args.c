@@ -6,34 +6,11 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 14:43:48 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 16:00:20 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 17:04:50 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	special_chars(char **p, t_shell *shell)
-{
-	int	j;
-	int	k;
-
-	j = 0;
-	while (p[j])
-	{
-		k = 0;
-		if (shell->quote_rules[j] == NO_QUOTES)
-		{
-			while (p[j][k])
-			{
-				if (p[j][k] == '\\' || p[j][k] == ';')
-					return (1);
-				k++;
-			}
-		}
-		j++;
-	}
-	return (0);
-}
 
 int	quotes_case(int quotes, t_shell *shell, char **p, char const *s)
 {
@@ -109,6 +86,8 @@ char	**makearray2(t_shell *shell, char const *s, char **p, int l)
 		shell->j++;
 	}
 	p[shell->j] = 0;
+	if (shell->j == 0)
+		return(NULL);
 	return (p);
 }
 
@@ -129,7 +108,5 @@ char	**split_args(char const *s, t_shell *shell)
 	p = makearray2(shell, s, p, i);
 	if (p[0][0] == 0)
 		return (NULL);
-	if (special_chars(p, shell) == 1)
-		return (to_free2((char const **)p, shell->j));
 	return (p);
 }

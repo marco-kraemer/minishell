@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 16:00:50 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 17:05:20 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,19 @@ void	parse_execute(t_shell *shell, char **env)
 	while (i < shell->numcommands)
 	{
 		shell->splited = split_args(shell->args[i], shell);
-		shell->splited = tokenizer(shell, g_status, shell->env);
-		shell->splited = get_in_and_out_file(shell, shell->splited);
-		shell->tmpin = dup(0);
-		shell->tmpout = dup(1);
-		treat_infile(shell);
-		execute(shell, env, i);
-		dup2(shell->tmpin, 0);
-		dup2(shell->tmpout, 1);
-		close(shell->tmpin);
-		close(shell->tmpout);
+		if (shell->splited)
+		{
+			shell->splited = tokenizer(shell, g_status, shell->env);
+			shell->splited = get_in_and_out_file(shell, shell->splited);
+			shell->tmpin = dup(0);
+			shell->tmpout = dup(1);
+			treat_infile(shell);
+			execute(shell, env, i);
+			dup2(shell->tmpin, 0);
+			dup2(shell->tmpout, 1);
+			close(shell->tmpin);
+			close(shell->tmpout);
+		}
 		i++;
 	}
 	wait(NULL);
@@ -108,7 +111,6 @@ char	*parse_line(char *line)
 	int	extra;
 	char	*new;
 
-	// Calcular tamanho malloc
 	i = 0;
 	extra = 0;
 	while (line[i])
@@ -133,7 +135,6 @@ char	*parse_line(char *line)
 
 	new = (char *) malloc(sizeof(char) * (ft_strlen(line) + extra) + 1);
 
-	// Realizar a cópia
 	int	j;
 	j = 0;
 	i = 0;
@@ -194,16 +195,10 @@ int	main(int argc, char **argv, char **envp)
 		line = parse_line(line);
 		shell.args = split_commands(line);
 		shell.args = treat_tabs(shell.args);
-
-		/* ARRUMAR QND INPUT É SÓ ESPAÇOS */
-
-		if (shell.args != NULL)
-		{
-			shell.numcommands = 0;
-			while (shell.args[shell.numcommands])
-				shell.numcommands++;
-			parse_execute(&shell, envp);
-		//	free_args(line, &shell);
-		}
+		shell.numcommands = 0;
+		while (shell.args[shell.numcommands])
+			shell.numcommands++;
+		parse_execute(&shell, envp);
+		free_args(line, &shell);
 	}
 }

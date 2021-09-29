@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 17:31:54 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 17:03:02 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,6 @@ char	**tokenizer(t_shell *shell, int status, char **envp)
 		}
 		helper.i++;
 	}
+	free(shell->quote_rules);
 	return (join_no_space_args(shell->splited, 0, 0, 0));
 }

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 16:06:09 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 16:41:09 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,8 @@ void	pipe_fdout_fdin(t_shell *shell, int fdpipe[2], int i)
 			shell->fdout = open(shell->outfile, O_CREAT
 					| O_WRONLY | O_TRUNC, 0777);
 		else if (shell->outfile_rule == 2)
-		{
-			printf("ALOOO\n");
 			shell->fdout = open(shell->outfile, O_CREAT
 					| O_WRONLY | O_APPEND, 0777);
-		}
 		else
 			shell->fdout = dup(shell->tmpout);
 	}
@@ -125,7 +122,6 @@ void	execute(t_shell *shell, char **env, int i)
 	{
 		execute_child(shell, env, NULL);
 		ft_free_double(shell->splited);
-	//	free(shell->quote_rules);
 		if (shell->numcommands != 1)
 			exit (EXIT_SUCCESS);
 	}
