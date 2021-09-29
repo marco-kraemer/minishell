@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 10:05:42 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 10:43:41 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,25 @@ void	run_commands(t_shell *shell, char **env)
 	i = 0;
 	while (i < shell->numcommands)
 	{
+		shell->splited = split_args(shell->args[i], shell);
+
+		for (int i = 0; shell->splited[i]; i++)
+			printf("%s\n", shell->splited[i]);
+
+		shell->splited = tokenizer(shell, g_status, shell->env);
+		get_in_and_out_file(shell, shell->splited);
+		
+		
 		shell->tmpin = dup(0);
 		shell->tmpout = dup(1);
+
+
 	//	if (shell->rule == 4 || shell->rule == 5 || shell->rule == 11
 	//		|| shell->rule == 12 || shell->rule == 13 || shell->rule == 19)
 	//		treat_infile(shell);
 	//	else
-			shell->fdin = dup(shell->tmpin);
+		
+		shell->fdin = dup(shell->tmpin);
 		if (shell->fdin < 0)
 		{
 			printf("shell: No such file or directory\n");
@@ -120,7 +132,7 @@ int	main(int argc, char **argv, char **envp)
 			while (shell.args[shell.numcommands])
 				shell.numcommands++;
 			run_commands(&shell, envp);
-			free_args(line, &shell);
+		//	free_args(line, &shell);
 		}
 	}
 }

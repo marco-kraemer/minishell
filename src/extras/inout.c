@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 09:23:20 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 10:01:35 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 10:42:47 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,28 @@ char	*get_in_out_file(char *line, char c)
 	return (filename);
 }
 
-void	get_in_and_out_file(t_shell *shell, char *line)
+/*
+char	*args_to_line(char **args)
 {
-	shell->outfile = get_in_out_file(line, '>');
-	shell->infile = get_in_out_file(line, '<');
+	char	*line;
+	int		i;
+
+	line = ft_strdup(args[0]);
+	i = 1;
+	while (args[i])
+	{
+		line = ft_strjoin_free(line, " ");
+		line = ft_strjoin_free(line, args[i]);
+		i++;
+	}
+	return (line);
+}
+*/
+
+void	get_in_and_out_file(t_shell *shell, char **args)
+{
+	char	*line;
+
+//	shell->outfile = get_in_out_file(line, '>');
+//	shell->infile = get_in_out_file(line, '<');
 }
