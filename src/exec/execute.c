@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 10:53:16 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 16:06:00 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void	parse_execute(t_shell *shell, char **env, int i)
 			shell->splited = get_in_and_out_file(shell, shell->splited);
 			if (treat_infile(shell, i) == 0)
 				execute(shell, env, i);
+			ft_free_double_int(shell->quote_rules_char);
 			free(shell->infile);
 			free(shell->outfile);
 		}

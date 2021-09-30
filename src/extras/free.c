@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:58:47 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 17:34:45 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 16:02:36 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,21 +79,6 @@ void	free_and_exit(char **args, char *line, t_shell *shell)
 	free(line);
 	free(args);
 	exit(status);
-}
-
-void	ft_free_double(char **s)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-	{
-		free(s);
-		return ;
-	}
-	while (s[i])
-		free(s[i++]);
-	free(s);
 }
 
 char	**to_free2(char const **p, int j)
