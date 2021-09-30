@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 15:30:57 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 16:16:50 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	set_quotes_char_rules(char *arg, t_shell *shell, int i)
 	while (shell->splited[i])
 	{
 		counter = 0;
-		if ((ft_strcmp(shell->splited[i], " ") != 0))
+		if ((ft_strcmp(shell->splited[i], " ") != 0) && ft_strlen(shell->splited[i]) != 0)
 		{
 			shell->quote_rules_char[j] = (int *)malloc(sizeof(int) * (ft_strlen(shell->splited[i]) + 1));
 			while (counter < (int)ft_strlen(shell->splited[i]))
