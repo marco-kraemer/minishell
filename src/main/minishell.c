@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 00:16:18 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 00:28:55 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,14 +159,16 @@ char	*parse_line(char *line)
 			new[j++] = line[i++];
 			while (line[i] && line[i] != '\"')
 				new[j++] = line[i++];
-			new[j++] = line[i++];
+			if (line[i] == '\"')
+				new[j++] = line[i++];
 		}
 		else if (line[i] == '\'')
 		{
 			new[j++] = line[i++];
 			while (line[i] && line[i] != '\'')
 				new[j++] = line[i++];
-			new[j++] = line[i++];
+			if (line[i] == '\'')
+				new[j++] = line[i++];
 		}
 		else if (line[i] == '<')
 		{
@@ -210,9 +212,12 @@ int	main(int argc, char **argv, char **envp)
 		shell.args = split_commands(line);
 		shell.args = treat_tabs(shell.args);
 		shell.numcommands = 0;
-		while (shell.args[shell.numcommands])
-			shell.numcommands++;
-		parse_execute(&shell, envp);
+		if (shell.args)
+		{
+			while (shell.args[shell.numcommands])
+				shell.numcommands++;
+			parse_execute(&shell, envp);
+		}
 		free_args(line, &shell);
 	}
 }
