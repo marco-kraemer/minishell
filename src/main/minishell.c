@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 23:48:57 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 00:16:18 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	infile_loop(t_shell *shell, int fd)
 	}
 }
 
-void	treat_infile(t_shell *shell, int i)
+int	treat_infile(t_shell *shell, int i)
 {
 	int		fd;
 
@@ -55,10 +55,11 @@ void	treat_infile(t_shell *shell, int i)
 	if (shell->fdin < 0)
 	{
 		printf("shell: No such file or directory\n");
-		return ;
+		return (1);
 	}
 	if (shell->infile_rule == 2)
 		ft_remove();
+	return (0);
 }
 
 void	reset_tmpin_tmpout(t_shell *shell)
@@ -85,11 +86,16 @@ void	parse_execute(t_shell *shell, char **env)
 		{
 			shell->splited = tokenizer(shell, g_status, shell->env);
 			shell->splited = get_in_and_out_file(shell, shell->splited);
-			treat_infile(shell, i);
-			dup2(shell->fdin, 0);
-			close(shell->fdin);
-			execute(shell, env, i);
+			if (treat_infile(shell, i) == 0)
+			{
+				dup2(shell->fdin, 0);
+				close(shell->fdin);
+				execute(shell, env, i);
+			}
+			free(shell->infile);
+			free(shell->outfile);
 		}
+		free(shell->quote_rules);
 		ft_free_double(shell->splited);
 		i++;
 	}

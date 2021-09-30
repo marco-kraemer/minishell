@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 17:29:35 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 00:09:38 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 00:12:59 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,7 @@ void	free_args(char *line, t_shell *shell)
 {
 	int	i;
 
-	free(shell->quote_rules);
-	if (shell->infile != NULL)
-		free(shell->infile);
-	if (shell->outfile != NULL)
-		free(shell->outfile);
 	if (ft_strlen(line) != 0)
-	{
 		free(line);
-		i = 0;
-		while (shell->args[i])
-			free(shell->args[i++]);
-	}
-	free(shell->args);
+	ft_free_double(shell->args);
 }
