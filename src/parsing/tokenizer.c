@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 17:03:02 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 22:53:34 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	**join_no_space_args(char **args, int i, int j, int count_words)
 		i++;
 		while (args[i])
 		{
-			if (ft_strcmp(args[i], " ") == 0 && ft_strlen(args[i]) == 1)
+			if ((ft_strcmp(args[i], " ") == 0 && ft_strlen(args[i]) == 1) || ft_strlen(args[i]) == 0)
 			{
 				i++;
 				break ;

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 14:43:48 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 17:04:50 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 22:57:46 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ char	**makearray2(t_shell *shell, char const *s, char **p, int l)
 		}
 		shell->j++;
 	}
+	if (ft_strlen(p[shell->j - 1]) == 0)
+		p[shell->j - 1] = 0;
 	p[shell->j] = 0;
 	if (shell->j == 0)
 		return(NULL);
@@ -108,5 +110,6 @@ char	**split_args(char const *s, t_shell *shell)
 	p = makearray2(shell, s, p, i);
 	if (p[0][0] == 0)
 		return (NULL);
-	return (p);
+	shell->splited = p;
+	return (tokenizer(shell, g_status, shell->env));
 }

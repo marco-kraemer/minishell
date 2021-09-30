@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 21:03:18 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 22:42:00 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	execute_child(t_shell *shell, char **envp, char *line)
 
 void	pipe_fdout_fdin(t_shell *shell, int fdpipe[2], int i)
 {
+//	printf("%i e %i\n",  i, shell->numcommands);
 	if (i == shell->numcommands - 1)
 	{
 		if (shell->outfile_rule == 1)

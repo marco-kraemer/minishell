@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 21:09:41 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 22:58:55 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,12 @@ void	parse_execute(t_shell *shell, char **env)
 	i = 0;
 	shell->tmpin = dup(0);
 	shell->	tmpout = dup(1);
+	
 	while (i < shell->numcommands)
 	{
-		shell->splited = split_args(shell->args[i], shell);
 		if (shell->splited)
 		{
-			shell->splited = tokenizer(shell, g_status, shell->env);
+			shell->splited = split_args(shell->args[i], shell);
 			shell->splited = get_in_and_out_file(shell, shell->splited);
 			treat_infile(shell, i);
 			dup2(shell->fdin, 0);
