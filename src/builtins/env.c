@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:59:45 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 11:03:03 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 11:11:12 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*env(char **args, t_shell *shell)
 		i++;
 	if (i > 1)
 	{
-		g_status = 127;	
+		g_status = 127;
 		printf("env: invalid number of arguments\n");
 		return (NULL);
 	}
