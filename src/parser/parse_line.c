@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 10:32:35 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 10:39:03 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 11:57:58 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	count_extras_spaces(char *line)
 			while (line[i] == '>')
 				i++;
 		}
-		if (line[i] == '<')
+		else if (line[i] == '<')
 		{
 			extra += 2;
 			i++;
@@ -37,11 +37,13 @@ int	count_extras_spaces(char *line)
 		}
 		else
 			i = treat_quotes(line, i);
+		if (!(line[i]))
+			break;
 	}
 	return (extra);
 }
 
-void	do_somethns(char *line, t_correct_args *helper)
+void	parse_line_helper(char *line, t_correct_args *helper)
 {
 	char	c;
 
@@ -59,13 +61,8 @@ void	do_somethns(char *line, t_correct_args *helper)
 		helper->new[helper->j] = ' ';
 		helper->j += 1;
 		while (line[helper->i] == c)
-		{
-			helper->new[helper->j] = line[helper->i];
-			helper->i += 1;
-			helper->j += 1;
-		}
-		helper->new[helper->j] = ' ';
-		helper->j += 1;
+			helper->new[helper->j++] = line[helper->i++];
+		helper->new[helper->j++] = ' ';
 	}
 	c = 0;
 }
@@ -84,13 +81,15 @@ char	*parse_line(char *line)
 	{
 		if (line[helper.i] == '\"' || line[helper.i] == '\''
 			|| line[helper.i] == '<' || line[helper.i] == '>')
-			do_somethns(line, &helper);
+			parse_line_helper(line, &helper);
 		else
 		{
 			helper.new[helper.j] = line[helper.i];
 			helper.i++;
 			helper.j++;
 		}
+		if (!(line[helper.i]))
+			break;
 	}
 	helper.new[helper.j] = '\0';
 	free(line);

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 10:54:22 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 12:18:44 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,9 @@ typedef struct s_shell {
 	int		j;
 	int		k;
 	int		quotes;
+
+	int		error;
+	int		files_rule;
 }		t_shell;
 
 typedef struct s_rule {

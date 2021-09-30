@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 09:23:20 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 20:18:16 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 12:26:42 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ char	**remove_redirections(char **args, t_shell *shell)
 	size = 0;
 	while (args[i])
 	{
-		if (redirections_rules(args[i], shell) == 0)
+		if (redirections_rules(args[i], shell) == 0 && args[i + 1])
 			i += 2;
 		else
 		{
