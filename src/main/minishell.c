@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 17:05:20 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 21:09:41 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	infile_loop(t_shell *shell, int fd)
 	}
 }
 
-void	treat_infile(t_shell *shell)
+void	treat_infile(t_shell *shell, int i)
 {
 	int		fd;
 
@@ -50,7 +50,7 @@ void	treat_infile(t_shell *shell)
 	}
 	if (shell->infile_rule == 1 || shell->infile_rule == 2)
 		shell->fdin = open(shell->infile, O_RDONLY);
-	else
+	else if (i == 0)
 		shell->fdin = dup(shell->tmpin);
 	if (shell->fdin < 0)
 	{
@@ -66,6 +66,8 @@ void	parse_execute(t_shell *shell, char **env)
 	int	i;
 
 	i = 0;
+	shell->tmpin = dup(0);
+	shell->	tmpout = dup(1);
 	while (i < shell->numcommands)
 	{
 		shell->splited = split_args(shell->args[i], shell);
@@ -73,17 +75,17 @@ void	parse_execute(t_shell *shell, char **env)
 		{
 			shell->splited = tokenizer(shell, g_status, shell->env);
 			shell->splited = get_in_and_out_file(shell, shell->splited);
-			shell->tmpin = dup(0);
-			shell->tmpout = dup(1);
-			treat_infile(shell);
+			treat_infile(shell, i);
+			dup2(shell->fdin, 0);
+			close(shell->fdin);
 			execute(shell, env, i);
-			dup2(shell->tmpin, 0);
-			dup2(shell->tmpout, 1);
-			close(shell->tmpin);
-			close(shell->tmpout);
 		}
 		i++;
 	}
+	dup2(shell->tmpin, 0);
+	dup2(shell->tmpout, 1);
+	close(shell->tmpin);
+	close(shell->tmpout);
 	wait(NULL);
 }
 

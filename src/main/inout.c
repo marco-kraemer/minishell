@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 09:23:20 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 16:42:25 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 20:18:16 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ char	*get_in_out_file(char **args, char *type1, char *type2, int rule)
 {
 	char	*filename;
 	int		i;
-	int		start;
 
 	i = 0;
 	filename = NULL;
