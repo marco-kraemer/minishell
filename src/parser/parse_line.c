@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 10:32:35 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 11:57:58 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 13:56:15 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	parse_line_helper(char *line, t_correct_args *helper)
 	{
 		helper->new[helper->j] = ' ';
 		helper->j += 1;
-		while (line[helper->i] == c)
+		while (line[helper->i] == '>' || line[helper->i] == '<')
 			helper->new[helper->j++] = line[helper->i++];
 		helper->new[helper->j++] = ' ';
 	}

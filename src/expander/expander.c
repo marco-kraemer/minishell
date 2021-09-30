@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 09:39:46 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 14:23:39 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,32 +60,32 @@ int	count_num_word(char **args)
 }
 
 /* Juntar argumentos quando não há espaço entre eles e remover os espaços*/
-char	**join_no_space_args(char **args, int i, int j, int count_words)
+char	**join_no_space_args(t_shell *shell, int i, int j, int count_words)
 {
 	char	**ret;
 
-	count_words = count_num_word(args);
+	count_words = count_num_word(shell->splited);
 	ret = (char **)malloc(sizeof(char *) * (count_words + 1));
 	i = 0;
 	j = 0;
-	while (args[i])
+	while (shell->splited[i])
 	{
-		ret[j] = ft_strdup(args[i++]);
-		while (args[i])
+		ret[j] = ft_strdup(shell->splited[i++]);
+		while (shell->splited[i])
 		{
-			if ((ft_strcmp(args[i], " ") == 0 && ft_strlen(args[i]) == 1)
-				|| ft_strlen(args[i]) == 0)
+			if ((ft_strcmp(shell->splited[i], " ") == 0 && ft_strlen(shell->splited[i]) == 1)
+				|| ft_strlen(shell->splited[i]) == 0)
 			{
 				i++;
 				break ;
 			}
-			ret[j] = ft_strjoin_free(ret[j], args[i]);
+			ret[j] = ft_strjoin_free(ret[j], shell->splited[i]);
 			i++;
 		}
 		j++;
 	}
 	ret[count_words] = 0;
-	ft_free_double(args);
+	ft_free_double(shell->splited);
 	return (ret);
 }
 
@@ -114,5 +114,5 @@ char	**expander(t_shell *shell, int status, char **envp)
 		}
 		helper.i++;
 	}
-	return (join_no_space_args(shell->splited, 0, 0, 0));
+	return (join_no_space_args(shell, 0, 0, 0));
 }
