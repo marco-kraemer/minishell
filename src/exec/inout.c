@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 09:23:20 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 14:26:49 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 15:34:52 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*get_in_out_file(char **args, char *type1, char *type2, t_shell *shell)
 			i++;
 			if (filename != NULL)
 				free(filename);
-			if (!(args[i]) && redirections_rules2(args[i]) == 0)
+			if (!(args[i]) || redirections_rules2(args[i]) == 0)
 			{
 				printf("minishell: Syntax error\n");
 				shell->error = 1;
@@ -120,14 +120,12 @@ char	**remove_redirections(char **args, t_shell *shell)
 	return (ret);
 }
 
-int	check_syntax(char **args)
+int	check_syntax(char **args, t_shell *shell)
 {
 	int	i;
 	int	j;
 	int	count;
-
-//	for (int i = 0; args[i]; i++)
-//		printf("%s\n", args[i]);
+	(void)shell;
 
 	i = 0;
 	while (args[i])
@@ -136,7 +134,7 @@ int	check_syntax(char **args)
 		count = 0;
 		while (args[i][j])
 		{
-			if (args[i][j] == '>' || args[i][j] == '<')
+			if ((args[i][j] == '>' || args[i][j] == '<') && shell->quote_rules_char[i][j] == 1)
 				count++;
 			j++;
 		}
@@ -153,12 +151,14 @@ char	**get_in_and_out_file(t_shell *shell, char **args)
 	shell->outfile_rule = 0;
 	shell->files_rule = 0;
 	shell->error = 0;
-	if (check_syntax(args) == 1)
+	if (check_syntax(args, shell) == 1)
 	{
 		printf("minishell: syntax error\n");
 		return (NULL);
 	}
 	shell->outfile = get_in_out_file(args, ">", ">>", shell);
+	if (shell->error == 1)
+		return (NULL);
 	shell->files_rule = 1;
 	shell->infile = get_in_out_file(args, "<", "<<", shell);
 	if (shell->error == 1)

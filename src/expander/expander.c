@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 14:23:39 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 15:30:57 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,29 @@ int	count_num_word(char **args)
 	return (count_words);
 }
 
+void	set_quotes_char_rules(char *arg, t_shell *shell, int i)
+{
+	int	j;
+	int	counter;
+	(void)arg;
+
+	shell->quote_rules_char = (int **)malloc(sizeof(int *) * (count_num_word(shell->splited) + 1));
+	i = 0;
+	j = 0;
+	while (shell->splited[i])
+	{
+		counter = 0;
+		if ((ft_strcmp(shell->splited[i], " ") != 0))
+		{
+			shell->quote_rules_char[j] = (int *)malloc(sizeof(int) * (ft_strlen(shell->splited[i]) + 1));
+			while (counter < (int)ft_strlen(shell->splited[i]))
+				shell->quote_rules_char[j][counter++] = shell->quote_rules[i] + 1;
+			j++;
+		}
+		i++;
+	}
+}
+
 /* Juntar argumentos quando não há espaço entre eles e remover os espaços*/
 char	**join_no_space_args(t_shell *shell, int i, int j, int count_words)
 {
@@ -66,6 +89,7 @@ char	**join_no_space_args(t_shell *shell, int i, int j, int count_words)
 
 	count_words = count_num_word(shell->splited);
 	ret = (char **)malloc(sizeof(char *) * (count_words + 1));
+	set_quotes_char_rules(shell->splited[i], shell, i - 1);
 	i = 0;
 	j = 0;
 	while (shell->splited[i])

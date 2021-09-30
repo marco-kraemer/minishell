@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 14:22:03 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 15:21:38 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_shell {
 	int		status;
 
 	int		*quote_rules;
+	int		**quote_rules_char;
 
 	int		i;
 	int		j;
