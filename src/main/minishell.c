@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 22:58:55 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 23:48:57 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,31 +61,39 @@ void	treat_infile(t_shell *shell, int i)
 		ft_remove();
 }
 
+void	reset_tmpin_tmpout(t_shell *shell)
+{
+	dup2(shell->tmpin, 0);
+	dup2(shell->tmpout, 1);
+	close(shell->tmpin);
+	close(shell->tmpout);
+}
+
 void	parse_execute(t_shell *shell, char **env)
 {
 	int	i;
 
 	i = 0;
+	shell->infile = NULL;
+	shell->outfile = NULL;
 	shell->tmpin = dup(0);
-	shell->	tmpout = dup(1);
-	
+	shell->tmpout = dup(1);
 	while (i < shell->numcommands)
 	{
-		if (shell->splited)
+		shell->splited = split_args(shell->args[i], shell);
+		if (shell->splited != NULL)
 		{
-			shell->splited = split_args(shell->args[i], shell);
+			shell->splited = tokenizer(shell, g_status, shell->env);
 			shell->splited = get_in_and_out_file(shell, shell->splited);
 			treat_infile(shell, i);
 			dup2(shell->fdin, 0);
 			close(shell->fdin);
 			execute(shell, env, i);
 		}
+		ft_free_double(shell->splited);
 		i++;
 	}
-	dup2(shell->tmpin, 0);
-	dup2(shell->tmpout, 1);
-	close(shell->tmpin);
-	close(shell->tmpout);
+	reset_tmpin_tmpout(shell);
 	wait(NULL);
 }
 
@@ -109,8 +117,9 @@ void	init_env(char **envp, t_shell *shell)
 /* Inserir espaços antes e depois de redirecionadores*/
 char	*parse_line(char *line)
 {
-	int	i;
-	int	extra;
+	int		i;
+	int		extra;
+	int		j;
 	char	*new;
 
 	i = 0;
@@ -134,10 +143,7 @@ char	*parse_line(char *line)
 		else
 			i = treat_quotes(line, i);
 	}
-
 	new = (char *) malloc(sizeof(char) * (ft_strlen(line) + extra) + 1);
-
-	int	j;
 	j = 0;
 	i = 0;
 	while (line[i])

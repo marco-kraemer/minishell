@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 22:42:00 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/29 23:49:02 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,14 @@ void	execute_child(t_shell *shell, char **envp, char *line)
 
 void	pipe_fdout_fdin(t_shell *shell, int fdpipe[2], int i)
 {
-//	printf("%i e %i\n",  i, shell->numcommands);
-	if (i == shell->numcommands - 1)
-	{
-		if (shell->outfile_rule == 1)
-			shell->fdout = open(shell->outfile, O_CREAT
-					| O_WRONLY | O_TRUNC, 0777);
-		else if (shell->outfile_rule == 2)
-			shell->fdout = open(shell->outfile, O_CREAT
-					| O_WRONLY | O_APPEND, 0777);
-		else
-			shell->fdout = dup(shell->tmpout);
-	}
+	if (shell->outfile_rule == 1)
+		shell->fdout = open(shell->outfile, O_CREAT
+				| O_WRONLY | O_TRUNC, 0777);
+	else if (shell->outfile_rule == 2)
+		shell->fdout = open(shell->outfile, O_CREAT
+				| O_WRONLY | O_APPEND, 0777);
+	else if (i == shell->numcommands - 1)
+		shell->fdout = dup(shell->tmpout);
 	else
 	{
 		pipe(fdpipe);
@@ -120,7 +116,6 @@ void	execute(t_shell *shell, char **env, int i)
 	if (ret == 0)
 	{
 		execute_child(shell, env, NULL);
-		ft_free_double(shell->splited);
 		if (shell->numcommands != 1)
 			exit (EXIT_SUCCESS);
 	}
