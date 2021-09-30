@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 14:43:48 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 09:41:00 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 10:45:59 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,15 +103,15 @@ char	**split_args(char const *s, t_shell *shell)
 	if (p == NULL)
 		return (NULL);
 	p = makearray2(shell, s, p, i);
-	if (!(p[0]))
-	{
-		free(p);
-		return (NULL);
-	}
 	if (ft_strlen(p[shell->j - 1]) == 0)
 	{
 		free (p[shell->j - 1]);
 		p[shell->j - 1] = 0;
+	}
+	if (!(p[0]))
+	{
+		free(p);
+		return (NULL);
 	}
 	p[shell->j] = 0;
 	return (p);

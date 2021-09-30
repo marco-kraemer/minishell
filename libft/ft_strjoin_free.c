@@ -6,12 +6,13 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 15:04:16 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 10:35:35 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 10:43:29 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdio.h>
+
 char	*ft_strjoin_free(char *s1, char *s2)
 {
 	char	*p;
