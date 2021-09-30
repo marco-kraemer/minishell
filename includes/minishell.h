@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 10:38:29 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 10:54:22 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ char	**split_commands(char const *s);
 char	**even_number_of_quotes(t_shell *shell, char **p, int num_commands);
 char	**to_free2(char const **p, int j);
 char	**get_in_and_out_file(t_shell *shell, char **args);
+char	**find_path_value(t_shell *shell);
 
 char	*unset(char **args, t_shell *shell, int index);
 char	*export(char **args, t_shell *shell, int index);

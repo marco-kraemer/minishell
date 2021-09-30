@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:02 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 14:54:28 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 11:02:15 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,11 @@ char	*get_variable_name(char *args)
 	i = 0;
 	while (name[i])
 	{
-		if (name[i] == '=')
+		if (ft_isalpha(args[i]) == 0 && args[i] != '_')
 		{
+			g_status = 1;
 			printf("unset: %s: not a valid identifier\n", name);
+			free(name);
 			return (NULL);
 		}
 		i++;

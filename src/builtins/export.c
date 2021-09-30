@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:05 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 17:28:16 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 11:08:16 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*insert_variable(char **args, t_shell *s, int index)
 	if (!args[index])
 		return (NULL);
 	name = get_name(args[index]);
-	if (!name)
+	if (!name || ft_strlen(name) == 0)
 		return (insert_variable(args, s, index + 1));
 	value = get_value(args[index]);
 	s->i = 0;

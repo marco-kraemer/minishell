@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 17:27:44 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/28 17:28:24 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 11:02:46 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ char	*get_name(char *args)
 	{
 		if (ft_isalpha(args[i]) == 0 && args[i] != '_')
 		{
+			g_status = 1;
 			printf("export: '%s': not a valid identifier\n", args);
 			return (NULL);
 		}

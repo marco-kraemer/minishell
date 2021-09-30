@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 10:39:11 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 10:53:16 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,24 @@ char	*launch_prog(t_shell *shell, char **envp)
 	char	**path_args;
 
 	i = 0;
-	path_args = ft_split(getenv("PATH"), ':');
-	if (ft_strncmp(shell->splited[0], "./", 2) == 0)
+	path_args = find_path_value(shell);
+	if (!ft_strcmp(shell->splited[0], "./")
+		|| !ft_strcmp(shell->splited[0], "../"))
+	{
+		g_status = 126;
+		printf("%s: Is a directory\n", shell->splited[0]);
+	}
+	else if (ft_strncmp(shell->splited[0], "./", 2) == 0
+		|| ft_strncmp(shell->splited[0], "../", 3) == 0)
 		launch(shell, envp, path_args, "no such file or directory");
 	else
 		launch(shell, envp, path_args, "command not found");
-	while (path_args[i])
-		free(path_args[i++]);
-	free(path_args);
+	if (path_args)
+	{
+		while (path_args[i])
+			free(path_args[i++]);
+		free(path_args);
+	}
 	return (NULL);
 }
 
