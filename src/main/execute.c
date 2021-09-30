@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_shell.c                                        :+:      :+:    :+:   */
+/*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 23:49:02 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 10:39:11 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,31 +83,13 @@ void	execute_child(t_shell *shell, char **envp, char *line)
 	prev_status = g_status;
 }
 
-void	pipe_fdout_fdin(t_shell *shell, int fdpipe[2], int i)
-{
-	if (shell->outfile_rule == 1)
-		shell->fdout = open(shell->outfile, O_CREAT
-				| O_WRONLY | O_TRUNC, 0777);
-	else if (shell->outfile_rule == 2)
-		shell->fdout = open(shell->outfile, O_CREAT
-				| O_WRONLY | O_APPEND, 0777);
-	else if (i == shell->numcommands - 1)
-		shell->fdout = dup(shell->tmpout);
-	else
-	{
-		pipe(fdpipe);
-		shell->fdout = fdpipe[1];
-		shell->fdin = fdpipe[0];
-	}
-	dup2(shell->fdout, 1);
-	close(shell->fdout);
-}
-
 void	execute(t_shell *shell, char **env, int i)
 {
 	int	fdpipe[2];
 	int	ret;
 
+	dup2(shell->fdin, 0);
+	close(shell->fdin);
 	pipe_fdout_fdin(shell, fdpipe, i);
 	if (shell->numcommands != 1)
 		ret = fork();
@@ -121,4 +103,30 @@ void	execute(t_shell *shell, char **env, int i)
 	}
 	else
 		wait(NULL);
+}
+
+void	parse_execute(t_shell *shell, char **env, int i)
+{
+	shell->infile = NULL;
+	shell->outfile = NULL;
+	shell->tmpin = dup(0);
+	shell->tmpout = dup(1);
+	while (i < shell->numcommands)
+	{
+		shell->splited = split_args(shell->args[i], shell);
+		if (shell->splited != NULL)
+		{
+			shell->splited = expander(shell, g_status, shell->env);
+			shell->splited = get_in_and_out_file(shell, shell->splited);
+			if (treat_infile(shell, i) == 0)
+				execute(shell, env, i);
+			free(shell->infile);
+			free(shell->outfile);
+		}
+		free(shell->quote_rules);
+		ft_free_double(shell->splited);
+		i++;
+	}
+	reset_tmpin_tmpout(shell);
+	wait(NULL);
 }

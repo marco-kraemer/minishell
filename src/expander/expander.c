@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 00:17:54 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 09:39:46 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ char	**join_no_space_args(char **args, int i, int j, int count_words)
 	j = 0;
 	while (args[i])
 	{
-		ret[j] = ft_strdup(args[i]);
-		i++;
+		ret[j] = ft_strdup(args[i++]);
 		while (args[i])
 		{
-			if ((ft_strcmp(args[i], " ") == 0 && ft_strlen(args[i]) == 1) || ft_strlen(args[i]) == 0)
+			if ((ft_strcmp(args[i], " ") == 0 && ft_strlen(args[i]) == 1)
+				|| ft_strlen(args[i]) == 0)
 			{
 				i++;
 				break ;
@@ -89,7 +89,7 @@ char	**join_no_space_args(char **args, int i, int j, int count_words)
 	return (ret);
 }
 
-char	**tokenizer(t_shell *shell, int status, char **envp)
+char	**expander(t_shell *shell, int status, char **envp)
 {
 	t_correct_args	helper;
 

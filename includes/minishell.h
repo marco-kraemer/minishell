@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/29 15:55:33 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 10:38:29 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,9 @@ int		check_redirection(char **args, char *value);
 int		check_rule(char *line);
 int		treat_quotes(char *line, int i);
 int		ft_strcmp(const char *str1, const char *str2);
+int		iterate_over_path(t_shell *shell, char **envp, char **file, char *msg);
+int		contains_slash(char *str, int *ret);
+int		treat_infile(t_shell *shell, int i);
 
 char	*read_line(void);
 
@@ -102,7 +105,7 @@ char	**treat_tabs(char **args);
 char	**get_variable_list(char **env);
 char	**split_args(char const *s, t_shell *shell);
 char	**to_free2(char const **p, int j);
-char	**tokenizer(t_shell *shell, int status, char **envp);
+char	**expander(t_shell *shell, int status, char **envp);
 char	**split_commands(char const *s);
 char	**even_number_of_quotes(t_shell *shell, char **p, int num_commands);
 char	**to_free2(char const **p, int j);
@@ -120,6 +123,7 @@ char	*replace_words(char *s, char *old, char *new);
 char	*get_value(char *args);
 char	*get_name(char *args);
 char	*ft_getenv(char *old, char **env);
+char	*parse_line(char *line);
 
 void	replace(t_shell *shell, t_correct_args helper, char **envp);
 void	free_and_duplicate_replace(t_shell *shell, t_correct_args *helper);
@@ -127,11 +131,12 @@ void	ft_free_double(char **s);
 void	execute(t_shell *shell, char **env, int i);
 void	execute_child(t_shell *shell, char **envp, char *line);
 void	launch(t_shell *shell, char **envp, char **file, char *msg);
-int		iterate_over_path(t_shell *shell, char **envp, char **file, char *msg);
-int		contains_slash(char *str, int *ret);
+void	pipe_fdout_fdin(t_shell *shell, int fdpipe[2], int i);
+void	reset_tmpin_tmpout(t_shell *shell);
 void	free_and_exit(char **args, char *line, t_shell *shell);
 void	sigint_handler(int sig_num);
 void	sigint_handler_process(int sig_num);
 void	free_args(char *line, t_shell *shell);
 void	sigquit_handler_process(int sig_num);
+void	parse_execute(t_shell *shell, char **env, int i);
 #endif

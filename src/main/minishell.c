@@ -6,102 +6,13 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 00:28:55 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 10:38:01 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 int	g_status;
-
-void	infile_loop(t_shell *shell, int fd)
-{
-	char	*line;
-
-	while (TRUE)
-	{
-		line = readline("reading: ");
-		if (!line)
-		{
-			printf("\n");
-			break ;
-		}
-		if (ft_strcmp(line, shell->infile) == 0)
-		{
-			free(line);
-			break ;
-		}
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-	}
-}
-
-int	treat_infile(t_shell *shell, int i)
-{
-	int		fd;
-
-	if (shell->infile_rule == 2)
-	{
-		fd = open("../tmp", O_CREAT | O_WRONLY | O_APPEND, 0777);
-		infile_loop(shell, fd);
-		free(shell->infile);
-		shell->infile = ft_strdup("../tmp");
-	}
-	if (shell->infile_rule == 1 || shell->infile_rule == 2)
-		shell->fdin = open(shell->infile, O_RDONLY);
-	else if (i == 0)
-		shell->fdin = dup(shell->tmpin);
-	if (shell->fdin < 0)
-	{
-		printf("shell: No such file or directory\n");
-		return (1);
-	}
-	if (shell->infile_rule == 2)
-		ft_remove();
-	return (0);
-}
-
-void	reset_tmpin_tmpout(t_shell *shell)
-{
-	dup2(shell->tmpin, 0);
-	dup2(shell->tmpout, 1);
-	close(shell->tmpin);
-	close(shell->tmpout);
-}
-
-void	parse_execute(t_shell *shell, char **env)
-{
-	int	i;
-
-	i = 0;
-	shell->infile = NULL;
-	shell->outfile = NULL;
-	shell->tmpin = dup(0);
-	shell->tmpout = dup(1);
-	while (i < shell->numcommands)
-	{
-		shell->splited = split_args(shell->args[i], shell);
-		if (shell->splited != NULL)
-		{
-			shell->splited = tokenizer(shell, g_status, shell->env);
-			shell->splited = get_in_and_out_file(shell, shell->splited);
-			if (treat_infile(shell, i) == 0)
-			{
-				dup2(shell->fdin, 0);
-				close(shell->fdin);
-				execute(shell, env, i);
-			}
-			free(shell->infile);
-			free(shell->outfile);
-		}
-		free(shell->quote_rules);
-		ft_free_double(shell->splited);
-		i++;
-	}
-	reset_tmpin_tmpout(shell);
-	wait(NULL);
-}
 
 void	init_env(char **envp, t_shell *shell)
 {
@@ -118,82 +29,6 @@ void	init_env(char **envp, t_shell *shell)
 		i++;
 	}
 	shell->env[i] = NULL;
-}
-
-/* Inserir espaços antes e depois de redirecionadores*/
-char	*parse_line(char *line)
-{
-	int		i;
-	int		extra;
-	int		j;
-	char	*new;
-
-	i = 0;
-	extra = 0;
-	while (line[i])
-	{
-		if (line[i] == '>')
-		{
-			extra += 2;
-			i++;
-			while (line[i] == '>')
-				i++;
-		}
-		if (line[i] == '<')
-		{
-			extra += 2;
-			i++;
-			while (line[i] == '<')
-				i++;
-		}
-		else
-			i = treat_quotes(line, i);
-	}
-	new = (char *) malloc(sizeof(char) * (ft_strlen(line) + extra) + 1);
-	j = 0;
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '\"')
-		{
-			new[j++] = line[i++];
-			while (line[i] && line[i] != '\"')
-				new[j++] = line[i++];
-			if (line[i] == '\"')
-				new[j++] = line[i++];
-		}
-		else if (line[i] == '\'')
-		{
-			new[j++] = line[i++];
-			while (line[i] && line[i] != '\'')
-				new[j++] = line[i++];
-			if (line[i] == '\'')
-				new[j++] = line[i++];
-		}
-		else if (line[i] == '<')
-		{
-			new[j++] = ' ';
-			while (line[i] == '<')
-				new[j++] = line[i++];
-			new[j++] = ' ';
-		}
-		else if (line[i] == '>')
-		{
-			new[j++] = ' ';
-			while (line[i] == '>')
-				new[j++] = line[i++];
-			new[j++] = ' ';
-		}
-		else
-		{
-			new[j] = line[i];
-			i++;
-			j++;
-		}
-	}
-	new[j] = '\0';
-	free(line);
-	return (new);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -216,7 +51,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			while (shell.args[shell.numcommands])
 				shell.numcommands++;
-			parse_execute(&shell, envp);
+			parse_execute(&shell, envp, 0);
 		}
 		free_args(line, &shell);
 	}

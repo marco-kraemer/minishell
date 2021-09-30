@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 17:29:35 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 00:12:59 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 10:09:10 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ void	free_and_duplicate_replace(t_shell *shell, t_correct_args *helper)
 
 void	free_args(char *line, t_shell *shell)
 {
-	int	i;
-
 	if (ft_strlen(line) != 0)
 		free(line);
 	ft_free_double(shell->args);
