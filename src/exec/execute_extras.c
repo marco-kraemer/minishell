@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 10:36:36 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 10:39:09 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 21:30:09 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	treat_infile(t_shell *shell, int i)
 		shell->fdin = dup(shell->tmpin);
 	if (shell->fdin < 0)
 	{
-		printf("shell: No such file or directory\n");
+		printf("minishell: %s: No such file or directory\n", shell->infile);
 		return (1);
 	}
 	if (shell->infile_rule == 2)

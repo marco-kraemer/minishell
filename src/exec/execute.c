@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 16:14:01 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 21:29:53 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*launch_prog(t_shell *shell, char **envp)
 	}
 	else if (ft_strncmp(shell->splited[0], "./", 2) == 0
 		|| ft_strncmp(shell->splited[0], "../", 3) == 0)
-		launch(shell, envp, path_args, "no such file or directory");
+		launch(shell, envp, path_args, "minishell: No such file or directory");
 	else
 		launch(shell, envp, path_args, "command not found");
 	if (path_args)
@@ -130,7 +130,7 @@ void	parse_execute(t_shell *shell, char **env, int i)
 			shell->splited = get_in_and_out_file(shell, shell->splited);
 			if (treat_infile(shell, i) == 0)
 				execute(shell, env, i);
-		//	ft_free_double_int(shell->quote_rules_char);
+			ft_free_double_int(shell->quote_rules_char);
 			free(shell->infile);
 			free(shell->outfile);
 		}

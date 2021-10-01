@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 09:23:20 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 16:11:59 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 21:27:22 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,12 @@ char	*get_in_out_file(char **args, char *type1, char *type2, t_shell *shell)
 				free(filename);
 			if (!(args[i]) || redirections_rules2(args[i], i, shell) == 0)
 			{
-				printf("minishell: Syntax error\n");
+				printf("minishell: syntax error\n");
 				shell->error = 1;
 				return (NULL);
 			}
 			filename = ft_strdup(args[i]);
-			if (shell->infile_rule == 0)
+			if (shell->rule == 0)
 				open(filename, O_WRONLY | O_APPEND | O_CREAT, 0777);
 		}
 		i++;
@@ -160,10 +160,12 @@ char	**get_in_and_out_file(t_shell *shell, char **args)
 		printf("minishell: syntax error\n");
 		return (NULL);
 	}
+	shell->rule = 0;
 	shell->outfile = get_in_out_file(args, ">", ">>", shell);
 	if (shell->error == 1)
 		return (NULL);
 	shell->files_rule = 1;
+	shell->rule = 1;
 	shell->infile = get_in_out_file(args, "<", "<<", shell);
 	if (shell->error == 1)
 		return (NULL);

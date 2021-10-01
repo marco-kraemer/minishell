@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 23:37:15 by jdanelon          #+#    #+#             */
-/*   Updated: 2021/09/29 15:34:21 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 20:45:21 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,24 @@ int	iterate_over_path(t_shell *shell, char **envp, char **file, char *msg)
 	int		ret;
 	char	*tmp;
 
-	i = 0;
-	while (file[i])
+	i = -1;
+	ret = -1;
+	if (file)
 	{
-		tmp = ft_strjoin(file[i], "/");
-		tmp = ft_strjoin_free(tmp, shell->splited[0]);
-		ret = execve(tmp, shell->splited, envp);
-		free(tmp);
-		if (ret == 0)
-			break ;
-		i++;
+		while (file[++i])
+		{
+			tmp = ft_strjoin(file[i], "/");
+			tmp = ft_strjoin_free(tmp, shell->splited[0]);
+			ret = execve(tmp, shell->splited, envp);
+			free(tmp);
+			if (ret == 0)
+				break ;
+		}
 	}
-	if (ret < 0)
-	{
-		ret = 1;
-		printf("%s: %s\n", shell->splited[0], msg);
-	}
+	if (ret >= 0)
+		return (ret);
+	ret = 1;
+	printf("%s: %s\n", shell->splited[0], msg);
 	return (ret);
 }
 

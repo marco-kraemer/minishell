@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 10:53:55 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 16:04:32 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 21:06:29 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,34 +43,4 @@ char	**find_path_value(t_shell *shell)
 		free(path);
 	}
 	return (path_args);
-}
-
-void	ft_free_double(char **s)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-	{
-		free(s);
-		return ;
-	}
-	while (s[i])
-		free(s[i++]);
-	free(s);
-}
-
-void	ft_free_double_int(int **s)
-{
-	int	i;
-
-	if (!s[0])
-	{
-		free(s);
-		return ;
-	}
-	i = 0;
-	while (s[i])
-		free(s[i++]);
-	free(s);
 }
