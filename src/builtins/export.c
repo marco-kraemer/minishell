@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:05 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 22:08:23 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/10/01 09:51:50 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ void	add_line(t_shell *shell, char *name, char *value)
 	i = 0;
 	while (shell->env[i])
 		i++;
-	if (i >= 9999)
+	if (i >= 50000)
+		printf("minishell: Error to export a variable\n");
+	else
 	{
-		printf("Error\n");
-		return ;
+		*(shell->env + i) = ft_strdup(var);
+		*(shell->env + (i + 1)) = NULL;
 	}
-	*(shell->env + i) = ft_strdup(var);
-	*(shell->env + (i + 1)) = NULL;
 	free(tmp);
 	free(var);
 	free(name);
