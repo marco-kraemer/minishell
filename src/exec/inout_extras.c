@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 22:12:59 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 22:14:50 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/10/01 09:38:59 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ int	check_syntax(char **args, t_shell *shell)
 		}
 		if (count == (int)ft_strlen(args[i])
 			&& redirections_rules2(args[i], i, shell) == 1)
+		{
+			ft_free_double(shell->splited);
 			return (1);
+		}
 		i++;
 	}
 	return (0);

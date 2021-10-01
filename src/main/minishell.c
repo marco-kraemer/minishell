@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:12:29 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 10:38:01 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/10/01 09:47:27 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_env(char **envp, t_shell *shell)
 	i = 0;
 	while (envp[i])
 		i++;
-	shell->env = (char **)malloc(sizeof(char *) * (i + 10000));
+	shell->env = (char **)malloc(sizeof(char *) * (i + 60000));
 	i = 0;
 	while (envp[i])
 	{
