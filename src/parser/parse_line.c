@@ -6,19 +6,14 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 10:32:35 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 13:56:15 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 21:49:19 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	count_extras_spaces(char *line)
+int	count_extras_spaces(char *line, int i, int extra)
 {
-	int	i;
-	int	extra;
-
-	i = 0;
-	extra = 0;
 	while (line[i])
 	{
 		if (line[i] == '>')
@@ -38,7 +33,7 @@ int	count_extras_spaces(char *line)
 		else
 			i = treat_quotes(line, i);
 		if (!(line[i]))
-			break;
+			break ;
 	}
 	return (extra);
 }
@@ -73,7 +68,7 @@ char	*parse_line(char *line)
 	char			c;
 
 	helper.new = (char *) malloc(sizeof(char)
-			* (ft_strlen(line) + count_extras_spaces(line)) + 1);
+			* (ft_strlen(line) + count_extras_spaces(line, 0, 0)) + 1);
 	helper.j = 0;
 	helper.i = 0;
 	c = 0;
@@ -89,7 +84,7 @@ char	*parse_line(char *line)
 			helper.j++;
 		}
 		if (!(line[helper.i]))
-			break;
+			break ;
 	}
 	helper.new[helper.j] = '\0';
 	free(line);

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 09:23:20 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 21:27:22 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 21:45:11 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,14 @@ int	redirections_rules2(char *arg, int i, t_shell *shell)
 	return (1);
 }
 
+char	*get_in_out_file_syntax_error(t_shell *shell)
+{
+	ft_free_double(shell->splited);
+	printf("minishell: syntax error\n");
+	shell->error = 1;
+	return (NULL);
+}
+
 char	*get_in_out_file(char **args, char *type1, char *type2, t_shell *shell)
 {
 	char	*filename;
@@ -60,18 +68,16 @@ char	*get_in_out_file(char **args, char *type1, char *type2, t_shell *shell)
 	while (args[i])
 	{
 		if ((ft_strcmp(args[i], type2) == 0
-			&& shell->quote_rules_char[i][0] == 1 && shell->quote_rules_char[i][1] == 1)
-			|| (ft_strcmp(args[i], type1) == 0 && shell->quote_rules_char[i][0] == 1))
+				&& shell->quote_rules_char[i][0] == 1
+			&& shell->quote_rules_char[i][1] == 1)
+			|| (ft_strcmp(args[i], type1) == 0
+			&& shell->quote_rules_char[i][0] == 1))
 		{
 			i++;
 			if (filename != NULL)
 				free(filename);
 			if (!(args[i]) || redirections_rules2(args[i], i, shell) == 0)
-			{
-				printf("minishell: syntax error\n");
-				shell->error = 1;
-				return (NULL);
-			}
+				return (get_in_out_file_syntax_error(shell));
 			filename = ft_strdup(args[i]);
 			if (shell->rule == 0)
 				open(filename, O_WRONLY | O_APPEND | O_CREAT, 0777);
@@ -85,11 +91,13 @@ int	redirections_rules(char *arg, t_shell *shell, int i)
 {
 	if (ft_strcmp(arg, ">") == 0 && shell->quote_rules_char[i][0] == 1)
 		shell->outfile_rule = 1;
-	else if (ft_strcmp(arg, ">>") == 0 && shell->quote_rules_char[i][0] == 1  && shell->quote_rules_char[i][1] == 1)
+	else if (ft_strcmp(arg, ">>") == 0 && shell->quote_rules_char[i][0] == 1
+		&& shell->quote_rules_char[i][1] == 1)
 		shell->outfile_rule = 2;
 	else if (ft_strcmp(arg, "<") == 0 && shell->quote_rules_char[i][0] == 1)
 		shell->infile_rule = 1;
-	else if (ft_strcmp(arg, "<<") == 0 && shell->quote_rules_char[i][0] == 1  && shell->quote_rules_char[i][1] == 1)
+	else if (ft_strcmp(arg, "<<") == 0 && shell->quote_rules_char[i][0] == 1
+		& shell->quote_rules_char[i][1] == 1)
 		shell->infile_rule = 2;
 	else
 		return (1);
@@ -129,7 +137,6 @@ int	check_syntax(char **args, t_shell *shell)
 	int	i;
 	int	j;
 	int	count;
-	(void)shell;
 
 	i = 0;
 	while (args[i])
@@ -138,11 +145,13 @@ int	check_syntax(char **args, t_shell *shell)
 		count = 0;
 		while (args[i][j])
 		{
-			if ((args[i][j] == '>' || args[i][j] == '<') && shell->quote_rules_char[i][j] == 1)
+			if ((args[i][j] == '>' || args[i][j] == '<')
+				&& shell->quote_rules_char[i][j] == 1)
 				count++;
 			j++;
 		}
-		if (count == (int)ft_strlen(args[i]) && redirections_rules2(args[i], i, shell) == 1)
+		if (count == (int)ft_strlen(args[i])
+			&& redirections_rules2(args[i], i, shell) == 1)
 			return (1);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 17:29:35 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 21:25:41 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 21:46:17 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_free_double_int(int **s)
 		free(s[i]);
 		i++;
 		if (s[i][0] == 0)
-			break;
+			break ;
 	}
 	free(s[i]);
 	free(s);
