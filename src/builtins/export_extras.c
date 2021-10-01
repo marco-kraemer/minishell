@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 17:27:44 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 11:02:46 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 22:12:27 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 char	*get_name(char *args)
 {
-	int	i;
+	int		i;
+	char	*value;
 
 	i = 0;
 	while (args[i] != '=' && args[i])
@@ -27,6 +28,10 @@ char	*get_name(char *args)
 		}
 		i++;
 	}
+	value = get_value(args);
+	if (!value)
+		return (NULL);
+	free(value);
 	return (ft_substr(args, 0, i));
 }
 
@@ -41,5 +46,7 @@ char	*get_value(char *args)
 	length = 0;
 	while (args[i + length])
 		length++;
+	if (length < 2)
+		return (NULL);
 	return (ft_substr(args, i + 1, length));
 }

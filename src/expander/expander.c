@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 11:57:01 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 21:44:00 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/09/30 22:15:42 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,39 +39,6 @@ char	*ft_getenv(char *old, char **env)
 	}
 	free(name);
 	return (value);
-}
-
-int	count_num_word(char **args)
-{
-	int	i;
-	int	count_words;
-
-	i = 0;
-	count_words = 1;
-	while (args[i])
-	{
-		if (ft_strcmp(args[i], " ") == 0
-			&& ft_strlen(args[i]) == 1 && args[i + 1])
-			count_words++;
-		i++;
-	}
-	return (count_words);
-}
-
-int	count_num_word_spaces(char **args)
-{
-	int	i;
-	int	count_words;
-
-	i = 0;
-	count_words = 0;
-	while (args[i])
-	{
-		if (ft_strcmp(args[i], " ") != 0 && args[i])
-			count_words++;
-		i++;
-	}
-	return (count_words);
 }
 
 void	set_quotes_char_rules(t_shell *shell, int i)
