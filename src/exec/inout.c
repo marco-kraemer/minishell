@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inout.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/16 09:23:20 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 22:13:34 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/10/01 14:55:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ char	**get_in_and_out_file(t_shell *shell, char **args)
 	shell->outfile_rule = 0;
 	shell->files_rule = 0;
 	shell->error = 0;
-	if (check_syntax(args, shell) == 1)
+	if (check_syntax(args, shell, -1, 0) == 1)
 	{
 		printf("minishell: syntax error\n");
 		return (NULL);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/06/01 11:22:06 by maraurel          #+#    #+#              #
-#    Updated: 2021/09/30 10:04:53 by maraurel         ###   ########.fr        #
+#    Updated: 2021/10/01 12:56:04 by jdanelon         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,14 +26,12 @@ FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME) $(OBJ)
 
-$(NAME): lib $(OBJ)
-	@$(CC) $(FLAGS) $(OBJ) -ltermcap -lreadline ./libft/libft.a -o $(NAME)
-
-lib:
-	@$(MAKE) -C libft
+$(NAME): $(OBJ)
+	$(MAKE) -C libft
+	$(CC) $(FLAGS) $(OBJ) -ltermcap -lreadline ./libft/libft.a -o $(NAME)
 
 $(OBJ_PATH)/%.o:	$(SRC_PATH)/%.c
-	@$(CC) -g $(FLAGS) -c $< -o $@
+	$(CC) -g $(FLAGS) -c $< -o $@
 
 fclean: clean
 	@$(RM) $(NAME)
@@ -51,3 +49,6 @@ git:
 	git add .
 	git commit -m "Update"
 	git push
+
+install:
+	sudo apt-get install libreadline-dev

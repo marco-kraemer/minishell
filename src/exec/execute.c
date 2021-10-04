@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:07 by maraurel          #+#    #+#             */
-/*   Updated: 2021/10/01 09:44:05 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/10/02 10:38:50 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,10 @@ void	launch(t_shell *shell, char **envp, char **file, char *msg)
 	int		ret;
 	int		wait_status;
 
-	pid = fork();
 	signal(SIGINT, sigint_handler_process);
 	signal(SIGQUIT, &sigquit_handler_process);
-	if (pid == -1)
-	{
-		printf("Failed forking child.\n");
-		return ;
-	}
-	else if (pid == 0)
+	pid = fork();
+	if (pid == 0)
 	{
 		if (contains_slash(shell->splited[0], &ret))
 			ret = execve(shell->splited[0], shell->splited, envp);
@@ -37,7 +32,12 @@ void	launch(t_shell *shell, char **envp, char **file, char *msg)
 	else
 	{
 		wait(&wait_status);
-		g_status = WEXITSTATUS(wait_status);
+		if (g_status == -1)
+			g_status = 130;
+		else if (g_status == -2)
+			g_status = 131;
+		else
+			g_status = WEXITSTATUS(wait_status);
 	}
 }
 
@@ -56,7 +56,7 @@ char	*launch_prog(t_shell *shell, char **envp)
 	}
 	else if (ft_strncmp(shell->splited[0], "./", 2) == 0
 		|| ft_strncmp(shell->splited[0], "../", 3) == 0)
-		launch(shell, envp, path_args, "minishell: No such file or directory");
+		launch(shell, envp, path_args, "No such file or directory");
 	else
 		launch(shell, envp, path_args, "command not found");
 	if (path_args)
@@ -79,7 +79,7 @@ void	execute_child(t_shell *shell, char **envp, char *line)
 	if (!shell->splited[0])
 		return ;
 	if (ft_strcmp(shell->splited[0], "cd") == 0)
-		change_directory(shell->splited);
+		change_directory(shell->splited, shell->env);
 	else if (ft_strcmp(shell->splited[0], "export") == 0)
 		export(shell->splited, shell, 1);
 	else if (ft_strcmp(shell->splited[0], "unset") == 0)

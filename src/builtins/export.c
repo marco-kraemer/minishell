@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 14:34:05 by maraurel          #+#    #+#             */
-/*   Updated: 2021/10/01 09:51:50 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/10/01 10:29:33 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ char	*insert_variable(char **args, t_shell *s, int index)
 	if (!args[index])
 		return (NULL);
 	name = get_name(args[index]);
-	value = get_value(args[index]);
-	if (!name || ft_strlen(name) == 0 || !value)
+	value = get_value(args[index], name);
+	if (!name || !value)
 		return (insert_variable(args, s, index + 1));
 	s->i = 0;
 	while (s->env[s->i] && ft_strlen(s->env[s->i]) != 0)
@@ -99,7 +99,7 @@ char	*no_value_case(t_shell *shell)
 	while (shell->env[i])
 	{
 		name = get_name(shell->env[i]);
-		value = get_value(shell->env[i]);
+		value = get_value(shell->env[i], name);
 		if (ft_strlen(shell->env[i]) == 0)
 			break ;
 		if (value[0])

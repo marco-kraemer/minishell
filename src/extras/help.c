@@ -6,7 +6,7 @@
 /*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/12 23:37:15 by jdanelon          #+#    #+#             */
-/*   Updated: 2021/09/30 21:45:58 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/10/02 12:32:54 by maraurel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	iterate_over_path(t_shell *shell, char **envp, char **file, char *msg)
 	}
 	if (ret >= 0)
 		return (ret);
-	ret = 1;
+	ret = 127;
 	printf("%s: %s\n", shell->splited[0], msg);
 	return (ret);
 }

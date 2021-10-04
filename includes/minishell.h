@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maraurel <maraurel@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jdanelon <jdanelon@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 11:22:27 by maraurel          #+#    #+#             */
-/*   Updated: 2021/09/30 22:16:41 by maraurel         ###   ########.fr       */
+/*   Updated: 2021/10/01 15:10:31 by jdanelon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int		treat_quotes(char *line, int i);
 int		ft_strcmp(const char *str1, const char *str2);
 int		iterate_over_path(t_shell *shell, char **envp, char **file, char *msg);
 int		contains_slash(char *str, int *ret);
-int		check_syntax(char **args, t_shell *shell);
+int		check_syntax(char **args, t_shell *shell, int i, int k);
 int		redirections_rules(char *arg, t_shell *shell, int i);
 int		redirections_rules2(char *arg, int i, t_shell *shell);
 int		treat_infile(t_shell *shell, int i);
@@ -121,19 +121,21 @@ char	**split_commands(char const *s);
 char	**even_number_of_quotes(t_shell *shell, char **p, int num_commands);
 char	**to_free2(char const **p, int j);
 char	**get_in_and_out_file(t_shell *shell, char **args);
+int		number_args(char **str);
 char	**find_path_value(t_shell *shell);
+void	cd_empty_argument(char *home);
 
 char	*get_in_out_file_syntax_error(t_shell *shell);
 char	*unset(char **args, t_shell *shell, int index);
 char	*export(char **args, t_shell *shell, int index);
 char	*env(char **args, t_shell *shell);
 char	*pwd(void);
-char	*change_directory(char **args);
+char	*change_directory(char **args, char **env);
 char	*readinput(t_shell *shell);
 char	*ft_remove(void);
 char	*ft_strjoin_free(char const *s1, char const *s2);
 char	*replace_words(char *s, char *old, char *new);
-char	*get_value(char *args);
+char	*get_value(char *args, char *name);
 char	*get_name(char *args);
 char	*ft_getenv(char *old, char **env);
 char	*parse_line(char *line);
