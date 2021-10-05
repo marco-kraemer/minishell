@@ -1,6 +1,6 @@
 # Minishell
 
-The goal of this project is to create a shell, similar to bash. For this, it's necessary to understand how things work in a shell, from built-in projects, to creating process. All of this is done using C programming language.
+The goal of this project is to create a shell, similar to bash. For this, it's necessary to understand how things work in a shell, from built-in commands, to creating process. All of this is done using C programming language.
 
 ## How to use
 
